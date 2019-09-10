@@ -30,7 +30,8 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-    public $flag='0'; 
+
+    public $numberOfThrottles;
 
     /**
      * Create a new controller instance.
@@ -41,6 +42,7 @@ class LoginController extends Controller
     {
         
         $this->middleware('guest')->except('logout');
+
     }
 
     protected function validateLogin(Request $request)
@@ -48,7 +50,7 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-        //    'g-recaptcha-response' => 'required|recaptcha',
+            'g-recaptcha-response' => 'sometimes|recaptcha',
         ]);
     }
 
@@ -73,9 +75,9 @@ class LoginController extends Controller
 
           if (method_exists($this, 'hasTooManyLoginAttempts') &&
               $this->hasTooManyLoginAttempts($request)) {
-              $this->fireLockoutEvent($request);
+             $this->fireLockoutEvent($request);
   
-           return $this->sendLockoutResponse($request);
+          return $this->sendLockoutResponse($request);
 
           }
   
@@ -84,12 +86,13 @@ class LoginController extends Controller
           }
   
 
+          // logging the failed attempts to session
+          $request->session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
+
           $this->incrementLoginAttempts($request);
   
           return $this->sendFailedLoginResponse($request);
       }
-  
 
-      
 
 }

@@ -49,11 +49,19 @@
                                     </span>
                     @enderror
                 </div>
-           
+
                 <div class="form-group">
-                    {!! htmlFormSnippet() !!}              
-                </div>
+                @if (request()->session()->pull('loginAttempts') === 2)
               
+                    {!! htmlFormSnippet() !!}              
+               
+                @endif
+                @error('g-recaptcha-response')
+                 <span class="invalid-feedback" role="alert">
+                                <strong style="color: red">{{ $message }}</strong>
+                 </span>
+                        @enderror
+                </div>       
 
                 <button type="submit" class="btn btn-primary block full-width m-b"> {{ __('Login') }}</button>
                 @if (Route::has('password.request'))
