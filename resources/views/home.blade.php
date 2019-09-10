@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.app')
 
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>INSPINIA | Dashboard v.2</title>
-
-    <link href="{{ asset('theme/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('theme/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet">
-
-</head>
-
-<body>
+@section('content')
     <div id="wrapper">
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
@@ -767,5 +751,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endsection

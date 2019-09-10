@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html>
+ 
+@extends('layouts.app')
 
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>INSPINIA | Register</title>
-
-    <link href="{{ asset('theme/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet">
-
-</head>
-
-<body class="gray-bg">
+@section('content')
 
     <div class="middle-box text-center loginscreen   animated fadeInDown">
         <div>
@@ -105,6 +90,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+@endsection
