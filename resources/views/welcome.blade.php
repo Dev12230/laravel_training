@@ -40,6 +40,8 @@
                         <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
                         <li><a class="page-scroll" href="#pricing">Pricing</a></li>
                         <li><a class="page-scroll" href="#contact">Contact</a></li>
+                        <li><a class="page-scroll" href="{{ route('register') }}">Sign up</a></li>
+                        <li><a class="page-scroll" href="{{ route('login') }}">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -634,9 +636,9 @@
 <script src="{{ asset('theme/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="js/inspinia.js"></script>
-<script src="js/plugins/pace/pace.min.js"></script>
-<script src="js/plugins/wow/wow.min.js"></script>
+<script src="{{ asset('js/inspinia.js') }}"></script>
+<script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+<script src="{{ asset('js/plugins/wow/wow.min.js') }}"></script>
 
 
 <script>
