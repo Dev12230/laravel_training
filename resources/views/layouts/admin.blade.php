@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Resto') }}</title>
+    <title>{{ config('app.name', 'News') }}</title>
    <!-- Styles -->
    <link href="{{ asset('theme/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
@@ -74,33 +74,20 @@
 
                     </nav>
                 </div>
-                <!-- 
-                /************************/
-                /************************/
-                /***** Start Content ****/
-                /************************/
-                /************************/
-                 -->
+              <!-- Start -->
                 <div class="wrapper wrapper-content">
                     <!-- content  -->
                     <main class="py-4">
                         @yield('content')
                     </main>
 
-                </div>
-                <!-- 
-                /************************/
-                /************************/
-                /****** End Content *****/
-                /************************/
-                /************************/
-                 -->
+                </div>      
+
+                <!-- End -->
                 <div class="footer">
-                    <div class="pull-right">
-                        10GB of <strong>250GB</strong> Free.
-                    </div>
+         
                     <div>
-                        <strong>Copyright</strong> Example Company &copy; 2014-2017
+                        <strong>Copyright</strong> Ibtikar Company &copy; 2019
                     </div>
                 </div>
             </div>
