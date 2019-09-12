@@ -44,6 +44,12 @@
                                 IN+
                             </div>
                         </li>
+                        <!-- Sidebar -->
+                        <!-- ------- -->
+                    <li class="active">
+                        <a href="index.html"><i class="fa fa-th-large"></i><span class="nav-label">Cities</span></a> 
+                    </li> 
+
 
                     </ul>
 
@@ -79,6 +85,7 @@
                     <!-- content  -->
                     <main class="py-4">
                         @yield('content')
+                        
                     </main>
 
                 </div>      
