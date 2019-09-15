@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="form-group">
-                @if (request()->session()->pull('loginAttempts') === 3)
+                @if(request()->session()->pull('loginAttempts') >= 3)
               
                     {!! htmlFormSnippet() !!}              
                

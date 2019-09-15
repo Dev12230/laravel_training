@@ -10,11 +10,15 @@ use App\City;
 
 class CitiesController extends Controller
 {
+
+    public function cities_list()
+    {
+        $cities = City::with('Country');
+        return datatables()->of($cities)->toJson();
+    }
+
     public function  index(){
-        $cities=City::with('Country')->get();
-       return view('cities.index',[
-           'cities'=>$cities
-       ]);
+       return view('cities.index');
     }
 
     public function  create(){
@@ -67,6 +71,7 @@ class CitiesController extends Controller
 
  public function delete(City $city)
     {
+
         $city->delete();
         return redirect()->route('cities.index')->with('success', 'City has been deleted');
     }   

@@ -16,6 +16,13 @@
     <link href="{{ asset('theme/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="/bower_components/admin-lte/dist/css/admin.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
 
 </head>
 
@@ -47,7 +54,7 @@
                         <!-- Sidebar -->
                         <!-- ------- -->
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-th-large"></i><span class="nav-label">Cities</span></a> 
+                        <a href="/cities"><i class="fa fa-th-large"></i><span class="nav-label">Cities</span></a> 
                     </li> 
 
 
@@ -144,6 +151,16 @@
 
     <!-- Sparkline demo data  -->
     <script src="{{ asset('/theme/js/demo/sparkline-demo.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+
+</html> 
+</html>
+
 
 
 </body>

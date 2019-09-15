@@ -72,6 +72,7 @@ class RegisterController extends Controller
 
         $data['password']=Hash::make($data['password']);
         $user =  User::create($data);
+        
         $this->dispatch(new SendEmailJob($user));
 
         return $user;

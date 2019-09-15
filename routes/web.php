@@ -22,12 +22,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //---------- cities route -------------------
+
+Route::get('/cities_list', 'CitiesController@cities_list')->name('get.cities');
 Route::get('/cities', 'CitiesController@index')->name('cities.index');
 Route::get('/cities/create', 'CitiesController@create')->name('cities.create');
 Route::post('/cities', 'CitiesController@store')->name('cities.store');
 Route::patch('/cities/{city}', 'CitiesController@update')->name('cities.update');
 Route::get('/cities/{city}/edit', 'CitiesController@edit')->name('cities.edit');
-Route::delete('/cities/{id}', 'CitiesController@delete')->name('cities.delete');
+Route::delete('/cities/{city}', 'CitiesController@delete')->name('cities.delete');
 
 
 

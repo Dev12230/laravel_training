@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class LoginController extends Controller
     use AuthenticatesUsers {
 
         sendLoginResponse as protected traitsendLoginResponse;
-        sendFailedLoginResponse as protected traitSendFailedLoginResponse;
+        sendFailedLoginResponse as protected traitsendFailedLoginResponse;
     }
     /**
      * Where to redirect users after login.
@@ -34,7 +34,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    public $numberOfThrottles;
+
 
     /**
      * Create a new controller instance.
@@ -43,7 +43,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        
+
         $this->middleware('guest')->except('logout');
 
     }
@@ -65,6 +65,7 @@ class LoginController extends Controller
         return $request->only($this->username(), 'password');
     }
 
+ 
 
       protected function sendLoginResponse(Request $request)
       {
@@ -72,13 +73,11 @@ class LoginController extends Controller
          $this->traitsendLoginResponse($request);
       }
 
-
-
       protected function sendFailedLoginResponse(Request $request)
-    {
-       session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
-       $this->traitsendFailedLoginResponse($request); 
-    }
+      {
+         session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
+         $this->traitsendFailedLoginResponse($request); 
+      }
 
 
 
