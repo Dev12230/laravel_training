@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Rules\GoogleRecaptcha;
 
 
 
@@ -53,7 +54,7 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => 'sometimes|recaptcha',
+            'g-recaptcha-response' => New GoogleRecaptcha() ,
         ]);
     }
 
