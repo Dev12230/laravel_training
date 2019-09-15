@@ -65,10 +65,6 @@ class LoginController extends Controller
         return $request->only($this->username(), 'password');
     }
 
-    public function logout(Request $request) {
-        Auth::logout();
-        return redirect('/login');
-      }
 
       protected function sendLoginResponse(Request $request)
       {
