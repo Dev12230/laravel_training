@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordToken;
 
@@ -44,6 +44,11 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordToken($token));
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
     }
 
 }
