@@ -22,8 +22,11 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
 
+        sendLoginResponse as protected traitsendLoginResponse;
+        sendFailedLoginResponse as protected traitSendFailedLoginResponse;
+    }
     /**
      * Where to redirect users after login.
      *
@@ -67,30 +70,21 @@ class LoginController extends Controller
         return redirect('/login');
       }
 
-
-      public function login(Request $request)
+      protected function sendLoginResponse(Request $request)
       {
-         
-          $this->validateLogin($request);
-
-          if (method_exists($this, 'hasTooManyLoginAttempts') &&
-              $this->hasTooManyLoginAttempts($request)) {
-              $this->fireLockoutEvent($request);
-  
-          return $this->sendLockoutResponse($request);
-
-          }
-  
-          if ($this->attemptLogin($request)) {
-              return $this->sendLoginResponse($request);
-          }
-  
-          $request->session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
-
-          $this->incrementLoginAttempts($request);
-  
-          return $this->sendFailedLoginResponse($request);
+         $request->session()->forget('loginAttempts');
+         $this->traitsendLoginResponse($request);
       }
+
+
+
+      protected function sendFailedLoginResponse(Request $request)
+    {
+       session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
+       $this->traitsendFailedLoginResponse($request); 
+    }
+
+
 
 
 }
