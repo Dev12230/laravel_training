@@ -56,6 +56,9 @@
                     <li class="active">
                         <a href="/cities"><i class="fa fa-th-large"></i><span class="nav-label">Cities</span></a> 
                     </li> 
+                    <li class="active">
+                        <a href="/roles"><i class="fa fa-th-large"></i><span class="nav-label">Roles</span></a> 
+                    </li> 
 
 
                     </ul>
