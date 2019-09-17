@@ -20,7 +20,7 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
+ Route::group(['middleware' => ['auth']], function() {
 //---------- Cities route -------------------
 
 Route::get('/cities_list', 'CitiesController@cities_list')->name('get.cities');
@@ -41,7 +41,7 @@ Route::patch('/roles/{role}', 'RolesController@update')->name('roles.update');
 Route::get('/roles/{role}/edit', 'RolesController@edit')->name('roles.edit');
 Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy');
 
-
+});
 
 
 
