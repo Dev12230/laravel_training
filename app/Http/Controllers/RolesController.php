@@ -11,22 +11,7 @@ use App\Http\Requests\RoleRequest;
 
 class RolesController extends Controller
 {
-    public function roles_list()
-    {
-        $roles = Role::all();
-        
-        foreach($roles as $role){
-        $Permissions = DB::table("role_has_permissions")
-        ->where("role_has_permissions.role_id",$role->id)
-        ->join('permissions','permissions.id','role_has_permissions.permission_id')
-        ->get();
   
-        $role->permissions= $Permissions;
-        }
-
-        return datatables()->of($roles)->toJson();
- }
-
 
     /**
      * Display a listing of the resource.
@@ -35,7 +20,19 @@ class RolesController extends Controller
      */
     public function index()
     {
-        return view('roles.index');
+        $roles = Role::paginate(5);
+        
+        foreach($roles as $role){
+        $Permissions = DB::table("role_has_permissions")
+        ->where("role_has_permissions.role_id",$role->id)
+        ->join('permissions','permissions.id','role_has_permissions.permission_id')
+        ->get();
+  
+        $role->permissions= $Permissions;
+        } 
+        return view('roles.index',[
+            "roles"=> $roles,
+        ]);
     }
 
 

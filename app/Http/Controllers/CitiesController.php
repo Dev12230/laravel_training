@@ -12,14 +12,13 @@ use App\Http\Requests\CityRequest;
 class CitiesController extends Controller
 {
 
-    public function cities_list()
-    {
-        $cities = City::with('Country');
-        return datatables()->of($cities)->toJson();
-    }
+
 
     public function  index(){
-       return view('cities.index');
+        $cities = City::with('Country')->paginate(5);
+       return view('cities.index',[
+           "cities" =>$cities,
+       ]);
     }
 
     public function  create(){
@@ -61,7 +60,7 @@ class CitiesController extends Controller
 
     } 
 
- public function delete(City $city)
+ public function destroy(City $city)
     {
 
         $city->delete();
