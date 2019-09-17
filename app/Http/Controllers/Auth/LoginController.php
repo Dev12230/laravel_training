@@ -68,14 +68,15 @@ class LoginController extends Controller
 
  
 
-      protected function sendLoginResponse(Request $request)
+     protected function sendLoginResponse(Request $request)
       {
          $request->session()->forget('loginAttempts');
          $this->traitsendLoginResponse($request);
       }
 
-      protected function sendFailedLoginResponse(Request $request)
+     protected function sendFailedLoginResponse(Request $request)
       {
+
          session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
          $this->traitsendFailedLoginResponse($request); 
       }

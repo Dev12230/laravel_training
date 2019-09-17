@@ -31,20 +31,20 @@
                                     </span>
                     @enderror
                 </div>
-
+                
+                @if(Session::get('loginAttempts') >= 3)
                 <div class="form-group">
-                @if(request()->session()->pull('loginAttempts') >= 3)
               
                     {!! htmlFormSnippet() !!}              
                
-                @endif
+        
                 @error('g-recaptcha-response')
                  <span class="invalid-feedback" role="alert">
                                 <strong style="color: red">{{ $message }}</strong>
                  </span>
                         @enderror
                 </div>       
-
+                @endif
                 <button type="submit" class="btn btn-primary block full-width m-b"> {{ __('Login') }}</button>
                 @if (Route::has('password.request'))
                 <a href="{{ route('password.request') }}"><small>Forgot password?</small></a>
