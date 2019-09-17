@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Country;
 use App\City;
+use App\Http\Requests\CityRequest;
 
 
 class CitiesController extends Controller
@@ -29,13 +30,7 @@ class CitiesController extends Controller
     }
 
 
-    public function  store(Request $request){
-
-        $request->validate([
-            //Unique  based on city_name and country_id
-            'city_name'=>'required|max:150|unique:cities,city_name,NULL,id,country_id,'.$request->country_id,
-            'country_id' => 'required',
-        ]);
+    public function  store(CityRequest $request){
 
         $City = new City($request->all());
         $City->save();
@@ -54,12 +49,9 @@ class CitiesController extends Controller
  
     }
 
-  public function update(City $city,Request $request)
+  public function update(City $city,CityRequest $request)
     {
-        $request->validate([
-            'city_name'=>'required|max:150|unique:cities,city_name,NULL,id,country_id,'.$request->country_id,
-            'country_id' => 'required',
-        ]);
+
 
         $city->fill($request->all())->save();
 

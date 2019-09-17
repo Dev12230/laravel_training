@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\RoleHasPermission;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\RoleRequest;
 
 class RolesController extends Controller
 {
@@ -55,12 +56,8 @@ class RolesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $request->validate([
-            'name'=>'required|max:150|unique:roles,name',
-            'description' => 'required|max:250',
-        ]);
 
         $role=new role([
               'name'=>$request['name'],
@@ -104,12 +101,9 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
-        $request->validate([
-            'name'=>'required|max:150|unique:roles,name',
-            'description' => 'required|max:250',
-        ]);
+
         $role->name = $request['name'];
         $role->description = $request['description'];
         $role->save();
