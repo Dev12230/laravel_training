@@ -28,9 +28,11 @@
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" 
                     rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column
                     ascending" style="width: 197px;">Country</th>
+                    @can('city-edit','city-delete')
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" 
                     rowspan="1" colspan="2" aria-label="CSS grade: activate to sort column 
                     ascending" style="width: 105px;">Actions</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -40,16 +42,23 @@
                     <td class="sorting_1">{{$city->id}}</td>
                     <td>{{$city->city_name}}</td>
                     <td>{{ $city->country->name }}</td>
-                    <td class="center">
-
+                    
+                    @can('city-edit')
+                    <td >
                         <a href="{{route('cities.edit', $city->id)}}" class="btn btn-success btn-xs">Edit</a>
+                    </td>
+                        @endcan
 
+                    @can('city-delete')
+                    <td>
                         <form action="{{route('cities.destroy', $city->id)}}" method="post" style="display: inline-block;" onsubmit="return confirm('{{ __('Are you sure you want to delete this city ?') }}')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-xs" > <i class="far fa-trash-alt"></i>Delete</button>
                          </form>
                     </td>
+                     @endcan
+                    
                 </tr>
                 @endforeach
                 @endif

@@ -31,9 +31,12 @@
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" 
                     rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column
                     ascending" style="width: 197px;">Permissions</th>
+
+                    @can('role-edit','role-delete')
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" 
                     rowspan="1" colspan="2" aria-label="CSS grade: activate to sort column 
                     ascending" style="width: 105px;">Actions</th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -48,16 +51,23 @@
                         {{$p->name }} <br>
                         @endforeach
                     </td>
-                    <td class="center">
 
+                    @can('role-edit')
+                    <td >
                         <a href="{{route('roles.edit', $role->id)}}" class="btn btn-success btn-xs">Edit</a>
-
+                      
+                    </td>    
+                    @endcan 
+                    @can('role-delete')
+                    <td>  
                         <form action="{{route('roles.destroy', $role->id)}}" method="post" style="display: inline-block;" onsubmit="return confirm('{{ __('Are you sure you want to delete this role ?') }}')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-xs" > <i class="far fa-trash-alt"></i>Delete</button>
                          </form>
-                    </td>
+                    </td>     
+                    @endcan     
+                    
                 </tr>
                 @endforeach
                 @endif
