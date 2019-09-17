@@ -1,0 +1,8 @@
+[33m97a790b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Role crid operations -https://tfs.ibtikar.sa/tfs/Ibtikar-Projects/iti-training/_workitems?id=49934&_a=edit&triage=false
+[33m10bcd0d[m Role crud operation -https://tfs.ibtikar.sa/tfs/Ibtikar-Projects/iti-training/_workitems?id=49926&_a=edit
+[33mb69ac07[m use password mutator
+[33maec3a27[m use custom rule in google recaptcha instead of using sometimes
+[33m7046b80[m City crud operation -https://tfs.ibtikar.sa/tfs/Ibtikar-Projects/iti-training/_workitems?id=49729&_a=edit
+[33mc635166[m remove files
+[33mf0f3acd[m Refactor logout
+[33m8a0b334[m Refactor register controller
