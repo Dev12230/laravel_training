@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\RoleRequest;
+use App\Http\Requests\CreateRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 
 class RolesController extends Controller
 {
@@ -17,19 +17,8 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $roles = Role::paginate(5);
-        
-        foreach ($roles as $role) {
-            $Permissions = DB::table("role_has_permissions")
-            ->where("role_has_permissions.role_id", $role->id)
-            ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
-            ->get();
-  
-            $role->permissions= $Permissions;
-        }
-        return view('roles.index', [
-            "roles"=> $roles,
-        ]);
+        $roles = Role::with('permissions')->paginate(5);
+        return view('roles.index', compact('roles'));
     }
 
 
@@ -41,7 +30,7 @@ class RolesController extends Controller
     public function create()
     {
         $permissions = Permission::get();
-        return view('roles.create', compact('permissions', 'role'));
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -50,17 +39,11 @@ class RolesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleRequest $request)
+    public function store(CreateRoleRequest $request)
     {
 
-        $role=new role([
-              'name'=>$request['name'],
-             'description'=>$request['description'],
-        ]);
-        $role->save();
-        $role->syncPermissions($request['permission']);
-
-        return redirect()->route('roles.index')->with('success', 'Role has been updated');
+        Role::create($request->only(['name', 'description']))->syncPermissions($request['permission']);
+        return redirect()->route('roles.index')->with('success', 'Role has been created');
     }
 
 
@@ -73,18 +56,9 @@ class RolesController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")
-        ->where("role_has_permissions.role_id", $role->id)
-        ->join('permissions', 'permissions.id', 'role_has_permissions.permission_id')
-        ->pluck('name', 'name')
-        ->all();
+        $rolePermissions=$role->permissions->pluck('name')->toArray();
 
-
-        return view('roles.edit', [
-            'permissions' =>$permissions,
-            'role'=>$role,
-            'rolePermissions'=>$rolePermissions,
-        ]);
+        return view('roles.edit',compact('permissions','role','rolePermissions'));
     }
 
     /**
@@ -94,12 +68,10 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
 
-        $role->name = $request['name'];
-        $role->description = $request['description'];
-        $role->save();
+        $role->update($request->only(['name', 'description']));
         $role->syncPermissions($request['permission']);
         return redirect()->route('roles.index')->with('success', 'Role has been updated');
     }
