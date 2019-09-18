@@ -26,13 +26,11 @@ class GoogleRecaptcha implements Rule
     public function passes($attribute, $value)
     {
         if (session('loginAttempts') >= 3) {
-            if(request('g-recaptcha-response')){
+            if (request('g-recaptcha-response')) {
                 return true;
-            }
-            else{
+            } else {
                  return false;
             }
-
         }
         return true;
     }

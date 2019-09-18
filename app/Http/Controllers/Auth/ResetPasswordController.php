@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 
-
 class ResetPasswordController extends Controller
 {
     /*
@@ -40,7 +39,7 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    protected function resetPassword($user,$password)
+    protected function resetPassword($user, $password)
     {
         $user->password = $password;
         $user->setRememberToken(Str::random(60));
@@ -51,6 +50,4 @@ class ResetPasswordController extends Controller
 
         $this->guard()->login($user);
     }
-
-  
 }

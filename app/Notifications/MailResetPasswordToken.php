@@ -48,6 +48,4 @@ class MailResetPasswordToken extends Notification
                     ->action('Reset Password', url('password/reset', $this->token))
                     ->line('Thank you ');
     }
-
 }
- 

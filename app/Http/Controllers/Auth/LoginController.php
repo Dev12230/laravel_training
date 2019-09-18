@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Rules\GoogleRecaptcha;
-
-
 
 class LoginController extends Controller
 {
@@ -46,7 +43,6 @@ class LoginController extends Controller
     {
 
         $this->middleware('guest')->except('logout');
-
     }
 
     protected function validateLogin(Request $request)
@@ -54,13 +50,13 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => New GoogleRecaptcha() ,
+            'g-recaptcha-response' => new GoogleRecaptcha() ,
         ]);
     }
 
     protected function credentials(Request $request)
     {
-        if(is_numeric($request->get('email'))){
+        if (is_numeric($request->get('email'))) {
             return ['phone'=>$request->get('email'),'password'=>$request->get('password')];
         }
         return $request->only($this->username(), 'password');
@@ -68,22 +64,16 @@ class LoginController extends Controller
 
  
 
-     protected function sendLoginResponse(Request $request)
-      {
-         $request->session()->forget('loginAttempts');
-         $this->traitsendLoginResponse($request);
-      }
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->forget('loginAttempts');
+        $this->traitsendLoginResponse($request);
+    }
 
-     protected function sendFailedLoginResponse(Request $request)
-      {
+    protected function sendFailedLoginResponse(Request $request)
+    {
 
-         session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
-         $this->traitsendFailedLoginResponse($request); 
-      }
-
-      
-
-
-
-
+        session()->put('loginAttempts', $this->limiter()->attempts($this->throttleKey($request)));
+        $this->traitsendFailedLoginResponse($request);
+    }
 }

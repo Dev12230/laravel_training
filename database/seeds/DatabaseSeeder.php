@@ -14,6 +14,5 @@ class DatabaseSeeder extends Seeder
         $this->call(CountriesTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(AdminUserSeeder::class);
-        $this->call(CreateVisitorUserSeeder::class);
     }
 }

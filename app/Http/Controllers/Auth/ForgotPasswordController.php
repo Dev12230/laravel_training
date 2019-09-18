@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
-
 class ForgotPasswordController extends Controller
 {
     /*
@@ -40,7 +39,7 @@ class ForgotPasswordController extends Controller
 
     protected function credentials(Request $request)
     {
-        if(is_numeric($request->get('email'))){
+        if (is_numeric($request->get('email'))) {
             return ['phone'=>$request->get('email')];
         }
         return $request->only('email');
