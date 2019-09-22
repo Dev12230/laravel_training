@@ -5,17 +5,26 @@ namespace App\Http\Controllers;
 use App\Country;
 use App\City;
 use App\Http\Requests\CityRequest;
+use DataTables;
+use Illuminate\Http\Request;
 
 class CitiesController extends Controller
 {
 
 
+    public function cities_list()
+    {
+       
+       $totalData = City::count();
+       $cities = City::with('Country')->offset(0)->limit(10);
+
+       return Datatables::of($cities)->setTotalRecords($totalData)->make(true);
+                    
+    }
+
     public function index()
     {
-        $cities = City::with('Country')->paginate(5);
-        return view('cities.index', [
-           "cities" =>$cities,
-        ]);
+        return view('cities.index');
     }
 
     public function create()

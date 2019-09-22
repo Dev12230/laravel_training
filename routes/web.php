@@ -11,6 +11,11 @@
 |
 */
 
+\DB::listen(function($sql) {
+    logger($sql->sql);
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,7 +27,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
  Route::group(['middleware' => ['role:Admin']], function () {
 //---------- Cities route -------------------
-
     Route::get('/cities_list', 'CitiesController@cities_list')->name('get.cities');
     Route::get('/cities', 'CitiesController@index')->name('cities.index');
     Route::get('/cities/create', 'CitiesController@create')->name('cities.create');

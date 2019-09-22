@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DataTables;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\CreateRoleRequest;
@@ -10,6 +11,16 @@ use App\Http\Requests\UpdateRoleRequest;
 class RolesController extends Controller
 {
 
+    public function roles_list()
+    {
+      $totalData = Role::count();
+      $roles = Role::with('permissions')->offset(0)->limit(10);
+        
+      return Datatables::of($roles)->setTotalRecords($totalData)->make(true);
+                      
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +28,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $roles = Role::with('permissions')->paginate(5);
-        return view('roles.index', compact('roles'));
+        return view('roles.index');
     }
 
 
