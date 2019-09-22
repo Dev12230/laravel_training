@@ -10,13 +10,25 @@ use App\Http\Requests\UpdateRoleRequest;
 
 class RolesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:role-list');
+        $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    }
 
     public function getRoles()
     {
         $totalData = Role::count();
         $roles = Role::with('permissions')->offset(0)->limit(10);
         
-        return Datatables::of($roles)->setTotalRecords($totalData)->make(true);
+        return Datatables::of($roles)->setTotalRecords($totalData)
+        ->addColumn('action', function ($row) {
+            $RoleId=$row->id;
+            return  view('roles.actions',compact('RoleId'));
+        })->rawColumns(['action']) ->make(true);
     }
 
 

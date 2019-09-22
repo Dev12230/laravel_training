@@ -4,16 +4,19 @@
 @include('flash-message')
 
 <h1>Cities</h1>
-    <br>
+@if(auth()->user()->can('city-create'))
 <a class="btn btn-primary btn-sm" href="cities/create"><i class="fa fa-plus"></i><span>Add New City</span></a><br><br>
+@endif
 <table id="table" >
     <thead>
     <tr>
     <th>Id</th>
             <th>City Name</th>
             <th>Country</th>
+            @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
             <th>Actions</th>
             </tr>
+            @endif
     </thead>
     </table>
 
@@ -29,6 +32,7 @@
             url: "/cities_list",
             dataType: 'json',
             type: 'get',
+            data: {method: '_DELETE', submit: true},
         },
         columns: [{
                 data: 'id'
@@ -42,28 +46,19 @@
                        
                 }
             },
-            {
-                mRender: function(data, type, row) {
-                    return '<a  href="/cities/' + row.id + '/edit" class="bttn btn btn-xs btn-info " data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a>' +
-                        '<form method="POST" style="display: inline;" action="cities/'+row.id+'">@csrf {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="bttn btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
-                }
+            @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
             },
+            @endif
+
+   
         ],
-        'lengthChange': true,
-        'searching': true,
-        'ordering': true,
-        'info': true,
-        'autoWidth': true,
-        'paging': true,
+
     });
-    function myFunction() {
-        var agree = confirm("Are you sure\?");
-        if (agree == true) {
-            return true
-        } else {
-            return false;
-        }
-    }
+
 </script>
 
 

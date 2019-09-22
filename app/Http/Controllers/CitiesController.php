@@ -6,11 +6,18 @@ use App\Country;
 use App\City;
 use App\Http\Requests\CityRequest;
 use DataTables;
-use Illuminate\Http\Request;
+
 
 class CitiesController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:city-list');
+        $this->middleware('permission:city-create', ['only' => ['create','store']]);
+        $this->middleware('permission:city-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:city-delete', ['only' => ['index','destroy']]);
+    }
 
     public function getCities()
     {
@@ -18,7 +25,11 @@ class CitiesController extends Controller
         $totalData = City::count();
         $cities = City::with('Country')->offset(0)->limit(10);
 
-        return Datatables::of($cities)->setTotalRecords($totalData)->make(true);
+        return Datatables::of($cities)->setTotalRecords($totalData)
+        ->addColumn('action', function ($row) {
+            $CityId=$row->id;
+            return  view('cities.actions',compact('CityId'));
+        })->rawColumns(['action']) ->make(true);
     }
 
     public function index()

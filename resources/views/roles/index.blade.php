@@ -2,10 +2,11 @@
 @section('content')
 
 @include('flash-message')
-
-<h1>Cities</h1>
+<h1>Roles</h1>
     <br>
+@if(auth()->user()->can('role-create'))   
 <a class="btn btn-primary btn-sm" href="roles/create"><i class="fa fa-plus"></i><span>Add New Role</span></a><br><br>
+@endif
 <table id="table" >
     <thead>
     <tr>
@@ -13,7 +14,9 @@
             <th>Role Name</th>
             <th>Description</th>
             <th>Permissions</th>
+            @if(auth()->user()->can('role-edit') || auth()->user()->can('role-delete'))
             <th>Actions</th>
+            @endif
             </tr>
     </thead>
     </table>
@@ -51,19 +54,18 @@
                     return permissions;
                 }   
             },
-            {
-                mRender: function(data, type, row) {
-                    return '<a  href="/roles/' + row.id + '/edit" class="bttn btn btn-xs btn-info " data-id="' + row.id + '"><i class="fa fa-edit"></i><span>Edit</span></a>' +
-                        '<form method="POST" style="display: inline;" action="roles/'+row.id+'">@csrf {{ method_field('DELETE')}}<button type="submit" onclick="return myFunction();" class="bttn btn btn-xs btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span></button></form>'
-                }
+
+            @if(auth()->user()->can('role-edit') || auth()->user()->can('role-delete')) {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
             },
+            @endif
+
+
         ],
-        'lengthChange': true,
-        'searching': true,
-        'ordering': true,
-        'info': true,
-        'autoWidth': true,
-        'paging': true,
+
     });
     function myFunction() {
         var agree = confirm("Are you sure\?");
