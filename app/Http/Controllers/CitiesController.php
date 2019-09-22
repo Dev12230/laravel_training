@@ -12,14 +12,13 @@ class CitiesController extends Controller
 {
 
 
-    public function cities_list()
+    public function getCities()
     {
        
-       $totalData = City::count();
-       $cities = City::with('Country')->offset(0)->limit(10);
+        $totalData = City::count();
+        $cities = City::with('Country')->offset(0)->limit(10);
 
-       return Datatables::of($cities)->setTotalRecords($totalData)->make(true);
-                    
+        return Datatables::of($cities)->setTotalRecords($totalData)->make(true);
     }
 
     public function index()

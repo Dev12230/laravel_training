@@ -40,5 +40,4 @@ class UpdateRoleRequest extends FormRequest
             'description.max' => 'Maximum character is 250'
         ];
     }
-
 }

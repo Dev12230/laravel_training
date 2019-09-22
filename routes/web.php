@@ -11,7 +11,7 @@
 |
 */
 
-\DB::listen(function($sql) {
+\DB::listen(function ($sql) {
     logger($sql->sql);
 });
 
@@ -27,7 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
  Route::group(['middleware' => ['role:Admin']], function () {
 //---------- Cities route -------------------
-    Route::get('/cities_list', 'CitiesController@cities_list')->name('get.cities');
+    Route::get('/cities_list', 'CitiesController@getCities')->name('get.cities');
     Route::get('/cities', 'CitiesController@index')->name('cities.index');
     Route::get('/cities/create', 'CitiesController@create')->name('cities.create');
     Route::post('/cities', 'CitiesController@store')->name('cities.store');
@@ -37,7 +37,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //---------- Roles route -------------------
 
-    Route::get('/roles_list', 'RolesController@roles_list')->name('get.roles');
+    Route::get('/roles_list', 'RolesController@getRoles')->name('get.roles');
     Route::get('/roles', 'RolesController@index')->name('roles.index');
     Route::get('/roles/create', 'RolesController@create')->name('roles.create');
     Route::post('/roles', 'RolesController@store')->name('roles.store');

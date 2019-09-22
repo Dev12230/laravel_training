@@ -11,13 +11,12 @@ use App\Http\Requests\UpdateRoleRequest;
 class RolesController extends Controller
 {
 
-    public function roles_list()
+    public function getRoles()
     {
-      $totalData = Role::count();
-      $roles = Role::with('permissions')->offset(0)->limit(10);
+        $totalData = Role::count();
+        $roles = Role::with('permissions')->offset(0)->limit(10);
         
-      return Datatables::of($roles)->setTotalRecords($totalData)->make(true);
-                      
+        return Datatables::of($roles)->setTotalRecords($totalData)->make(true);
     }
 
 
@@ -68,7 +67,7 @@ class RolesController extends Controller
         $permissions = Permission::get();
         $rolePermissions=$role->permissions->pluck('name')->toArray();
 
-        return view('roles.edit',compact('permissions','role','rolePermissions'));
+        return view('roles.edit', compact('permissions', 'role', 'rolePermissions'));
     }
 
     /**
