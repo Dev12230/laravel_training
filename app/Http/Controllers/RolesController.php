@@ -22,14 +22,14 @@ class RolesController extends Controller
 
     public function getRoles()
     {
-        $totalData = Role::count();
+
         $roles = Role::with('permissions')->offset(0)->limit(10);
         
-        return Datatables::of($roles)->setTotalRecords($totalData)
-        ->addColumn('action', function ($row) {
-            $RoleId=$row->id;
-            return  view('roles.actions',compact('RoleId'));
-        })->rawColumns(['action']) ->make(true);
+        return Datatables::of($roles)->setTotalRecords(Role::count())
+        
+            ->addColumn('action', function ($data) {
+                return  view('roles.actions',compact('data'));
+            })->rawColumns(['action']) ->make(true);
     }
 
 

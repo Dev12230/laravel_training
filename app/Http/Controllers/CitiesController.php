@@ -23,14 +23,13 @@ class CitiesController extends Controller
     public function getCities(Request $request)
     {
 
-        $totalData = City::count();
         $cities = City::with('Country')->offset(0)->limit(10);
 
-        return Datatables::of($cities)->setTotalRecords($totalData)
-        ->addColumn('action', function ($row) {
-            $CityId=$row->id;
-            return  view('cities.actions',compact('CityId'));
-        })->rawColumns(['action']) ->make(true);
+        return Datatables::of($cities)->setTotalRecords(City::count())
+        
+            ->addColumn('action', function ($data) {
+                return  view('cities.actions',compact('data'));
+            })->rawColumns(['action']) ->make(true);
     }
 
 

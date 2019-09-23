@@ -9,16 +9,24 @@ use App\Http\Requests\JobRequest;
 
 class JobsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:job-list');
+        $this->middleware('permission:job-create', ['only' => ['create','store']]);
+        $this->middleware('permission:job-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:job-delete', ['only' => ['destroy']]);
+    }
+
     public function getjobs(){
-        $totalData = SystemJobs::count();
+
         $jobs = SystemJobs::offset(0)->limit(10);
 
-        return Datatables::of($jobs)->setTotalRecords($totalData)
-        ->addColumn('action', function ($row) {
-            $JobId=$row->id;
-            $JobName=$row->name;
-            return  view('jobs.actions',compact('JobId','JobName'));
-        })->rawColumns(['action']) ->make(true);
+        return Datatables::of($jobs)->setTotalRecords(SystemJobs::count())
+       
+            ->addColumn('action', function ($data) {
+                return  view('jobs.actions',compact('data'));
+            })->rawColumns(['action']) ->make(true);
     }
     /**
      * Display a listing of the resource.
@@ -61,9 +69,7 @@ class JobsController extends Controller
     public function edit(SystemJobs $job)
     {
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
-            return view('jobs.edit',[
-                'job' =>$job ,
-             ]);
+            return view('jobs.edit',compact('job'));
         }
         else{return redirect()->route('jobs.index')->with('error', 'This job can not updated');}
       
