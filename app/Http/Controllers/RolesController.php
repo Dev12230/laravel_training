@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 
+
 class RolesController extends Controller
 {
     public function __construct()

@@ -23,6 +23,10 @@ class PermissionTableSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
+            'job-list',
+            'job-create',
+            'job-edit',
+            'job-delete',
            
          ];
  

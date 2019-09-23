@@ -35,7 +35,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/cities/{city}/edit', 'CitiesController@edit')->name('cities.edit');
     Route::delete('/cities/{city}', 'CitiesController@destroy')->name('cities.destroy');
 
-//---------- Roles route -------------------
+//---------- jobs route -------------------
 
     Route::get('/roles_list', 'RolesController@getRoles')->name('get.roles');
     Route::get('/roles', 'RolesController@index')->name('roles.index');
@@ -44,3 +44,14 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::patch('/roles/{role}', 'RolesController@update')->name('roles.update');
     Route::get('/roles/{role}/edit', 'RolesController@edit')->name('roles.edit');
     Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy');
+
+
+//------------Jobs route -------------------
+
+    Route::get('/jobs_list', 'JobsController@getjobs')->name('get.jobs');
+    Route::get('/jobs', 'JobsController@index')->name('jobs.index');
+    Route::get('/jobs/create', 'JobsController@create')->name('jobs.create');
+    Route::post('/jobs', 'JobsController@store')->name('jobs.store');
+    Route::patch('/jobs/{job}', 'JobsController@update')->name('jobs.update');
+    Route::get('/jobs/{job}/edit', 'JobsController@edit')->name('jobs.edit');
+    Route::delete('/jobs/{job}', 'JobsController@destroy')->name('jobs.destroy');

@@ -6,6 +6,7 @@ use App\Country;
 use App\City;
 use App\Http\Requests\CityRequest;
 use DataTables;
+use Illuminate\Http\Request;
 
 
 class CitiesController extends Controller
@@ -19,9 +20,9 @@ class CitiesController extends Controller
         $this->middleware('permission:city-delete', ['only' => ['index','destroy']]);
     }
 
-    public function getCities()
+    public function getCities(Request $request)
     {
-       
+
         $totalData = City::count();
         $cities = City::with('Country')->offset(0)->limit(10);
 
@@ -31,6 +32,7 @@ class CitiesController extends Controller
             return  view('cities.actions',compact('CityId'));
         })->rawColumns(['action']) ->make(true);
     }
+
 
     public function index()
     {

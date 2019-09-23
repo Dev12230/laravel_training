@@ -3,20 +3,21 @@
 
 @include('flash-message')
 
-<h1>Cities</h1>
-@if(auth()->user()->can('city-create'))
-<a class="btn btn-primary btn-sm" href="cities/create"><i class="fa fa-plus"></i><span>Add New City</span></a><br><br>
+<h1>Jobs</h1>
+@if(auth()->user()->can('job-create'))
+<a class="btn btn-primary btn-sm" href="jobs/create"><i class="fa fa-plus"></i><span>Add New Job</span></a><br><br>
 @endif
 <table id="table" >
     <thead>
     <tr>
     <th>Id</th>
-            <th>City Name</th>
-            <th>Country</th>
-            @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
+            <th> Name</th>
+            <th>Description</th>
+            @if(auth()->user()->can('job-edit') || auth()->user()->can('job-delete'))
             <th>Actions</th>
-            </tr>
             @endif
+            </tr>
+            
     </thead>
     </table>
 
@@ -31,7 +32,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/cities_list",
+            url: "/jobs_list",
             dataType: 'json',
             type: 'get',
             
@@ -40,13 +41,10 @@
                 data: 'id'
             },
             {
-                data: 'city_name'
+                data: 'name'
             },
             {
-                mRender: function(data, type, row) {
-                    return row.country.name
-                       
-                }
+                data: 'description'
             },
             @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
                 data: 'action',

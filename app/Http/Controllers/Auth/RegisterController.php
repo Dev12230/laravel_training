@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Jobs\SendEmailJob;
-use App\Mail\WelcomeEmail;
 
 class RegisterController extends Controller
 {

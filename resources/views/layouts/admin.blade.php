@@ -58,6 +58,10 @@
                     <li class="active">
                         <a href="/roles"><i class="fa fa-th-large"></i><span class="nav-label">Roles</span></a> 
                     </li> 
+                    <li class="active">
+                        <a href="/jobs"><i class="fa fa-th-large"></i><span class="nav-label">Jobs</span></a> 
+                    </li> 
+               
                
                     </ul>
 
