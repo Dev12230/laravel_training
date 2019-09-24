@@ -24,4 +24,9 @@ class Staff extends Model
     	return $this->belongsTo('App\SystemJobs');
     }
 
+    public function image() 
+    { 
+      return $this->morphOne('App\Image', 'profile');
+    }
+
 }

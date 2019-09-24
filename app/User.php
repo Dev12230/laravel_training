@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone','password','image','country_id','city_id'
+        'first_name', 'last_name', 'email', 'phone','password','country_id','city_id'
     ];
 
     /**
@@ -70,8 +70,13 @@ class User extends Authenticatable
         return $this->belongsTo('App\COuntry');
     }
 
-    public function image()
-    {
-        return "storage/" . $this->image;
+    // public function image()
+    // {
+    //     return "storage/" . $this->image;
+    // }
+
+    public function image() 
+    { 
+      return $this->morphOne('App\Image', 'profile');
     }
 }

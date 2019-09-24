@@ -1,6 +1,6 @@
 <?php
 
-use App\SystemJobs;
+use App\SystemJob;
 use Illuminate\Database\Seeder;
 
 class SystemJobsSeeder extends Seeder
@@ -12,7 +12,7 @@ class SystemJobsSeeder extends Seeder
      */
     public function run()
     {
-        SystemJobs::insert([
+        SystemJob::insert([
             [
                 'name' => 'Writer',
                 'description' => 'Writter job',

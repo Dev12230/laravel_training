@@ -11,6 +11,7 @@ use App\Country;
 use App\City;
 use App\User;
 use App\Staff;
+use App\Image;
 
 
 class StaffController extends Controller
@@ -22,7 +23,8 @@ class StaffController extends Controller
      */
     public function index()
     {
-         return view('staff.index');
+
+         return view('staff.index',compact('staff'));
     }
 
     /**
@@ -46,17 +48,14 @@ class StaffController extends Controller
      */
     public function store(StoreStaffRequest $request)
     {
+        $user=User::create($request->except('job_id','role_id'));
+        $user->assignRole($request->role);  
+        $staff=Staff::create(['user_id'=>  $user->id,'job_id'=>$request->job_id]);
+        
         if($request['image']){
-            $image = $request['image'];
-            $img = $image->store('uploads', 'public'); 
-            $user=User::create($request->except('job_id','role_id','image') + ['image' => $img]);
-        }else{
-            $user=User::create($request->except('job_id','role_id'));
+            $this->UploadImage($request['image'],$staff);            
         }
-
-        $user->assignRole($request->role);      
-        Staff::create(['user_id'=>  $user->id,'job_id'=>$request->job_id]);
-
+          
         return redirect()->route('staff.index')->with('success', 'User has been Added');
 
     }
@@ -102,4 +101,14 @@ class StaffController extends Controller
             ->pluck("city_name","id");
             return response()->json($cities);
     }
+
+    public function UploadImage($reqImg,$staff){
+
+        $img = $reqImg->store('uploads', 'public'); 
+
+        $image=new Image();
+        $image->image= $img;
+        $staff->image()->save($image);
+
+    }    
 }
