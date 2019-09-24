@@ -11,7 +11,6 @@ use App\Country;
 use App\City;
 use App\User;
 use App\Staff;
-use DB;
 
 
 class StaffController extends Controller
@@ -23,7 +22,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        return view('staff.index');
+         return view('staff.index');
     }
 
     /**
@@ -33,9 +32,9 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $roles = Role::get();
-        $jobs = SystemJob::get();
-        $countries = Country::get();
+        $roles = Role::all()->pluck('name');
+        $jobs = SystemJob::all()->pluck('name','id');
+        $countries = Country::all()->pluck('name','id');
         return view('staff.create', compact('roles','jobs','countries'));
     }
 
@@ -47,11 +46,18 @@ class StaffController extends Controller
      */
     public function store(StoreStaffRequest $request)
     {
-        
-        $user=User::create($request->except('job_id','role_id'));
+        if($request['image']){
+            $image = $request['image'];
+            $img = $image->store('uploads', 'public'); 
+            $user=User::create($request->except('job_id','role_id','image') + ['image' => $img]);
+        }else{
+            $user=User::create($request->except('job_id','role_id'));
+        }
+
+        $user->assignRole($request->role);      
         Staff::create(['user_id'=>  $user->id,'job_id'=>$request->job_id]);
-        $user->assignRole($request->role_id);
-        return redirect()->route('staff.index')->with('success', 'Staff has been Added');
+
+        return redirect()->route('staff.index')->with('success', 'User has been Added');
 
     }
 
@@ -92,8 +98,7 @@ class StaffController extends Controller
 
     public function getCities(Request $request)
     {
-        $cities = DB::table("cities")
-            ->where("country_id",$request->country_id)
+        $cities = City::where("country_id",$request->country_id)
             ->pluck("city_name","id");
             return response()->json($cities);
     }

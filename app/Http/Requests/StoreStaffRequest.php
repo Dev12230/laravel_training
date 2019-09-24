@@ -24,6 +24,7 @@ class StoreStaffRequest extends FormRequest
     public function rules()
     {
         return [
+            'image' => 'image|mimes:png,jpg|max:2048',
             'first_name'=>'required|max:150',
             'last_name'=>'required|max:150',
             'email' => ['required', 'string', 'email', 'unique:users,email'],

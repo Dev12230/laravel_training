@@ -12,7 +12,7 @@
       </div><br />
 @endif
 
-<form action="{{route('staff.store')}}" method ="POST">
+<form action="{{route('staff.store')}}" method ="POST" enctype="multipart/form-data">
 @csrf
     <div class="form-group" style="width:500px">
       <label for="first_name">First Name:</label>
@@ -50,8 +50,8 @@
       <label for="country_id">Country :</label>
       <select id="country_id" class="form-control" name="country_id">
         <option selected>Choose...</option>
-        @foreach ($countries as $country)
-      <option value="{{$country->id}}">{{$country->name}}</option>
+        @foreach ($countries as $key =>$country)
+      <option value="{{$key}}">{{$country}}</option>
         @endforeach
       </select>
     </div>
@@ -66,8 +66,8 @@
       <label for="job_id">Job:</label>
       <select id="job_id" class="form-control" name="job_id">
         <option selected>Choose...</option>
-        @foreach ($jobs as $job)
-      <option value="{{$job->id}}">{{$job->name}}</option>
+        @foreach ($jobs as $key => $job)
+      <option value="{{$key}}">{{$job}}</option>
         @endforeach
       </select>
     </div>
@@ -76,16 +76,17 @@
      <label for="role_id">Role:</label>
         @foreach($roles as $role)
         <div class="funkyradio-default">
-            <input type="checkbox" name="role[]" id="role"  value="{{$role->id}}" />
-            <label for="role">{{$role->name}}</label>
+            <input type="checkbox" name="role[]" id="role"  value="{{$role}}" />
+            <label for="role">{{$role}}</label>
         </div>
         @endforeach
     </div>
 
 
+    <br>
     <div class="form-group" style="width:500px">
     <label for="image">Image:</label>
-    <input type="file" name="image" class="form-control">
+    <input type="file" name="image" >
     </div>
 
 
