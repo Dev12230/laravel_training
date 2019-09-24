@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\SystemJobs;
+use App\SystemJob;
 use DataTables;
 use App\Http\Requests\JobRequest;
 
@@ -20,9 +20,9 @@ class JobsController extends Controller
 
     public function getjobs(){
 
-        $jobs = SystemJobs::offset(0)->limit(10);
+        $jobs = SystemJob::offset(0)->limit(10);
 
-        return Datatables::of($jobs)->setTotalRecords(SystemJobs::count())
+        return Datatables::of($jobs)->setTotalRecords(SystemJob::count())
        
             ->addColumn('action', function ($data) {
                 return  view('jobs.actions',compact('data'));
@@ -56,7 +56,7 @@ class JobsController extends Controller
      */
     public function store(JobRequest $request)
     {
-        SystemJobs::create($request->all());
+        SystemJob::create($request->all());
         return redirect()->route('jobs.index')->with('success', 'Job has been added');
     }
 
@@ -66,7 +66,7 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SystemJobs $job)
+    public function edit(SystemJob $job)
     {
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
             return view('jobs.edit',compact('job'));
@@ -82,7 +82,7 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(JobRequest $request, SystemJobs $job)
+    public function update(JobRequest $request, SystemJob $job)
     {
         $job->fill($request->all())->save();
 
@@ -95,7 +95,7 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SystemJobs $job)
+    public function destroy(SystemJob $job)
     {
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
               $job->delete();

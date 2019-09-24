@@ -22,7 +22,6 @@
     <link href="/bower_components/admin-lte/dist/css/admin.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.css"/>
-
 </head>
 
 <body>
@@ -60,6 +59,9 @@
                     </li> 
                     <li class="active">
                         <a href="/jobs"><i class="fa fa-th-large"></i><span class="nav-label">Jobs</span></a> 
+                    </li> 
+                    <li class="active">
+                        <a href="/staff"><i class="fa fa-th-large"></i><span class="nav-label">Staff</span></a> 
                     </li> 
                
                
@@ -164,6 +166,7 @@
 <!-- //---- -->
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></scri
+    <script src="http://www.codermen.com/js/jquery.js"></script>
 </body>
 
 </html> 

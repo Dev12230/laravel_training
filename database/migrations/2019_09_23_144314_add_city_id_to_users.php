@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSystemJobsTable extends Migration
+class AddCityIdToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateSystemJobsTable extends Migration
      */
     public function up()
     {
-        Schema::create('system_jobs', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name',150);
-            $table->string('description',250);
-            $table->timestamps();
-
-            $table->softDeletes();
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('city_id')->nullable()->unsigned();
+            $table->foreign('city_id')->references('id')->on('cities');
         });
     }
 
@@ -30,6 +26,8 @@ class CreateSystemJobsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('system_jobs');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

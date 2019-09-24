@@ -1,0 +1,121 @@
+@extends('layouts.admin')
+
+@section('content')
+
+@if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+@endif
+
+<form action="{{route('staff.store')}}" method ="POST">
+@csrf
+    <div class="form-group" style="width:500px">
+      <label for="first_name">First Name:</label>
+      <input type="text" class="form-control" id="first_name" name="first_name">
+    </div>
+
+    <div class="form-group" style="width:500px">
+      <label for="last_name">Last Name:</label>
+      <input type="text" class="form-control" id="last_name" name="last_name">
+    </div>
+
+    <div class="form-group">
+    <label for="disabledTextInput"> Gender:</label>
+    <select  id="exampleFormControlSelect1" name="gender">
+    <option>male</option>
+    <option>female</option>
+    </select>
+    </div>
+
+    <div class="form-group" style="width:500px">
+      <label for="email">Email:</label>
+      <input type="text" class="form-control" id="email" name="email">
+    </div>
+
+    <div class="form-group" style="width:500px">
+      <label for="phone">Phone:</label>
+      <input id="phone" type="phone" class="form-control" name="phone" >
+    </div>
+
+    <div class="form-group">
+       <input type="hidden" class="form-control" name="password" value="P@ssword" >
+    </div>
+
+    <div class="form-group" style="width:500px">
+      <label for="country_id">Country :</label>
+      <select id="country_id" class="form-control" name="country_id">
+        <option selected>Choose...</option>
+        @foreach ($countries as $country)
+      <option value="{{$country->id}}">{{$country->name}}</option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="city_id">Select City:</label>
+      <select name="city_id" id="city_id" class="form-control" style="width:350px">
+      </select>
+    </div>
+
+    <div class="form-group" style="width:500px">
+      <label for="job_id">Job:</label>
+      <select id="job_id" class="form-control" name="job_id">
+        <option selected>Choose...</option>
+        @foreach ($jobs as $job)
+      <option value="{{$job->id}}">{{$job->name}}</option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="funkyradio" style="width:500px">
+     <label for="role_id">Role:</label>
+        @foreach($roles as $role)
+        <div class="funkyradio-default">
+            <input type="checkbox" name="role[]" id="role"  value="{{$role->id}}" />
+            <label for="role">{{$role->name}}</label>
+        </div>
+        @endforeach
+    </div>
+
+
+    <div class="form-group" style="width:500px">
+    <label for="image">Image:</label>
+    <input type="file" name="image" class="form-control">
+    </div>
+
+
+  <button type="submit" class="btn btn-primary">Add Staff</button>
+
+
+</form>
+
+<script type="text/javascript">
+ $('#country_id').change(function(){
+    var countryID = $(this).val();   
+    if(countryID){
+      $.ajax({
+        type:"GET",
+           url:"{{url('get-cities')}}?country_id="+countryID,
+           success:function(data){  
+            if(data){
+                $("#city_id").empty();
+                $("#city_id").append('<option>Select</option>');
+                $.each(data,function(key,value){
+                    $("#city_id").append('<option value="'+key+'">'+value+'</option>');
+                });
+           }else{ $(
+             "#city_id").empty(); 
+           }             
+          } 
+      }); 
+    }else{
+     $("#city_id").empty(); 
+    }       
+  });
+</script>
+@endsection
