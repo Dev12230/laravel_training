@@ -1,7 +1,7 @@
 <?php
-use Faker\Generator as Faker;
+
 use Illuminate\Database\Seeder;
-use App\Country;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminUserSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(CityTableSeeder::class);
-        $this->call(SystemJobsSeeder::class);
+        $this->call(JobsTableSeeder::class);
 
 
     }

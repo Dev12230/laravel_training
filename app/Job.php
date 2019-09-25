@@ -5,15 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SystemJob extends Model
+class Job extends Model
 {
     use SoftDeletes;
     
     protected $fillable = [
         'name','description'
     ];
+ 
 
-    public function staff()
+    public function staffs()
     {
      return $this->hasMany('App\Staff');
     }

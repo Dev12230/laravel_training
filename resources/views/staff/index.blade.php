@@ -15,6 +15,9 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Gender</th>
+            <th>Job</th>
+            <th>City</th>
+            <th>Country</th>
             <th>Roles</th>
             <th>Image</th>
             <th>Actions</th>
@@ -23,7 +26,7 @@
     </thead>
     </table>
 
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     $('#table').DataTable({
         processing: true,
@@ -36,49 +39,18 @@
             dataType: 'json',
             type: 'get',
         },
-        columns: [ {
-                mRender: function(data, type, row) {
-                    return row.user.first_name
-                       
-                }
-            },
-            {
-                mRender: function(data, type, row) {
-                    return row.user.last_name
-                       
-                }
-            },
-            {
-                mRender: function(data, type, row) {
-                    return row.user.email
-                       
-                }
-            },
-            {
-                mRender: function(data, type, row) {
-                    return row.user.phone
-                       
-                }
-            },
-            {
-                mRender: function(data, type, row) {
-                    return row.user.gender
-                       
-                }
-            },
-            {
-                data: 'role',
-                name: 'role',        
-            },
-
-            {
-                data: 'image',
-                name: 'image',
-            },
-            {
-                data: 'action',
-                name: 'action',
-            },
+        columns: [ 
+            {data: 'user.first_name',name: 'user.first_name',orderable: false}, 
+            {data: 'user.last_name',name: 'user.last_name',orderable: false}, 
+            {data: 'user.email',name: 'user.email',orderable: false}, 
+            {data: 'user.phone',name: 'user.phone',orderable: false}, 
+            {data: 'user.gender',name: 'user.gender',orderable: false}, 
+            {data: 'job.name',name: 'job.name',orderable: false},    
+            {data: 'user.city.city_name',name: 'user.city.city_name',orderable: false},
+            {data: 'user.country.name',name: 'user.country.name',orderable: false},    
+            {data: 'role',name: 'role',orderable: false},
+            {data: 'image',name: 'image',orderable: false, searchable: false},
+            {data: 'action',name: 'action',orderable: false, searchable: false},
 
         ],
 

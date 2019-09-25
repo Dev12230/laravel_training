@@ -42,9 +42,6 @@
       <input id="phone" type="phone" class="form-control" name="phone" >
     </div>
 
-    <div class="form-group">
-       <input type="hidden" class="form-control" name="password" value="P@ssword" >
-    </div>
 
     <div class="form-group" style="width:500px">
       <label for="country_id">Country :</label>

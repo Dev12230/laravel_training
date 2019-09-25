@@ -7,22 +7,29 @@ use App\Http\Requests\StoreStaffRequest;
 use App\Http\Requests\UpdateStaffRequest;
 use DataTables;
 use Spatie\Permission\Models\Role;
-use App\SystemJob;
+use App\Job;
 use App\Country;
 use App\City;
 use App\User;
 use App\Staff;
 use App\Image;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+
 
 class StaffController extends Controller
 {
+
+    use SendsPasswordResetEmails;
+
     public function getstaff()
     {
-        $staff=Staff::with('User')->offset(0)->limit(10);
+        $staff=Staff::offset(0)->limit(10);
         return Datatables::of($staff)->setTotalRecords(Staff::count())
            ->addColumn('role', function ($row) {
-                 return $row->user->roles->first()->name;
+                     return $row->user->getRoleNames()->first();
            })
            ->addColumn('image', function ($row) {
                  return '<img src="'.Storage::url($row->image['image']).'" style="height:50px; width:50px;" />';
@@ -51,7 +58,7 @@ class StaffController extends Controller
     public function create()
     {
         $roles = Role::all()->pluck('name');
-        $jobs = SystemJob::all()->pluck('name','id');
+        $jobs = Job::all()->pluck('name','id');
         $countries = Country::all()->pluck('name','id');
         return view('staff.create', compact('roles','jobs','countries'));
     }
@@ -64,13 +71,19 @@ class StaffController extends Controller
      */
     public function store(StoreStaffRequest $request)
     {
-        $user=User::create($request->except('job_id','role_id'));
+        $user=User::create(
+            $request->except('password') + ['password' => Hash::make(Str::random(8))]
+        );
         $user->assignRole($request->role);  
-        $staff=Staff::create(['user_id'=>  $user->id,'job_id'=>$request->job_id]);
+
+        $staff=Staff::create($request->except('user_id') + ['user_id' => $user->id]);
         
         if($request['image']){
-            $this->UploadImage($request['image'],$staff);            
+            $img=$this->UploadImage($request['image']);      
+            $staff->image()->create(['image'=>$img]);      
         }
+
+        $this->sendResetLinkEmail($request);
           
         return redirect()->route('staff.index')->with('success', 'User has been Added');
 
@@ -85,9 +98,8 @@ class StaffController extends Controller
      */
     public function edit(Staff $staff)
     {
-
         $roles = Role::all()->pluck('name');
-        $jobs = SystemJob::all()->pluck('name','id');
+        $jobs = Job::all()->pluck('name','id');
         $countries = Country::all()->pluck('name','id');
         return view('staff.edit', compact('staff','roles','jobs','countries','location'));
     }
@@ -102,8 +114,13 @@ class StaffController extends Controller
     public function update(UpdateStaffRequest $request, Staff $staff)
     {
         $staff->update($request->only(['job_id']));
-        $staff->user->update($request->except('job_id','role_id'));
+        $staff->user->update($request->all());
         $staff->user->syncRoles($request->role); 
+
+          if ($request->has('image')) {
+            $img=$this->UploadImage(request('image'));
+            $staff->image()->Update(['image'=>$img]);
+          }
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
     }
@@ -116,6 +133,9 @@ class StaffController extends Controller
      */
     public function destroy(Staff $staff)
     {
+        $staff->user->delete();
+        $staff->delete();
+        return redirect()->route('staff.index')->with('success', 'Staff deleted');
        
     }
 
@@ -126,13 +146,10 @@ class StaffController extends Controller
             return response()->json($cities);
     }
 
-    public function UploadImage($reqImg,$staff){
+    public function UploadImage($reqImg){
 
-        $img = $reqImg->store('uploads', 'public'); 
-
-        $image=new Image();
-        $image->image= $img;
-        $staff->image()->save($image);
+        $img = $reqImg->store('uploads', 'public');
+        return $img;
 
     }    
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\SystemJob;
+use App\Job;
 use DataTables;
 use App\Http\Requests\JobRequest;
 
@@ -18,11 +18,11 @@ class JobsController extends Controller
         $this->middleware('permission:job-delete', ['only' => ['destroy']]);
     }
 
-    public function getjobs(){
+    public function getJobs(){
 
-        $jobs = SystemJob::offset(0)->limit(10);
+        $jobs = Job::offset(0)->limit(10);
 
-        return Datatables::of($jobs)->setTotalRecords(SystemJob::count())
+        return Datatables::of($jobs)->setTotalRecords(Job::count())
        
             ->addColumn('action', function ($data) {
                 return  view('jobs.actions',compact('data'));
@@ -56,7 +56,7 @@ class JobsController extends Controller
      */
     public function store(JobRequest $request)
     {
-        SystemJob::create($request->all());
+        Job::create($request->all());
         return redirect()->route('jobs.index')->with('success', 'Job has been added');
     }
 
@@ -66,12 +66,12 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SystemJob $job)
+    public function edit(Job $job)
     {
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
             return view('jobs.edit',compact('job'));
         }
-        else{return redirect()->route('jobs.index')->with('error', 'This job can not updated');}
+        else{return redirect()->route('Jobs.index')->with('error', 'This Job can not updated');}
       
     }
 
@@ -82,7 +82,7 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(JobRequest $request, SystemJob $job)
+    public function update(JobRequest $request, Job $job)
     {
         $job->fill($request->all())->save();
 
@@ -95,13 +95,13 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SystemJob $job)
+    public function destroy(Job $job)
     {
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
               $job->delete();
               return redirect()->route('jobs.index')->with('success', 'Job has been deleted');
         }
-        else {return redirect()->route('jobs.index')->with('error', 'This job can not deleted');}
+        else {return redirect()->route('jobs.index')->with('error', 'This Job can not deleted');}
 
     }
 }

@@ -23,6 +23,9 @@ class User extends Authenticatable
         'first_name', 'last_name', 'email', 'phone','password','country_id','city_id','gender'
     ];
 
+      /** @inheritdoc */
+      protected $with = ['city', 'country'];
+
 
     /**
      * The attributes that should be hidden for arrays.

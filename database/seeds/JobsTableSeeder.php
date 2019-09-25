@@ -1,9 +1,8 @@
 <?php
-
-use App\SystemJob;
+use App\Job;
 use Illuminate\Database\Seeder;
 
-class SystemJobsSeeder extends Seeder
+class JobsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +11,7 @@ class SystemJobsSeeder extends Seeder
      */
     public function run()
     {
-        SystemJob::insert([
+        Job::insert([
             [
                 'name' => 'Writer',
                 'description' => 'Writter job',

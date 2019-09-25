@@ -19,7 +19,7 @@ class CreateStaffTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->integer('job_id')->unsigned();
-            $table->foreign('job_id')->references('id')->on('system_jobs');
+            $table->foreign('job_id')->references('id')->on('jobs');
             $table->timestamps();
 
             $table->softDeletes();
