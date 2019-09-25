@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreStaffRequest;
+use App\Http\Requests\UpdateStaffRequest;
 use DataTables;
 use Spatie\Permission\Models\Role;
 use App\SystemJob;
@@ -12,10 +13,26 @@ use App\City;
 use App\User;
 use App\Staff;
 use App\Image;
-
+use Illuminate\Support\Facades\Storage;
 
 class StaffController extends Controller
 {
+    public function getstaff()
+    {
+        $staff=Staff::with('User')->offset(0)->limit(10);
+        return Datatables::of($staff)->setTotalRecords(Staff::count())
+           ->addColumn('role', function ($row) {
+                 return $row->user->roles->first()->name;
+           })
+           ->addColumn('image', function ($row) {
+                 return '<img src="'.Storage::url($row->image['image']).'" style="height:50px; width:50px;" />';
+           })
+           ->addColumn('action', function ($data) {
+            return  view('staff.actions',compact('data'));
+
+           })->rawColumns(['role','image','action']) ->make(true);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +40,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-
-         return view('staff.index',compact('staff'));
+         return view('staff.index');
     }
 
     /**
@@ -67,9 +83,13 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Staff $staff)
     {
-        //
+
+        $roles = Role::all()->pluck('name');
+        $jobs = SystemJob::all()->pluck('name','id');
+        $countries = Country::all()->pluck('name','id');
+        return view('staff.edit', compact('staff','roles','jobs','countries','location'));
     }
 
     /**
@@ -79,9 +99,13 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStaffRequest $request, Staff $staff)
     {
-        //
+        $staff->update($request->only(['job_id']));
+        $staff->user->update($request->except('job_id','role_id'));
+        $staff->user->syncRoles($request->role); 
+
+        return redirect()->route('staff.index')->with('success', 'Staff has been updated');
     }
 
     /**
@@ -90,9 +114,9 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Staff $staff)
     {
-        //
+       
     }
 
     public function getCities(Request $request)

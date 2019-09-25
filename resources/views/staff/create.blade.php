@@ -27,8 +27,8 @@
     <div class="form-group">
     <label for="disabledTextInput"> Gender:</label>
     <select  id="exampleFormControlSelect1" name="gender">
-    <option>male</option>
-    <option>female</option>
+    <option value="male" >Male</option>
+    <option value="female">Female</option>
     </select>
     </div>
 
@@ -73,13 +73,14 @@
     </div>
 
     <div class="funkyradio" style="width:500px">
-     <label for="role_id">Role:</label>
-        @foreach($roles as $role)
-        <div class="funkyradio-default">
-            <input type="checkbox" name="role[]" id="role"  value="{{$role}}" />
-            <label for="role">{{$role}}</label>
-        </div>
+     <label for="role">Role:</label>
+     <select id="role" class="form-control" name="role">
+        <option selected>Choose...</option>
+        @foreach ($roles as $key => $role)
+      <option value="{{$role}}">{{$role}}</option>
         @endforeach
+      </select>
+      
     </div>
 
 
@@ -109,8 +110,8 @@
                 $.each(data,function(key,value){
                     $("#city_id").append('<option value="'+key+'">'+value+'</option>');
                 });
-           }else{ $(
-             "#city_id").empty(); 
+           }else{ 
+             $("#city_id").empty(); 
            }             
           } 
       }); 

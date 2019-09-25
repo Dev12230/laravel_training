@@ -20,8 +20,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone','password','country_id','city_id'
+        'first_name', 'last_name', 'email', 'phone','password','country_id','city_id','gender'
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -67,13 +68,9 @@ class User extends Authenticatable
 
     public function country()
     {
-        return $this->belongsTo('App\COuntry');
+        return $this->belongsTo('App\Country');
     }
 
-    // public function image()
-    // {
-    //     return "storage/" . $this->image;
-    // }
 
     public function image() 
     { 

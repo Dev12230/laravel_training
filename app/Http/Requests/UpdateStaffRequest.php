@@ -13,7 +13,7 @@ class UpdateStaffRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,34 @@ class UpdateStaffRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'image' => 'image|mimes:png,jpg|max:2048',
+            'first_name'=>'required|max:150',
+            'last_name'=>'required|max:150',
+            'email' => ['required', 'string', 'email', 'unique:users,email,'.$this->staff->user['id']],
+            'phone'=>['required','regex:/(01)[0-9]{9}/'],
+            'role'=>['required'],
+            'job_id'=>['required'],
+            'city_id'=>['required'],
+            'country_id'=>['required'],
+        ];
+    }
+
+    public function messages()
+    {
+        return[
+            'first_name.required' => 'First name is required',
+            'last_name.required' => 'Last name is required',
+            'email.required' => 'Email is required',
+            'phone.required' => 'Phone is required',
+            'role_id.required' => 'Role is required',
+            'job_id.required' => 'Job is required',
+            'city_id.required' => 'City is required',
+            'country_id.required' => 'Country is required',
+            'first_name.max' => 'Maximum character is 150',
+            'last_name.max' => 'Maximum character is 150',
+            'email.unique' => 'This email is taken before',
+            'phone.regex' => 'phone is not valid ex: 01(123456789)'
+
         ];
     }
 }

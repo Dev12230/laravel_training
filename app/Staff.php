@@ -19,9 +19,9 @@ class Staff extends Model
     	return $this->belongsTo('App\User');
     }
 
-    public function Systemjob()
+    public function systemjob()
     {
-    	return $this->belongsTo('App\SystemJobs');
+    	return $this->belongsTo('App\SystemJob');
     }
 
     public function image() 

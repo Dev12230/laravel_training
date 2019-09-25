@@ -20,13 +20,7 @@ class Image extends Model
       return $this->morphTo();
     }
 
-    public function getHasUserAttribute()
-    {
-      return $this->profile_type == 'App\User';
-    }
-  
-    public function getHasStaffAttribute()
-    {
-      return $this->profile_type == 'App\Staff';
-    }
+ 
+
+
 }
