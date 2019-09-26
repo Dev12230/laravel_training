@@ -14,7 +14,6 @@ use App\User;
 use App\Staff;
 use App\Image;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
@@ -80,7 +79,7 @@ class StaffController extends Controller
     public function store(StoreStaffRequest $request)
     {
         $user=User::create(
-            $request->except('password') + ['password' => Hash::make(Str::random(8))]
+            $request->except('password') + ['password' => Str::random(8)]
         );
         $user->assignRole($request->role);  
 
