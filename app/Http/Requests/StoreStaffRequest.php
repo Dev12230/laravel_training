@@ -27,12 +27,12 @@ class StoreStaffRequest extends FormRequest
             'image' => 'image|mimes:png,jpg|max:2048',
             'first_name'=>'required|max:150',
             'last_name'=>'required|max:150',
-            'email' => ['required', 'string', 'email', 'unique:users,email'],
-            'phone'=>['required','regex:/(01)[0-9]{9}/'],
-            'role'=>['required'],
-            'job_id'=>['required'],
-            'city_id'=>['required'],
-            'country_id'=>['required'],
+            'email' => 'required|string|email|unique:users,email,NULL,id,deleted_at,NULL',
+            'phone'=>'required|regex:/(01)[0-9]{9}/||unique:users,phone,NULL,id,deleted_at,NULL',
+            'role'=>'required',
+            'job_id'=>'required',
+            'city_id'=>'required',
+            'country_id'=>'required',
 
         ];
     }

@@ -23,16 +23,18 @@ class UpdateStaffRequest extends FormRequest
      */
     public function rules()
     {
+        $id=$this->staff->user['id'];
+       
         return [
             'image' => 'image|mimes:png,jpg|max:2048',
             'first_name'=>'required|max:150',
             'last_name'=>'required|max:150',
-            'email' => ['required', 'string', 'email', 'unique:users,email,'.$this->staff->user['id']],
-            'phone'=>['required','regex:/(01)[0-9]{9}/'],
-            'role'=>['required'],
-            'job_id'=>['required'],
-            'city_id'=>['required'],
-            'country_id'=>['required'],
+            'email' =>  "required|string|email|unique:users,email,{$id},id,deleted_at,NULL",
+            'phone'=>"required|regex:/(01)[0-9]{9}/|unique:users,phone,{$id},id,deleted_at,NULL",
+            'role'=>'required',
+            'job_id'=>'required',
+            'city_id'=>'required',
+            'country_id'=>'required',
         ];
     }
 
