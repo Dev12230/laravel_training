@@ -157,14 +157,14 @@ class StaffController extends Controller
 
     }    
 
-    public function ban(Staff $staff)
+    public function deActive(Staff $staff)
     {
 
         $staff->user->ban();
         return redirect()->route('staff.index');
     }
 
-    public function unban(Staff $staff)
+    public function Active(Staff $staff)
     {
         $staff->user->unban();
         return redirect()->route('staff.index');
