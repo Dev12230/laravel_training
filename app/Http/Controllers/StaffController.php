@@ -24,6 +24,16 @@ class StaffController extends Controller
 
     use SendsPasswordResetEmails;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:staff-list');
+        $this->middleware('permission:staff-active',['only' => ['Active','deActive']]);
+        $this->middleware('permission:staff-create', ['only' => ['create','store']]);
+        $this->middleware('permission:staff-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:staff-delete', ['only' => ['destroy']]);
+    }
+
     public function getstaff()
     {
         $staff=Staff::offset(0)->limit(10);

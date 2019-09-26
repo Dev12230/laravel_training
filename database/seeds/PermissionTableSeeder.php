@@ -27,6 +27,11 @@ class PermissionTableSeeder extends Seeder
             'job-create',
             'job-edit',
             'job-delete',
+            'staff-list',
+            'staff-create',
+            'staff-edit',
+            'staff-delete',
+            'staff-active',
            
          ];
  

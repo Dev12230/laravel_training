@@ -4,9 +4,9 @@
 @include('flash-message')
 <h1>Staff</h1>
     <br>
-
+@if(auth()->user()->can('staff-create'))  
 <a class="btn btn-primary btn-sm" href="staff/create"><i class="fa fa-plus"></i><span>Add New </span></a><br><br>
-
+@endif
 <table id="table" >
     <thead>
     <tr>
@@ -20,8 +20,12 @@
             <th>Country</th>
             <th>Roles</th>
             <th>Image</th>
+            @if(auth()->user()->can('staff-edit') || auth()->user()->can('staff-delete'))
             <th>Actions</th>
+            @endif
+            @if(auth()->user()->can('staff-active'))
             <th>Status</th>
+            @endif
             
             </tr>
     </thead>
@@ -51,8 +55,12 @@
             {data: 'user.country.name',name: 'user.country.name',orderable: false},    
             {data: 'role',name: 'role',orderable: false},
             {data: 'image',name: 'image',orderable: false, searchable: false},
+            @if(auth()->user()->can('staff-edit') || auth()->user()->can('staff-delete'))
             {data: 'action',name: 'action',orderable: false, searchable: false},
+            @endif
+            @if(auth()->user()->can('staff-active'))
             {data: 'status',name: 'status',orderable: false, searchable: false},
+            @endif
 
         ],
 
