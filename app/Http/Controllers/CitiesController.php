@@ -11,14 +11,6 @@ use Illuminate\Http\Request;
 
 class CitiesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:city-list');
-        $this->middleware('permission:city-create', ['only' => ['create','store']]);
-        $this->middleware('permission:city-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:city-delete', ['only' => ['index','destroy']]);
-    }
 
     public function getCities(Request $request)
     {
@@ -35,11 +27,13 @@ class CitiesController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', City::class);
         return view('cities.index');
     }
 
     public function create()
     {
+        $this->authorize('create', City::class);
         $countries=Country::all();
         return view('cities.create', [
             'countries'=>$countries
@@ -57,7 +51,8 @@ class CitiesController extends Controller
 
     public function edit(City $city)
     {
- 
+        $this->authorize('update', $city);
+        
         $countries=Country::all();
         return view('cities.edit', [
             'countries'=>$countries,
@@ -67,8 +62,7 @@ class CitiesController extends Controller
 
     public function update(City $city, CityRequest $request)
     {
-
-
+        $this->authorize('update', $city);
         $city->fill($request->all())->save();
 
         return redirect()->route('cities.index')->with('success', 'City has been updated');
@@ -76,7 +70,7 @@ class CitiesController extends Controller
 
     public function destroy(City $city)
     {
-
+        $this->authorize('delete', $city);
         $city->delete();
         return redirect()->route('cities.index')->with('success', 'City has been deleted');
     }

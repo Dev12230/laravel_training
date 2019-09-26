@@ -9,14 +9,6 @@ use App\Http\Requests\JobRequest;
 
 class JobsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:job-list');
-        $this->middleware('permission:job-create', ['only' => ['create','store']]);
-        $this->middleware('permission:job-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:job-delete', ['only' => ['destroy']]);
-    }
 
     public function getJobs(){
 
@@ -35,6 +27,7 @@ class JobsController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Job::class);
         return view('jobs.index');
     }
 
@@ -45,6 +38,7 @@ class JobsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Job::class);
         return view('jobs.create');
     }
 
@@ -68,6 +62,8 @@ class JobsController extends Controller
      */
     public function edit(Job $job)
     {
+        $this->authorize('update', $job);
+
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
             return view('jobs.edit',compact('job'));
         }
@@ -84,6 +80,8 @@ class JobsController extends Controller
      */
     public function update(JobRequest $request, Job $job)
     {
+        $this->authorize('update', $job);
+
         $job->fill($request->all())->save();
 
         return redirect()->route('jobs.index')->with('success', 'Job has been updated');
@@ -97,6 +95,8 @@ class JobsController extends Controller
      */
     public function destroy(Job $job)
     {
+        $this->authorize('delete', $job);
+
         if( !($job->name === 'Writer' || $job->name === 'Reporter')){
               $job->delete();
               return redirect()->route('jobs.index')->with('success', 'Job has been deleted');

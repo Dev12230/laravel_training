@@ -19,14 +19,12 @@ class PermissionTableSeeder extends Seeder
             'city-create',
             'city-edit',
             'city-delete',
-            'role-list',
-            'role-create',
-            'role-edit',
-            'role-delete',
+
             'job-list',
             'job-create',
             'job-edit',
             'job-delete',
+            
             'staff-list',
             'staff-create',
             'staff-edit',

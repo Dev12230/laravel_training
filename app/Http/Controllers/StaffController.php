@@ -24,16 +24,6 @@ class StaffController extends Controller
 
     use SendsPasswordResetEmails;
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:staff-list');
-        $this->middleware('permission:staff-active',['only' => ['Active','deActive']]);
-        $this->middleware('permission:staff-create', ['only' => ['create','store']]);
-        $this->middleware('permission:staff-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:staff-delete', ['only' => ['destroy']]);
-    }
-
     public function getstaff()
     {
         $staff=Staff::offset(0)->limit(10);
@@ -62,6 +52,7 @@ class StaffController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Staff::class);
          return view('staff.index');
     }
 
@@ -72,6 +63,8 @@ class StaffController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Staff::class);
+
         $roles = Role::pluck('name');
         $jobs = Job::pluck('name','id');
         $countries = Country::pluck('name','id');
@@ -102,8 +95,7 @@ class StaffController extends Controller
         }
         $staff->image()->create(['image'=> $img]); 
 
-        $this->sendResetLinkEmail($request);
-          
+        $this->sendResetLinkEmail($request);         
         return redirect()->route('staff.index')->with('success', 'User has been Added');
 
     }
@@ -117,6 +109,7 @@ class StaffController extends Controller
      */
     public function edit(Staff $staff)
     {
+        $this->authorize('update', $staff);
         $roles = Role::pluck('name');
         $jobs = Job::pluck('name','id');
         $countries = Country::pluck('name','id');
@@ -132,6 +125,8 @@ class StaffController extends Controller
      */
     public function update(UpdateStaffRequest $request, Staff $staff)
     {
+        $this->authorize('update', $staff);
+
         $staff->update($request->only(['job_id']));
         $staff->user->update($request->all());
         $staff->user->syncRoles($request->role); 
@@ -152,6 +147,8 @@ class StaffController extends Controller
      */
     public function destroy(Staff $staff)
     {
+        $this->authorize('delete', $staff);
+
         $staff->user->delete();
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted');
@@ -174,13 +171,14 @@ class StaffController extends Controller
 
     public function deActive(Staff $staff)
     {
-
+        $this->authorize('active', $staff);
         $staff->user->ban();
         return redirect()->route('staff.index');
     }
 
-    public function Active(Staff $staff)
+    public function active(Staff $staff)
     {
+        $this->authorize('active', $staff);
         $staff->user->unban();
         return redirect()->route('staff.index');
     }

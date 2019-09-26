@@ -23,15 +23,19 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
-Route::group(['middleware'=>'is-ban'], function(){
+Route::group(['middleware'=>'is-ban','auth'], function(){
 
     Route::get('/home', 'HomeController@index')->name('home');
     //---------- Cities route -------------------
     Route::resource('cities', 'CitiesController');
     Route::get('/cities_list', 'CitiesController@getCities')->name('get.cities');
     //---------- staff route -------------------
+    Route::group(['middleware' => ['role:Admin']], function () {
+
     Route::resource('roles', 'RolesController');
     Route::get('/roles_list', 'RolesController@getRoles')->name('get.roles');
+
+     });
     //------------Jobs route -------------------
     Route::resource('jobs', 'JobsController');
     Route::get('/jobs_list', 'JobsController@getjobs')->name('get.jobs');
@@ -40,6 +44,6 @@ Route::group(['middleware'=>'is-ban'], function(){
     Route::get('/staff_list', 'StaffController@getstaff')->name('get.staff');
     
     Route::get('get-cities','StaffController@getCities');
-    Route::get('/staff/{staff}/ban', 'StaffController@deActive')->name('staff.deActive');
-    Route::get('/staff/{staff}/unban', 'StaffController@Active')->name('staff.Active');
+    Route::get('/staff/{staff}/active', 'StaffController@deActive')->name('staff.deActive');
+    Route::get('/staff/{staff}/deactive', 'StaffController@Active')->name('staff.active');
 });

@@ -46,7 +46,7 @@
             {
                 data: 'description'
             },
-            @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
+            @if(auth()->user()->can('job-edit') || auth()->user()->can('job-delete')) {
                 data: 'action',
                 name: 'action',
                 orderable: false,

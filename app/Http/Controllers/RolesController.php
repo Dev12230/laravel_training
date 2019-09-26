@@ -11,18 +11,9 @@ use App\Http\Requests\UpdateRoleRequest;
 
 class RolesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:role-list');
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    }
 
     public function getRoles()
     {
-
         $roles = Role::with('permissions')->offset(0)->limit(10);
         
         return Datatables::of($roles)->setTotalRecords(Role::count())
@@ -40,6 +31,7 @@ class RolesController extends Controller
      */
     public function index()
     {
+
         return view('roles.index');
     }
 
@@ -51,6 +43,7 @@ class RolesController extends Controller
      */
     public function create()
     {
+        
         $permissions = Permission::get();
         return view('roles.create', compact('permissions'));
     }
@@ -105,7 +98,8 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
-    {
+    { 
+
         $role->delete();
         return redirect()->route('roles.index')->with('success', 'Role has been deleted');
     }
