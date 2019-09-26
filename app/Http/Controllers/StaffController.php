@@ -27,6 +27,7 @@ class StaffController extends Controller
     public function getstaff()
     {
         $staff=Staff::offset(0)->limit(10);
+
         return Datatables::of($staff)->setTotalRecords(Staff::count())
            ->addColumn('role', function ($row) {
                      return $row->user->getRoleNames()->first();
@@ -61,9 +62,9 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $roles = Role::all()->pluck('name');
-        $jobs = Job::all()->pluck('name','id');
-        $countries = Country::all()->pluck('name','id');
+        $roles = Role::pluck('name');
+        $jobs = Job::pluck('name','id');
+        $countries = Country::pluck('name','id');
         return view('staff.create', compact('roles','jobs','countries'));
     }
 
@@ -82,10 +83,14 @@ class StaffController extends Controller
 
         $staff=Staff::create($request->except('user_id') + ['user_id' => $user->id]);
         
+        //image upload
         if($request['image']){
-            $img=$this->UploadImage($request['image']);      
-            $staff->image()->create(['image'=>$img]);      
+            $img=$this->UploadImage($request['image']); 
+            
+        }else{
+            $img=Image::defaultImage();
         }
+        $staff->image()->create(['image'=> $img]); 
 
         $this->sendResetLinkEmail($request);
           
@@ -102,10 +107,10 @@ class StaffController extends Controller
      */
     public function edit(Staff $staff)
     {
-        $roles = Role::all()->pluck('name');
-        $jobs = Job::all()->pluck('name','id');
-        $countries = Country::all()->pluck('name','id');
-        return view('staff.edit', compact('staff','roles','jobs','countries','location'));
+        $roles = Role::pluck('name');
+        $jobs = Job::pluck('name','id');
+        $countries = Country::pluck('name','id');
+        return view('staff.edit', compact('staff','roles','jobs','countries'));
     }
 
     /**
@@ -147,7 +152,7 @@ class StaffController extends Controller
     {
         $cities = City::where("country_id",$request->country_id)
             ->pluck("city_name","id");
-            return response()->json($cities);
+         return response()->json($cities);
     }
 
     public function UploadImage($reqImg){
