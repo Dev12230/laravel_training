@@ -37,7 +37,11 @@ class StaffController extends Controller
            ->addColumn('action', function ($data) {
             return  view('staff.actions',compact('data'));
 
-           })->rawColumns(['role','image','action']) ->make(true);
+           })
+           ->addColumn('status', function ($data) {
+            return  view('staff.status',compact('data'));
+
+           })->rawColumns(['role','image','action','status']) ->make(true);
 
     }
     /**
@@ -152,4 +156,17 @@ class StaffController extends Controller
         return $img;
 
     }    
+
+    public function ban(Staff $staff)
+    {
+
+        $staff->user->ban();
+        return redirect()->route('staff.index');
+    }
+
+    public function unban(Staff $staff)
+    {
+        $staff->user->unban();
+        return redirect()->route('staff.index');
+    }
 }

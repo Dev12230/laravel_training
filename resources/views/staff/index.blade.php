@@ -21,6 +21,7 @@
             <th>Roles</th>
             <th>Image</th>
             <th>Actions</th>
+            <th>Status</th>
             
             </tr>
     </thead>
@@ -51,6 +52,7 @@
             {data: 'role',name: 'role',orderable: false},
             {data: 'image',name: 'image',orderable: false, searchable: false},
             {data: 'action',name: 'action',orderable: false, searchable: false},
+            {data: 'status',name: 'status',orderable: false, searchable: false},
 
         ],
 

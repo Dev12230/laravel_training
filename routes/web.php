@@ -23,9 +23,9 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-
+Route::group(['middleware'=>'is-ban'], function(){
+    
+    Route::get('/home', 'HomeController@index')->name('home');
     //---------- Cities route -------------------
     Route::get('/cities_list', 'CitiesController@getCities')->name('get.cities');
     Route::get('/cities', 'CitiesController@index')->name('cities.index');
@@ -69,3 +69,8 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::patch('/staff/{staff}', 'StaffController@update')->name('staff.update');
     Route::get('/staff/{staff}/edit', 'StaffController@edit')->name('staff.edit');
     Route::delete('/staff/{staff}', 'StaffController@destroy')->name('staff.destroy');
+
+    
+    Route::get('/staff/{staff}/ban', 'StaffController@ban')->name('staff.ban');
+    Route::get('/staff/{staff}/unban', 'StaffController@unban')->name('staff.unban');
+});
