@@ -81,8 +81,7 @@ class StaffController extends Controller
     {
         $user=User::create(
             array_merge( $request->all(),['password'=> Str::random(8)])
-        );
-        
+        );      
         $user->assignRole($request->role);  
 
         $staff=Staff::create(
@@ -130,8 +129,8 @@ class StaffController extends Controller
     {
 
         $staff->update($request->only(['job_id']));
-        $staff->user->update($request->all());
-        $staff->user->syncRoles($request->role); 
+        $staff->user()->update($request->all());
+        $staff->user()->syncRoles($request->role); 
 
           if ($request->has('image')) {
             $img=$this->UploadImage(request('image'));
@@ -150,7 +149,7 @@ class StaffController extends Controller
     public function destroy(Staff $staff)
     {
 
-        $staff->user->delete();
+        $staff->user()->delete();
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted');
        
@@ -173,14 +172,14 @@ class StaffController extends Controller
     public function deActive(Staff $staff)
     {
         $this->authorize('active', $staff);
-        $staff->user->ban();
+        $staff->user()->ban();
         return redirect()->route('staff.index');
     }
 
     public function active(Staff $staff)
     {
         $this->authorize('active', $staff);
-        $staff->user->unban();
+        $staff->user()->unban();
         return redirect()->route('staff.index');
     }
 }
