@@ -80,11 +80,14 @@ class StaffController extends Controller
     public function store(StoreStaffRequest $request)
     {
         $user=User::create(
-            $request->except('password') + ['password' => Str::random(8)]
+            array_merge( $request->all(),['password'=> Str::random(8)])
         );
+        
         $user->assignRole($request->role);  
 
-        $staff=Staff::create($request->except('user_id') + ['user_id' => $user->id]);
+        $staff=Staff::create(
+            array_merge( $request->all(),['user_id' => $user->id] )
+        );
         
         //image upload
         if($request['image']){
