@@ -43,7 +43,6 @@ class CitiesController extends Controller
     {
 
         City::create($request->all());
-
         return redirect()->route('cities.index')->with('success', 'City has been updated');
     }
 
@@ -51,7 +50,7 @@ class CitiesController extends Controller
     {
         $this->authorize('update', $city);
         
-        $countries=Country::all();
+        $countries=Country::pluck('name','id');
         return view('cities.edit', [
             'countries'=>$countries,
             'city'=>$city
@@ -61,7 +60,7 @@ class CitiesController extends Controller
     public function update(City $city, CityRequest $request)
     {
         $this->authorize('update', $city);
-        $city->fill($request->all())->save();
+        $city->update($request->all());
 
         return redirect()->route('cities.index')->with('success', 'City has been updated');
     }

@@ -82,7 +82,7 @@ class JobsController extends Controller
     {
         $this->authorize('update', $job);
 
-        $job->fill($request->all())->save();
+        $job->update($request->all());
 
         return redirect()->route('jobs.index')->with('success', 'Job has been updated');
     }

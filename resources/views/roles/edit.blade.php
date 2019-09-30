@@ -30,14 +30,14 @@
      <h4>Permisssions:</h4>
 
     <div class="funkyradio">
-        @foreach($permissions as $permission)
+        @foreach($permissions as $key =>$permission)
         <div class="funkyradio-default">
-           @if(in_array($permission->name, $rolePermissions))
-            <input type="checkbox" name="permission[]" id="permission"  value="{{$permission->id}}" checked/>
+           @if(in_array($permission, $rolePermissions))
+            <input type="checkbox" name="permission[]" id="permission"  value="{{$key}}" checked/>
            @else
-            <input type="checkbox" name="permission[]" id="permission"  value="{{$permission->id}}" />
+            <input type="checkbox" name="permission[]" id="permission"  value="{{$key}}" />
            @endif
-            <label for="permission">{{$permission->name}}</label>
+            <label for="permission">{{$permission}}</label>
         </div>
         @endforeach
     </div>

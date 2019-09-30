@@ -23,8 +23,8 @@
     <div class="form-group" style="width:500px">
       <label for="country_id">Country</label>
       <select id="country_id" class="form-control" name="country_id">
-        @foreach ($countries as $country)
-      <option value="{{$country->id}}" {{ ($country->name == $city->country->name) ? 'selected' : '' }}> {{ $country->name }} </option>
+        @foreach ($countries as $key =>$country)
+      <option value="{{$key}}" {{ ($city->country->name == $country) ? 'selected' : '' }}>{{$country}}</option>
         @endforeach
       </select>
     </div>

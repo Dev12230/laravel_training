@@ -28,10 +28,10 @@
      <h4>Permisssions:</h4>
 
     <div class="funkyradio">
-        @foreach($permissions as $permission)
+        @foreach($permissions as $key =>$permission)
         <div class="funkyradio-default">
-            <input type="checkbox" name="permission[]" id="permission"  value="{{$permission->id}}" />
-            <label for="permission">{{$permission->name}}</label>
+            <input type="checkbox" name="permission[]" id="permission"  value="{{$key}}" />
+            <label for="permission">{{$permission}}</label>
         </div>
         @endforeach
     </div>

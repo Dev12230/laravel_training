@@ -44,7 +44,7 @@ class RolesController extends Controller
     public function create()
     {
         
-        $permissions = Permission::get();
+        $permissions = Permission::pluck('name','id');
         return view('roles.create', compact('permissions'));
     }
 
@@ -57,7 +57,9 @@ class RolesController extends Controller
     public function store(CreateRoleRequest $request)
     {
 
-        Role::create($request->only(['name', 'description']))->syncPermissions($request['permission']);
+        Role::create($request->only(['name', 'description']))
+          ->syncPermissions($request['permission']);
+
         return redirect()->route('roles.index')->with('success', 'Role has been created');
     }
 
@@ -70,7 +72,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        $permissions = Permission::get();
+        $permissions = Permission::pluck('name','id');
         $rolePermissions=$role->permissions->pluck('name')->toArray();
 
         return view('roles.edit', compact('permissions', 'role', 'rolePermissions'));

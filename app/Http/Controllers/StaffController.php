@@ -23,7 +23,6 @@ class StaffController extends Controller
 
     use SendsPasswordResetEmails;
 
-
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +33,7 @@ class StaffController extends Controller
         $this->authorize('viewAny', Staff::class);
 
         if ($request->ajax()) {
-            $staff=Staff::with('Image')->offset(0)->limit(10);
+            $staff=Staff::offset(0)->limit(10);
    
             return Datatables::of($staff)->setTotalRecords(Staff::count())
                ->addColumn('role', function ($row) {
