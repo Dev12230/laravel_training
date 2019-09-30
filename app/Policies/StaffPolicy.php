@@ -44,7 +44,7 @@ class StaffPolicy
      */
     public function create(User $user)
     {
-        if ( $user->can('staff-create')) {
+        if ($user->can('staff-create')) {
             return true;
         }
         return false;
@@ -59,7 +59,7 @@ class StaffPolicy
      */
     public function update(User $user, Staff $staff)
     {
-        if ( $user->can('staff-edit')) {
+        if ($user->can('staff-edit')) {
             return true;
         }
         return false;
@@ -74,7 +74,7 @@ class StaffPolicy
      */
     public function delete(User $user, Staff $staff)
     {
-        if ( $user->can('staff-edit')) {
+        if ($user->can('staff-edit')) {
             return true;
         }
         return false;
@@ -108,5 +108,4 @@ class StaffPolicy
     {
         return $user->hasPermissionTo('staff-active');
     }
-
 }

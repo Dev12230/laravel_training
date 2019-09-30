@@ -45,7 +45,7 @@ class CityPolicy
      */
     public function create(User $user)
     {
-        if ( $user->can('city-create')) {
+        if ($user->can('city-create')) {
             return true;
         }
         return false;
@@ -60,7 +60,7 @@ class CityPolicy
      */
     public function update(User $user, City $city)
     {
-        if ( $user->can('city-edit')) {
+        if ($user->can('city-edit')) {
             return true;
         }
         return false;
@@ -75,7 +75,7 @@ class CityPolicy
      */
     public function delete(User $user, City $city)
     {
-        if ( $user->can('city-delete')) {
+        if ($user->can('city-delete')) {
             return true;
         }
         return false;

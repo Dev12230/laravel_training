@@ -17,16 +17,11 @@ class Image extends Model
 
     public function profile()
     {
-      return $this->morphTo();
+        return $this->morphTo();
     }
 
     public static function defaultImage()
     {
-      return 'default.png';
+        return 'default.png';
     }
-
-
- 
-
-
 }

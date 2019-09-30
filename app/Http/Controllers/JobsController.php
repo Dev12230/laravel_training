@@ -22,14 +22,13 @@ class JobsController extends Controller
      */
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $jobs = Job::query();
 
             return Datatables::of($jobs)->setTotalRecords(Job::count())
            
                 ->addColumn('action', function ($row) {
-                    return  view('jobs.actions',compact('row'));
+                    return  view('jobs.actions', compact('row'));
                 })->rawColumns(['action']) ->make(true);
         }
         return view('jobs.index');
@@ -42,7 +41,6 @@ class JobsController extends Controller
      */
     public function create()
     {
-
         return view('jobs.create');
     }
 
@@ -66,11 +64,10 @@ class JobsController extends Controller
      */
     public function edit(Job $job)
     {
-        if( !$job->no_action){
-            return view('jobs.edit',compact('job'));
+        if (!$job->no_action) {
+            return view('jobs.edit', compact('job'));
         }
         return redirect()->route('jobs.index')->with('error', 'This Job can not updated');
-      
     }
 
     /**
@@ -83,7 +80,6 @@ class JobsController extends Controller
     public function update(JobRequest $request, Job $job)
     {
         $job->update($request->all());
-
         return redirect()->route('jobs.index')->with('success', 'Job has been updated');
     }
 
@@ -95,11 +91,10 @@ class JobsController extends Controller
      */
     public function destroy(Job $job)
     {
-        if( !$job->no_action){
+        if (!$job->no_action) {
               $job->delete();
               return redirect()->route('jobs.index')->with('success', 'Job has been deleted');
         }
         return redirect()->route('jobs.index')->with('error', 'This Job can not deleted');
-
     }
 }

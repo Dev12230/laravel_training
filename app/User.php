@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 
-
 class User extends Authenticatable implements BannableContract
 {
     use Notifiable, HasRoles, SoftDeletes,Bannable;
@@ -26,7 +25,7 @@ class User extends Authenticatable implements BannableContract
     ];
 
       /** @inheritdoc */
-      protected $with = ['city', 'country'];
+    protected $with = ['city', 'country'];
 
 
     /**
@@ -68,7 +67,7 @@ class User extends Authenticatable implements BannableContract
 
     public function staff()
     {
-    return $this->hasOne('App\Staff');
+        return $this->hasOne('App\Staff');
     }
 
     public function country()
@@ -77,8 +76,8 @@ class User extends Authenticatable implements BannableContract
     }
 
 
-    public function image() 
-    { 
-      return $this->morphOne('App\Image', 'profile');
+    public function image()
+    {
+        return $this->morphOne('App\Image', 'profile');
     }
 }

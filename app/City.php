@@ -15,7 +15,7 @@ class City extends Model
         'city_name','country_id'
     ];
      /** @inheritdoc */
-     protected $with = ['country'];
+    protected $with = ['country'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -33,7 +33,6 @@ class City extends Model
 
     public function users()
     {
-     return $this->hasMany('App\User');
+        return $this->hasMany('App\User');
     }
-
 }

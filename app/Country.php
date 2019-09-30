@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Country extends Model
 {
     use SoftDeletes;
@@ -21,6 +20,6 @@ class Country extends Model
 
     public function users()
     {
-     return $this->hasMany('App\User');
+        return $this->hasMany('App\User');
     }
 }

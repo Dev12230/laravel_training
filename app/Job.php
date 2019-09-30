@@ -16,6 +16,6 @@ class Job extends Model
 
     public function staffs()
     {
-     return $this->hasMany('App\Staff');
+        return $this->hasMany('App\Staff');
     }
 }

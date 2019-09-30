@@ -44,7 +44,7 @@ class JobPolicy
      */
     public function create(User $user)
     {
-        if ( $user->can('job-create')) {
+        if ($user->can('job-create')) {
             return true;
         }
         return false;
@@ -59,7 +59,7 @@ class JobPolicy
      */
     public function update(User $user, Job $job)
     {
-        if ( $user->can('job-edit')) {
+        if ($user->can('job-edit')) {
             return true;
         }
         return false;
@@ -74,7 +74,7 @@ class JobPolicy
      */
     public function delete(User $user, Job $job)
     {
-        if ( $user->can('job-delete')) {
+        if ($user->can('job-delete')) {
             return true;
         }
         return false;

@@ -17,7 +17,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
-
 class StaffController extends Controller
 {
 
@@ -35,8 +34,6 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-     
-
         if ($request->ajax()) {
             $staff=Staff::with(['job','image']);
    
@@ -45,13 +42,11 @@ class StaffController extends Controller
                 return $row->user->getRoleNames()->first();
                })
                ->addColumn('action', function ($row) {
-                return  view('staff.actions',compact('row'));
+                return  view('staff.actions', compact('row'));
                })
                ->addColumn('status', function ($row) {
-                return  view('staff.status',compact('row'));
-    
+                return  view('staff.status', compact('row'));
                })->rawColumns(['role','action','status']) ->make(true);
-
         }
          return view('staff.index');
     }
@@ -63,12 +58,10 @@ class StaffController extends Controller
      */
     public function create()
     {
-       
-
         $roles = Role::pluck('name');
-        $jobs = Job::pluck('name','id');
-        $countries = Country::pluck('name','id');
-        return view('staff.create', compact('roles','jobs','countries'));
+        $jobs = Job::pluck('name', 'id');
+        $countries = Country::pluck('name', 'id');
+        return view('staff.create', compact('roles', 'jobs', 'countries'));
     }
 
     /**
@@ -80,26 +73,24 @@ class StaffController extends Controller
     public function store(StoreStaffRequest $request)
     {
         $user=User::create(
-            array_merge( $request->all(),['password'=> Str::random(8)])
-        );      
-        $user->assignRole($request->role);  
+            array_merge($request->all(), ['password'=> Str::random(8)])
+        );
+        $user->assignRole($request->role);
 
         $staff=Staff::create(
-            array_merge( $request->all(),['user_id' => $user->id] )
+            array_merge($request->all(), ['user_id' => $user->id])
         );
         
         //image upload
-        if($request['image']){
-            $img=$this->UploadImage($request['image']); 
-            
-        }else{
+        if ($request['image']) {
+            $img=$this->UploadImage($request['image']);
+        } else {
             $img=Image::defaultImage();
         }
-        $staff->image()->create(['image'=> $img]); 
+        $staff->image()->create(['image'=> $img]);
 
-        $this->sendResetLinkEmail($request);         
+        $this->sendResetLinkEmail($request);
         return redirect()->route('staff.index')->with('success', 'User has been Added');
-
     }
 
 
@@ -111,11 +102,10 @@ class StaffController extends Controller
      */
     public function edit(Staff $staff)
     {
-
         $roles = Role::pluck('name');
-        $jobs = Job::pluck('name','id');
-        $countries = Country::pluck('name','id');
-        return view('staff.edit', compact('staff','roles','jobs','countries'));
+        $jobs = Job::pluck('name', 'id');
+        $countries = Country::pluck('name', 'id');
+        return view('staff.edit', compact('staff', 'roles', 'jobs', 'countries'));
     }
 
     /**
@@ -127,15 +117,14 @@ class StaffController extends Controller
      */
     public function update(UpdateStaffRequest $request, Staff $staff)
     {
-
         $staff->update($request->only(['job_id']));
         $staff->user()->update($request->all());
-        $staff->user()->syncRoles($request->role); 
+        $staff->user()->syncRoles($request->role);
 
-          if ($request->has('image')) {
+        if ($request->has('image')) {
             $img=$this->UploadImage(request('image'));
             $staff->image()->Update(['image'=>$img]);
-          }
+        }
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
     }
@@ -148,26 +137,23 @@ class StaffController extends Controller
      */
     public function destroy(Staff $staff)
     {
-
         $staff->user()->delete();
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted');
-       
     }
 
     public function getCities(Request $request)
     {
-        $cities = City::where("country_id",$request->country_id)
-            ->pluck("city_name","id");
+        $cities = City::where("country_id", $request->country_id)
+            ->pluck("city_name", "id");
          return response()->json($cities);
     }
 
-    public function UploadImage($reqImg){
-
+    public function UploadImage($reqImg)
+    {
         $img = $reqImg->store('uploads', 'public');
         return $img;
-
-    }    
+    }
 
     public function deActive(Staff $staff)
     {

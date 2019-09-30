@@ -8,8 +8,6 @@ use App\Http\Requests\CityRequest;
 use DataTables;
 use Illuminate\Http\Request;
 
-
-
 class CitiesController extends Controller
 {
     public function __construct()
@@ -18,14 +16,13 @@ class CitiesController extends Controller
     }
 
     public function index(Request $request)
-    {        
+    {
         if ($request->ajax()) {
+            $cities = City::query();
 
-        $cities = City::query();
-
-        return Datatables::of($cities)
+            return Datatables::of($cities)
             ->addColumn('action', function ($row) {
-                return  view('cities.actions',compact('row'));
+                return  view('cities.actions', compact('row'));
             })->rawColumns(['action']) ->make(true);
         }
         return view('cities.index');
@@ -33,7 +30,7 @@ class CitiesController extends Controller
 
     public function create()
     {
-        $countries=Country::pluck('name','id');
+        $countries=Country::pluck('name', 'id');
         return view('cities.create', [
             'countries'=>$countries
         ]);
@@ -47,8 +44,8 @@ class CitiesController extends Controller
     }
 
     public function edit(City $city)
-    {      
-        $countries=Country::pluck('name','id');
+    {
+        $countries=Country::pluck('name', 'id');
         return view('cities.edit', [
             'countries'=>$countries,
             'city'=>$city

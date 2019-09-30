@@ -5,8 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-
 class Staff extends Model
 {
     use SoftDeletes;
@@ -20,17 +18,16 @@ class Staff extends Model
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
     }
 
     public function job()
     {
-    	return $this->belongsTo('App\Job');
+        return $this->belongsTo('App\Job');
     }
 
-    public function image() 
-    { 
-      return $this->morphOne('App\Image', 'profile');
+    public function image()
+    {
+        return $this->morphOne('App\Image', 'profile');
     }
-
 }
