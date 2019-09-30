@@ -63,11 +63,10 @@ class JobsController extends Controller
     public function edit(Job $job)
     {
         $this->authorize('update', $job);
-
-        if( $job->no_action){
+        if( !$job->no_action){
             return view('jobs.edit',compact('job'));
         }
-        else{return redirect()->route('Jobs.index')->with('error', 'This Job can not updated');}
+        return redirect()->route('jobs.index')->with('error', 'This Job can not updated');
       
     }
 
@@ -97,11 +96,11 @@ class JobsController extends Controller
     {
         $this->authorize('delete', $job);
 
-        if( $job->no_action){
+        if( !$job->no_action){
               $job->delete();
               return redirect()->route('jobs.index')->with('success', 'Job has been deleted');
         }
-        else {return redirect()->route('jobs.index')->with('error', 'This Job can not deleted');}
+        return redirect()->route('jobs.index')->with('error', 'This Job can not deleted');
 
     }
 }
