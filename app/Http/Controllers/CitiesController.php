@@ -12,12 +12,13 @@ use Illuminate\Http\Request;
 
 class CitiesController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(City::class);
+    }
 
     public function index(Request $request)
-    {
-        $this->authorize('viewAny', City::class);
-
-        
+    {        
         if ($request->ajax()) {
 
         $cities = City::query();
@@ -32,8 +33,6 @@ class CitiesController extends Controller
 
     public function create()
     {
-        $this->authorize('create', City::class);
-
         $countries=Country::pluck('name','id');
         return view('cities.create', [
             'countries'=>$countries
@@ -43,15 +42,12 @@ class CitiesController extends Controller
 
     public function store(CityRequest $request)
     {
-
         City::create($request->all());
         return redirect()->route('cities.index')->with('success', 'City has been updated');
     }
 
     public function edit(City $city)
-    {
-        $this->authorize('update', $city);
-        
+    {      
         $countries=Country::pluck('name','id');
         return view('cities.edit', [
             'countries'=>$countries,
@@ -61,7 +57,6 @@ class CitiesController extends Controller
 
     public function update(City $city, CityRequest $request)
     {
-        $this->authorize('update', $city);
         $city->update($request->all());
 
         return redirect()->route('cities.index')->with('success', 'City has been updated');
@@ -69,7 +64,6 @@ class CitiesController extends Controller
 
     public function destroy(City $city)
     {
-        $this->authorize('delete', $city);
         $city->delete();
         return redirect()->route('cities.index')->with('success', 'City has been deleted');
     }

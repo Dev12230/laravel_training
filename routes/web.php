@@ -37,7 +37,7 @@ Route::group(['middleware'=>'is-ban','auth'], function(){
     Route::resource('jobs', 'JobsController');
     //------------staff route -------------------
     Route::resource('staff', 'StaffController');
-    Route::get('get-staff','StaffController@getStaff');
+    
     Route::get('get-cities','StaffController@getCities');
     Route::get('/staff/{staff}/active', 'StaffController@deActive')->name('staff.deActive');
     Route::get('/staff/{staff}/deactive', 'StaffController@Active')->name('staff.active');

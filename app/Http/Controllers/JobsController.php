@@ -10,6 +10,11 @@ use App\Http\Requests\JobRequest;
 class JobsController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->authorizeResource(Job::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,6 @@ class JobsController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Job::class);
 
         if ($request->ajax()) {
             $jobs = Job::query();
@@ -38,7 +42,7 @@ class JobsController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Job::class);
+
         return view('jobs.create');
     }
 
@@ -62,7 +66,6 @@ class JobsController extends Controller
      */
     public function edit(Job $job)
     {
-        $this->authorize('update', $job);
         if( !$job->no_action){
             return view('jobs.edit',compact('job'));
         }
@@ -79,8 +82,6 @@ class JobsController extends Controller
      */
     public function update(JobRequest $request, Job $job)
     {
-        $this->authorize('update', $job);
-
         $job->update($request->all());
 
         return redirect()->route('jobs.index')->with('success', 'Job has been updated');
@@ -94,8 +95,6 @@ class JobsController extends Controller
      */
     public function destroy(Job $job)
     {
-        $this->authorize('delete', $job);
-
         if( !$job->no_action){
               $job->delete();
               return redirect()->route('jobs.index')->with('success', 'Job has been deleted');
