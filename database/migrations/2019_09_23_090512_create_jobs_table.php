@@ -17,6 +17,7 @@ class CreateJobsTable extends Migration
             $table->increments('id');
             $table->string('name',150);
             $table->string('description',250);
+            $table->boolean('no_action')->nullable();
             $table->timestamps();
 
             $table->softDeletes();
