@@ -23,9 +23,9 @@ class RolesController extends Controller
     {
         if ($request->ajax()) {
 
-            $roles = Role::with('permissions')->offset(0)->limit(10);
+            $roles = Role::with('permissions');
         
-            return Datatables::of($roles)->setTotalRecords(Role::count())
+            return Datatables::of($roles)
             
                 ->addColumn('action', function ($row) {
                     return  view('roles.actions',compact('row'));

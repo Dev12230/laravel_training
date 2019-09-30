@@ -33,9 +33,9 @@ class StaffController extends Controller
         $this->authorize('viewAny', Staff::class);
 
         if ($request->ajax()) {
-            $staff=Staff::offset(0)->limit(10);
+            $staff=Staff::query();
    
-            return Datatables::of($staff)->setTotalRecords(Staff::count())
+            return Datatables::of($staff)
                ->addColumn('role', function ($row) {
                          return $row->user->getRoleNames()->first();
                })

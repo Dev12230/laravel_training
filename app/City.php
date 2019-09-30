@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use \Cache;
 
 class City extends Model
 {
@@ -34,4 +35,5 @@ class City extends Model
     {
      return $this->hasMany('App\User');
     }
+
 }

@@ -9,18 +9,20 @@ use DataTables;
 use Illuminate\Http\Request;
 
 
+
 class CitiesController extends Controller
 {
 
     public function index(Request $request)
     {
         $this->authorize('viewAny', City::class);
+
         
         if ($request->ajax()) {
 
-        $cities = City::offset(0)->limit(10);
+        $cities = City::query();
 
-        return Datatables::of($cities)->setTotalRecords(City::count())   
+        return Datatables::of($cities)
             ->addColumn('action', function ($row) {
                 return  view('cities.actions',compact('row'));
             })->rawColumns(['action']) ->make(true);

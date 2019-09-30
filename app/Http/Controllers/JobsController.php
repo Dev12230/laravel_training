@@ -20,7 +20,7 @@ class JobsController extends Controller
         $this->authorize('viewAny', Job::class);
 
         if ($request->ajax()) {
-            $jobs = Job::offset(0)->limit(10);
+            $jobs = Job::query();
 
             return Datatables::of($jobs)->setTotalRecords(Job::count())
            
