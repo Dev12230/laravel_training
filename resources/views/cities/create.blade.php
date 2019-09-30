@@ -23,8 +23,8 @@
       <label for="country_id">Country</label>
       <select id="country_id" class="form-control" name="country_id">
         <option selected>Choose...</option>
-        @foreach ($countries as $country)
-      <option value="{{$country->id}}">{{$country->name}}</option>
+        @foreach ($countries as $key =>$country)
+      <option value="{{$key}}">{{$country}}</option>
         @endforeach
       </select>
     </div>

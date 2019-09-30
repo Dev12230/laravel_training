@@ -32,7 +32,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/jobs_list",
+            url: "{{ route('jobs.index') }}",
             dataType: 'json',
             type: 'get',
             

@@ -7,21 +7,11 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Http\Request;
 
 
 class RolesController extends Controller
 {
-
-    public function getRoles()
-    {
-        $roles = Role::with('permissions')->offset(0)->limit(10);
-        
-        return Datatables::of($roles)->setTotalRecords(Role::count())
-        
-            ->addColumn('action', function ($data) {
-                return  view('roles.actions',compact('data'));
-            })->rawColumns(['action']) ->make(true);
-    }
 
 
     /**
@@ -29,8 +19,18 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+
+            $roles = Role::with('permissions')->offset(0)->limit(10);
+        
+            return Datatables::of($roles)->setTotalRecords(Role::count())
+            
+                ->addColumn('action', function ($row) {
+                    return  view('roles.actions',compact('row'));
+                })->rawColumns(['action']) ->make(true);
+        }
 
         return view('roles.index');
     }

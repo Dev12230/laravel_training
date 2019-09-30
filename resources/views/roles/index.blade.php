@@ -30,7 +30,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/roles_list",
+            url: "{{ route('roles.index') }}",
             dataType: 'json',
             type: 'get',
         },

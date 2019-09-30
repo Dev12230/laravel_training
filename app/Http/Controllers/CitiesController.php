@@ -12,29 +12,27 @@ use Illuminate\Http\Request;
 class CitiesController extends Controller
 {
 
-    public function getCities(Request $request)
-    {
-
-        $cities = City::with('Country')->offset(0)->limit(10);
-
-        return Datatables::of($cities)->setTotalRecords(City::count())
-        
-            ->addColumn('action', function ($data) {
-                return  view('cities.actions',compact('data'));
-            })->rawColumns(['action']) ->make(true);
-    }
-
-
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', City::class);
+        
+        if ($request->ajax()) {
+
+        $cities = City::offset(0)->limit(10);
+
+        return Datatables::of($cities)->setTotalRecords(City::count())   
+            ->addColumn('action', function ($row) {
+                return  view('cities.actions',compact('row'));
+            })->rawColumns(['action']) ->make(true);
+        }
         return view('cities.index');
     }
 
     public function create()
     {
         $this->authorize('create', City::class);
-        $countries=Country::all();
+
+        $countries=Country::pluck('name','id');
         return view('cities.create', [
             'countries'=>$countries
         ]);
@@ -44,8 +42,8 @@ class CitiesController extends Controller
     public function store(CityRequest $request)
     {
 
-        $City = new City($request->all());
-        $City->save();
+        City::create($request->all());
+
         return redirect()->route('cities.index')->with('success', 'City has been updated');
     }
 

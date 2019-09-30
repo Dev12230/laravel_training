@@ -40,7 +40,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/staff_list",
+            url: "{{ route('staff.index') }}",
             dataType: 'json',
             type: 'get',
         },
@@ -54,7 +54,7 @@
             {data: 'user.city.city_name',name: 'user.city.city_name',orderable: false},
             {data: 'user.country.name',name: 'user.country.name',orderable: false},    
             {data: 'role',name: 'role',orderable: false},
-            {data: 'image',name: 'image',orderable: false, searchable: false},
+            {data: 'image',name: 'image',orderable: false},  
             @if(auth()->user()->can('staff-edit') || auth()->user()->can('staff-delete'))
             {data: 'action',name: 'action',orderable: false, searchable: false},
             @endif

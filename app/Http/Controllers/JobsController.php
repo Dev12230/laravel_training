@@ -10,24 +10,24 @@ use App\Http\Requests\JobRequest;
 class JobsController extends Controller
 {
 
-    public function getJobs(){
-
-        $jobs = Job::offset(0)->limit(10);
-
-        return Datatables::of($jobs)->setTotalRecords(Job::count())
-       
-            ->addColumn('action', function ($data) {
-                return  view('jobs.actions',compact('data'));
-            })->rawColumns(['action']) ->make(true);
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Job::class);
+
+        if ($request->ajax()) {
+            $jobs = Job::offset(0)->limit(10);
+
+            return Datatables::of($jobs)->setTotalRecords(Job::count())
+           
+                ->addColumn('action', function ($row) {
+                    return  view('jobs.actions',compact('row'));
+                })->rawColumns(['action']) ->make(true);
+        }
         return view('jobs.index');
     }
 

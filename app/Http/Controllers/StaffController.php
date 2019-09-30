@@ -23,35 +23,36 @@ class StaffController extends Controller
 
     use SendsPasswordResetEmails;
 
-    public function getstaff()
-    {
-        $staff=Staff::offset(0)->limit(10);
 
-        return Datatables::of($staff)->setTotalRecords(Staff::count())
-           ->addColumn('role', function ($row) {
-                     return $row->user->getRoleNames()->first();
-           })
-           ->addColumn('image', function ($row) {
-                 return '<img src="'.Storage::url($row->image['image']).'" style="height:50px; width:50px;" />';
-           })
-           ->addColumn('action', function ($data) {
-            return  view('staff.actions',compact('data'));
-
-           })
-           ->addColumn('status', function ($data) {
-            return  view('staff.status',compact('data'));
-
-           })->rawColumns(['role','image','action','status']) ->make(true);
-
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Staff::class);
+
+        if ($request->ajax()) {
+            $staff=Staff::with('Image')->offset(0)->limit(10);
+   
+            return Datatables::of($staff)->setTotalRecords(Staff::count())
+               ->addColumn('role', function ($row) {
+                         return $row->user->getRoleNames()->first();
+               })
+               ->addColumn('image', function ($row) {
+                     return '<img src="'.Storage::url($row->image['image']).'" style="height:50px; width:50px;" />';
+               })
+               ->addColumn('action', function ($row) {
+                return  view('staff.actions',compact('row'));
+    
+               })
+               ->addColumn('status', function ($row) {
+                return  view('staff.status',compact('row'));
+    
+               })->rawColumns(['role','image','action','status']) ->make(true);
+
+        }
          return view('staff.index');
     }
 

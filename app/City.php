@@ -13,6 +13,8 @@ class City extends Model
     protected $fillable = [
         'city_name','country_id'
     ];
+     /** @inheritdoc */
+     protected $with = ['country'];
 
     /**
      * The attributes that should be hidden for arrays.

@@ -31,7 +31,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/cities_list",
+            
             dataType: 'json',
             type: 'get',
             
@@ -43,10 +43,7 @@
                 data: 'city_name'
             },
             {
-                mRender: function(data, type, row) {
-                    return row.country.name
-                       
-                }
+                data: 'country.name'
             },
             @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
                 data: 'action',
