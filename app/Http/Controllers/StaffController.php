@@ -23,6 +23,23 @@ class StaffController extends Controller
 
     use SendsPasswordResetEmails;
 
+    public function getStaff(){
+        $staff=Staff::with('job');
+   
+        return Datatables::of($staff)
+           ->addColumn('role', function ($row) {
+                     return $row->user->getRoleNames()->first();
+           })
+           ->addColumn('action', function ($row) {
+            return  view('staff.actions',compact('row'));
+           })
+           ->addColumn('status', function ($row) {
+            return  view('staff.status',compact('row'));
+            
+           })->rawColumns(['role','image','action','status']) ->make(true);
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,15 +50,15 @@ class StaffController extends Controller
         $this->authorize('viewAny', Staff::class);
 
         if ($request->ajax()) {
-            $staff=Staff::query();
+            $staff=Staff::with(['job','image']);
    
             return Datatables::of($staff)
                ->addColumn('role', function ($row) {
                          return $row->user->getRoleNames()->first();
                })
-               ->addColumn('image', function ($row) {
-                     return '<img src="'.Storage::url($row->image['image']).'" style="height:50px; width:50px;" />';
-               })
+            //    ->addColumn('image', function ($row) {
+            //          return '<img src="'.Storage::url($row->image['image']).'" style="height:50px; width:50px;" />';
+            //    })
                ->addColumn('action', function ($row) {
                 return  view('staff.actions',compact('row'));
     

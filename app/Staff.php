@@ -15,7 +15,7 @@ class Staff extends Model
         'user_id','job_id'
     ];
       /** @inheritdoc */
-    protected $with = ['user', 'job'];
+    protected $with = ['user'];
 
 
     public function user()

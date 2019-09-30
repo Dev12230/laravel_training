@@ -54,7 +54,11 @@
             {data: 'user.city.city_name',name: 'user.city.city_name',orderable: false},
             {data: 'user.country.name',name: 'user.country.name',orderable: false},    
             {data: 'role',name: 'role',orderable: false},
-            {data: 'image',name: 'image',orderable: false},  
+            {data: 'image',
+                    render: function( data, type, row, meta ) {
+                        return `<img src="{{ Storage::url('${row.image.image}') }}" style="height:50px; width:50px;">`;
+                    }
+            },  
             @if(auth()->user()->can('staff-edit') || auth()->user()->can('staff-delete'))
             {data: 'action',name: 'action',orderable: false, searchable: false},
             @endif
