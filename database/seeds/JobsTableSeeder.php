@@ -15,10 +15,12 @@ class JobsTableSeeder extends Seeder
             [
                 'name' => 'Writer',
                 'description' => 'Writter job',
+                'no_action' => 1
             ],
             [
                 'name' => 'Reporter',
                 'description' => 'Reporter job',
+                'no_action' => 1
             ]
         ]);
     }

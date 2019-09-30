@@ -64,7 +64,7 @@ class JobsController extends Controller
     {
         $this->authorize('update', $job);
 
-        if( !($job->name === 'Writer' || $job->name === 'Reporter')){
+        if( $job->no_action){
             return view('jobs.edit',compact('job'));
         }
         else{return redirect()->route('Jobs.index')->with('error', 'This Job can not updated');}
@@ -97,7 +97,7 @@ class JobsController extends Controller
     {
         $this->authorize('delete', $job);
 
-        if( !($job->name === 'Writer' || $job->name === 'Reporter')){
+        if( $job->no_action){
               $job->delete();
               return redirect()->route('jobs.index')->with('success', 'Job has been deleted');
         }
