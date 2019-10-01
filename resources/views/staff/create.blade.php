@@ -105,7 +105,7 @@
                 $("#city_id").empty();
                 $("#city_id").append('<option>Select</option>');
                 $.each(data,function(key,value){
-                    $("#city_id").append(`<option value='${key}'>${value}</option>`);
+                    $("#city_id").append(`<option value='${key}' >${value}</option>`);
                 });
            }else{ 
              $("#city_id").empty(); 

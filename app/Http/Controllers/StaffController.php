@@ -98,7 +98,9 @@ class StaffController extends Controller
         $roles = Role::pluck('name');
         $jobs = Job::pluck('name', 'id');
         $countries = Country::pluck('name', 'id');
-        return view('staff.edit', compact('staff', 'roles', 'jobs', 'countries'));
+        $cities = City::where("country_id", $staff->user->country_id)->pluck("city_name", "id");
+        
+        return view('staff.edit', compact('staff', 'roles', 'jobs', 'countries','cities'));
     }
 
     /**

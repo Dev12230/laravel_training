@@ -60,7 +60,9 @@
     <div class="form-group">
       <label for="city_id">Select City:</label>
       <select name="city_id" id="city_id" class="form-control" style="width:350px"  >
-      <option value="{{$staff->user->city->id}}" selected>{{$staff->user->city->city_name}}</option> 
+      @foreach ($cities as $key =>$city)
+      <option value="{{$key}}" {{ ($staff->user->city->city_name == $city) ? 'selected' : '' }} >{{$city}}</option>
+      @endforeach
     </select>
     </div>
 

@@ -26,7 +26,6 @@ class JobsController extends Controller
             $jobs = Job::query();
 
             return Datatables::of($jobs)->setTotalRecords(Job::count())
-           
                 ->addColumn('action', function ($row) {
                     return  view('jobs.actions', compact('row'));
                 })->rawColumns(['action']) ->make(true);

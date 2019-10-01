@@ -13,7 +13,7 @@
     <th>Id</th>
             <th>City Name</th>
             <th>Country</th>
-            @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) {
+            @if(auth()->user()->can('city-edit') || auth()->user()->can('city-delete')) 
             <th>Actions</th>
             </tr>
             @endif

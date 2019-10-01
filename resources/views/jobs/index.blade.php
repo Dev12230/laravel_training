@@ -17,7 +17,7 @@
             <th>Actions</th>
             @endif
             </tr>
-            
+        
     </thead>
     </table>
 
