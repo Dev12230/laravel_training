@@ -20,8 +20,4 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    public static function defaultImage()
-    {
-        return 'default.png';
-    }
 }

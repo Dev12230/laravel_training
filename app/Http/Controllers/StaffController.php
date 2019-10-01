@@ -14,13 +14,13 @@ use App\User;
 use App\Staff;
 use App\Image;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Traits\ImageUpload;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class StaffController extends Controller
 {
 
-    use SendsPasswordResetEmails;
+    use SendsPasswordResetEmails,ImageUpload;
 
     public function __construct()
     {
@@ -80,15 +80,11 @@ class StaffController extends Controller
         $staff=Staff::create(
             array_merge($request->all(), ['user_id' => $user->id])
         );
-        
-        //image upload
-        if ($request['image']) {
-            $img=$this->UploadImage($request['image']);
-        } else {
-            $img=Image::defaultImage();
-        }
-        $staff->image()->create(['image'=> $img]);
 
+        //image upload
+        $this->UploadImage($request,$staff);
+  
+   
         $this->sendResetLinkEmail($request);
         return redirect()->route('staff.index')->with('success', 'User has been Added');
     }
@@ -117,14 +113,13 @@ class StaffController extends Controller
      */
     public function update(UpdateStaffRequest $request, Staff $staff)
     {
+        
         $staff->update($request->only(['job_id']));
-        $staff->user()->update($request->all());
-        $staff->user()->syncRoles($request->role);
-
-        if ($request->has('image')) {
-            $img=$this->UploadImage(request('image'));
-            $staff->image()->Update(['image'=>$img]);
-        }
+        $staff->user->update($request->all());
+        $staff->user->syncRoles($request->role);
+ 
+        //image upload
+        $this->UploadImage($request,$staff);
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
     }
@@ -149,11 +144,6 @@ class StaffController extends Controller
          return response()->json($cities);
     }
 
-    public function UploadImage($reqImg)
-    {
-        $img = $reqImg->store('uploads', 'public');
-        return $img;
-    }
 
     public function deActive(Staff $staff)
     {
