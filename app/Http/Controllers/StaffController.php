@@ -81,14 +81,11 @@ class StaffController extends Controller
             array_merge($request->all(), ['user_id' => $user->id])
         );
 
-        //image upload
         $this->UploadImage($request,$staff);
   
-   
         $this->sendResetLinkEmail($request);
         return redirect()->route('staff.index')->with('success', 'User has been Added');
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -118,7 +115,6 @@ class StaffController extends Controller
         $staff->user->update($request->all());
         $staff->user->syncRoles($request->role);
  
-        //image upload
         $this->UploadImage($request,$staff);
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
@@ -148,14 +144,14 @@ class StaffController extends Controller
     public function deActive(Staff $staff)
     {
         $this->authorize('active', $staff);
-        $staff->user()->ban();
+        $staff->user->ban();
         return redirect()->route('staff.index');
     }
 
     public function active(Staff $staff)
     {
         $this->authorize('active', $staff);
-        $staff->user()->unban();
+        $staff->user->unban();
         return redirect()->route('staff.index');
     }
 }

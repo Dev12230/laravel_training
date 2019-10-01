@@ -6,7 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Jobs\SendEmailJob;
+use App\Events\RegisterUserAdded;
+
 
 class RegisterController extends Controller
 {
@@ -66,11 +67,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-
         $user =  User::create($data);
         
-        $this->dispatch(new SendEmailJob($user));
+        event(new RegisterUserAdded($user));
 
         return $user;
     }
