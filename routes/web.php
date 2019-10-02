@@ -37,11 +37,7 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     Route::resource('jobs', 'JobsController');
     //------------staff route -------------------
     Route::resource('staff', 'StaffController');
- 
-    Route::get('/staff/{staff}/active', 'StaffController@deActive')->name('staff.deActive');
-    Route::get('/staff/{staff}/deactive', 'StaffController@Active')->name('staff.active');
 
-    Route::get('getlist', 'StaffController@getlist');
     Route::get('get-cities', 'StaffController@getCities');
     Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus')->name('Status.toggle');
 

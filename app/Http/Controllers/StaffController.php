@@ -26,25 +26,6 @@ class StaffController extends Controller
         $this->authorizeResource(Staff::class);
     }
 
-//     public function getlist(Request $request)
-//     {
-    
-//             $staff=Staff::with(['job','image']);
-// dd($staff)
-//             return Datatables::of($staff)
-//                ->addColumn('role', function ($row) {
-//                 return $row->user->getRoleNames()->first();
-//                })
-//                ->addColumn('action', function ($row) {
-//                 return  view('staff.actions', compact('row'));
-//                })
-//                ->addColumn('status', function ($row) {
-//                 return  view('staff.status', compact('row'));
-//                })->rawColumns(['role','action','status']) ->make(true);
-   
-//          return view('staff.index');
-//     }
-
     /**
      * Display a listing of the resource.
      *
