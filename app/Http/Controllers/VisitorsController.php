@@ -18,6 +18,12 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 class VisitorsController extends Controller
 {
     use SendsPasswordResetEmails,ImageUpload;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Visitor::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
