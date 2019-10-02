@@ -28,6 +28,8 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     //---------- Cities route -------------------
     Route::resource('cities', 'CitiesController');
+
+    Route::get('get-cities', 'CitiesController@getCities');
     //---------- staff route -------------------
     Route::group(['middleware' => ['role:Admin']], function () {
         
@@ -37,13 +39,11 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     Route::resource('jobs', 'JobsController');
     //------------staff route -------------------
     Route::resource('staff', 'StaffController');
-
-    Route::get('staff-get-cities', 'StaffController@getCities');
     Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus');
 
      //------------staff route -------------------
      Route::resource('visitors', 'VisitorsController')->except('show');
-     Route::get('visitors-get-cities', 'VisitorsController@getCities');
+
      Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
 
      Route::get('visitors/export','VisitorsController@exportExcel')->name('visitors.export');

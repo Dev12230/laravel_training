@@ -64,4 +64,11 @@ class CitiesController extends Controller
         $city->delete();
         return redirect()->route('cities.index')->with('success', 'City has been deleted');
     }
+
+    public function getCities(Request $request)
+    {
+        $cities = City::where("country_id", $request->country_id)
+            ->pluck("city_name", "id");
+         return response()->json($cities);
+    }
 }

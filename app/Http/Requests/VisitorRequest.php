@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStaffRequest extends FormRequest
+class VisitorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,19 +23,24 @@ class UpdateStaffRequest extends FormRequest
      */
     public function rules()
     {
-        $id=$this->staff->user['id'];
-       
         return [
-            'image' => 'image|mimes:png,jpg|max:2048',
-            'first_name'=>'required|max:150',
-            'last_name'=>'required|max:150',
-            'email' =>  "required|string|email|unique:users,email,{$id},id,deleted_at,NULL",
-            'phone'=>"required|regex:/(01)[0-9]{9}/|unique:users,phone,{$id},id,deleted_at,NULL",
-            'role'=>'required',
-            'job_id'=>'required',
-            'city_id'=>'required',
-            'country_id'=>'required',
-        ];
+                'image' => 'image|mimes:png,jpg|max:2048',
+                'first_name'=>'required|max:150',
+                'last_name'=>'required|max:150',
+                'email' => 'required|string|email|unique:users,email,'.$this->getId().',id,deleted_at,NULL',
+                'phone'=>'required|regex:/(01)[0-9]{9}/||unique:users,phone,'.$this->getId().',id,deleted_at,NULL',
+                'city_id'=>'required',
+                'country_id'=>'required',
+       ];
+    }
+
+    public function getId(){
+
+        if(isset($this->visitor->user->id)){
+            return $this->visitor->user->id;
+        }else{
+            return Null;
+        }
     }
 
     public function messages()
@@ -45,15 +50,12 @@ class UpdateStaffRequest extends FormRequest
             'last_name.required' => 'Last name is required',
             'email.required' => 'Email is required',
             'phone.required' => 'Phone is required',
-            'role_id.required' => 'Role is required',
-            'job_id.required' => 'Job is required',
             'city_id.required' => 'City is required',
             'country_id.required' => 'Country is required',
             'first_name.max' => 'Maximum character is 150',
             'last_name.max' => 'Maximum character is 150',
             'email.unique' => 'This email is taken before',
             'phone.regex' => 'phone is not valid ex: 01(123456789)'
-
         ];
     }
 }

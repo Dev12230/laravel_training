@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreStaffRequest;
-use App\Http\Requests\UpdateStaffRequest;
+use App\Http\Requests\StaffRequest;
 use DataTables;
 use Spatie\Permission\Models\Role;
 use App\Job;
@@ -70,7 +69,7 @@ class StaffController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStaffRequest $request)
+    public function store(StaffRequest $request)
     {
         $user=User::create(
             array_merge($request->all(), ['password'=> Str::random(8)])
@@ -110,9 +109,8 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStaffRequest $request, Staff $staff)
+    public function update(StaffRequest $request, Staff $staff)
     {
-        
         $staff->update($request->all());
         $staff->user->update($request->all());
         $staff->user->syncRoles($request->role);
@@ -133,13 +131,6 @@ class StaffController extends Controller
         $staff->user()->delete();
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted');
-    }
-
-    public function getCities(Request $request)
-    {
-        $cities = City::where("country_id", $request->country_id)
-            ->pluck("city_name", "id");
-         return response()->json($cities);
     }
 
     public function toggleStatus(Staff $staff)

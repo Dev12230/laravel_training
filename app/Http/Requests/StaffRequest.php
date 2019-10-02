@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Requests;
-
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreStaffRequest extends FormRequest
+class StaffRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +26,8 @@ class StoreStaffRequest extends FormRequest
             'image' => 'image|mimes:png,jpg|max:2048',
             'first_name'=>'required|max:150',
             'last_name'=>'required|max:150',
-            'email' => 'required|string|email|unique:users,email,NULL,id,deleted_at,NULL',
-            'phone'=>'required|regex:/(01)[0-9]{9}/||unique:users,phone,NULL,id,deleted_at,NULL',
-            'role'=>'required',
+            'email' => 'required|string|email|unique:users,email,'.$this->getId().',id,deleted_at,NULL',
+            'phone'=>'required|regex:/(01)[0-9]{9}/||unique:users,phone,'.$this->getId().',id,deleted_at,NULL',
             'job_id'=>'required',
             'city_id'=>'required',
             'country_id'=>'required',
@@ -38,6 +36,14 @@ class StoreStaffRequest extends FormRequest
     }
 
 
+    public function getId(){
+
+        if(isset($this->staff->user->id)){
+            return $this->staff->user->id;
+        }else{
+            return Null;
+        }
+    }
 
     public function messages()
     {

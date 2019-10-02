@@ -71,13 +71,14 @@
 
 </form>
 
+@push('scripts')
 <script type="text/javascript">
  $('#country_id').change(function(){
     var countryID = $(this).val();   
     if(countryID){
       $.ajax({
         type:"GET",
-           url:"{{url('visitors-get-cities')}}?country_id="+countryID,
+           url:"{{url('get-cities')}}?country_id="+countryID,
            success:function(data){  
             if(data){
                 $("#city_id").empty();
@@ -95,4 +96,5 @@
     }       
   });
 </script>
+@endpush
 @endsection

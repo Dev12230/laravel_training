@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreVisitorRequest;
-use App\Http\Requests\UpdateVisitorRequest;
+use App\Http\Requests\VisitorRequest;
 use App\Exports\VisitorsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
@@ -58,7 +57,7 @@ class VisitorsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreVisitorRequest $request)
+    public function store(VisitorRequest $request)
     {
         $user=User::create(
             array_merge($request->all(), ['password'=> Str::random(8)])
@@ -93,7 +92,7 @@ class VisitorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateVisitorRequest $request, Visitor $visitor)
+    public function update(VisitorRequest $request, Visitor $visitor)
     {
         $visitor->update($request->all());
         $visitor->user->update($request->all());
@@ -114,13 +113,6 @@ class VisitorsController extends Controller
         $visitor->user()->delete();
         $visitor->delete();
         return redirect()->route('visitors.index')->with('success', 'visitor deleted');
-    }
-
-    public function getCities(Request $request)
-    {
-        $cities = City::where("country_id", $request->country_id)
-            ->pluck("city_name", "id");
-         return response()->json($cities);
     }
 
     public function toggleStatus(Visitor $visitor)

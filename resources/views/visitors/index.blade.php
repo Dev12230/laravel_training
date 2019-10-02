@@ -32,7 +32,6 @@
     </thead>
     </table>
 
-
 @push('scripts')
 <script>
     $('#table').DataTable({
