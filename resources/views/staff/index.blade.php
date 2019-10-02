@@ -51,10 +51,10 @@
             {data: 'user.phone',name: 'user.phone',orderable: false}, 
             {data: 'user.gender',name: 'user.gender',orderable: false}, 
             {data: 'job.name',name: 'job.name',orderable: false},    
-            {data: 'city.city_name',name: 'city.city_name',orderable: false},
-            {data: 'city.country.name',name: 'city.country.name',orderable: false},    
+            {data: 'city.city_name',name: 'city.city_name',orderable: false,searchable: false},
+            {data: 'city.country.name',name: 'city.country.name',orderable: false,searchable: false},    
             {data: 'role',name: 'role',orderable: false},
-            {data: 'image',
+            {data: 'image',orderable: false,searchable: false,
                     render: function( data, type, row, meta ) {
                         return `<img src="{{ Storage::url('${row.image.image}') }}" style="height:50px; width:50px;">`;
                     }
