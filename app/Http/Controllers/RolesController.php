@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use DataTables;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller
@@ -50,7 +49,7 @@ class RolesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateRoleRequest $request)
+    public function store(RoleRequest $request)
     {
         Role::create($request->only(['name', 'description']))
           ->syncPermissions($request['permission']);
@@ -80,7 +79,7 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
         $role->update($request->only(['name', 'description']));
         $role->syncPermissions($request['permission']);

@@ -35,9 +35,7 @@ class StaffRequest extends FormRequest
         ];
     }
 
-
     public function getId(){
-
         if(isset($this->staff->user->id)){
             return $this->staff->user->id;
         }else{

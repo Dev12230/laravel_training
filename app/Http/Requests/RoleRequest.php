@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRoleRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,18 @@ class CreateRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:150|unique:roles,name',
+            'name'=>'required|max:150|unique:roles,name'.$this->getId(),
             'description' => 'required|max:250',
         ];
     }
 
+    public function getId(){
+        if(isset($this->role->id)){
+            return $this->role->id;
+        }else{
+            return Null;
+        }
+    }
 
     public function messages()
     {
@@ -40,4 +47,5 @@ class CreateRoleRequest extends FormRequest
             'description.max' => 'Maximum character is 250'
         ];
     }
+
 }
