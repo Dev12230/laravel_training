@@ -2,10 +2,13 @@
 @section('content')
 
 @include('flash-message')
-<h1>Staff</h1>
+<h1>Visitors</h1>
     <br>
-@if(auth()->user()->can('staff-create'))  
-<a class="btn btn-primary btn-sm" href="staff/create"><i class="fa fa-plus"></i><span>Add New </span></a><br><br>
+
+
+<br>
+@if(auth()->user()->can('visitor-create'))  
+<a class="btn btn-primary btn-sm" href="visitors/create"><i class="fa fa-plus"></i><span>Add New </span></a><br><br>
 @endif
 <table id="table" >
     <thead>
@@ -15,15 +18,13 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Gender</th>
-            <th>Job</th>
             <th>City</th>
             <th>Country</th>
-            <th>Roles</th>
             <th>Image</th>
-            @if(auth()->user()->can('staff-edit') || auth()->user()->can('staff-delete'))
+            @if(auth()->user()->can('visitor-edit') || auth()->user()->can('visitor-delete'))
             <th>Actions</th>
             @endif
-            @if(auth()->user()->can('staff-active'))
+            @if(auth()->user()->can('visitor-active'))
             <th>Status</th>
             @endif
             
@@ -31,38 +32,52 @@
     </thead>
     </table>
 
-    @push('scripts')
+
+@push('scripts')
 <script>
     $('#table').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         ajax: {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "{{ route('staff.index') }}",
+            url: "{{ route('visitors.index') }}",
             dataType: 'json',
             type: 'get',
         },
+        dom: 'lBfrtip',
+        buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Export',
+                        buttons: [
+                            'copy',
+                            'excel',
+                            'csv',
+                            'pdf',
+                            'print'
+                        ]
+                    }
+                ],
         columns: [ 
             {data: 'user.first_name',name: 'user.first_name',orderable: false}, 
             {data: 'user.last_name',name: 'user.last_name',orderable: false}, 
             {data: 'user.email',name: 'user.email',orderable: false}, 
             {data: 'user.phone',name: 'user.phone',orderable: false}, 
             {data: 'user.gender',name: 'user.gender',orderable: false}, 
-            {data: 'job.name',name: 'job.name',orderable: false},    
             {data: 'city.city_name',name: 'city.city_name',orderable: false},
             {data: 'city.country.name',name: 'city.country.name',orderable: false},    
-            {data: 'role',name: 'role',orderable: false},
             {data: 'image',
                     render: function( data, type, row, meta ) {
                         return `<img src="{{ Storage::url('${row.image.image}') }}" style="height:50px; width:50px;">`;
                     }
             },  
-            @if(auth()->user()->can('staff-edit') || auth()->user()->can('staff-delete'))
+            @if(auth()->user()->can('visitor-edit') || auth()->user()->can('visitor-delete'))
             {data: 'action',name: 'action',orderable: false, searchable: false},
             @endif
-            @if(auth()->user()->can('staff-active'))
+            @if(auth()->user()->can('visitor-active'))
             {data: 'status',name: 'status',orderable: false, searchable: false},
             @endif
 
@@ -79,6 +94,7 @@
     }
 </script>
 @endpush
+
 
 </div>
 @endsection

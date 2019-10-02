@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateStaffTable extends Migration
+class CreateVisitorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,17 @@ class CreateStaffTable extends Migration
      */
     public function up()
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('visitors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-
-            $table->integer('job_id')->unsigned();
-            $table->foreign('job_id')->references('id')->on('jobs');
 
             $table->integer('country_id')->nullable()->unsigned();
             $table->foreign('country_id')->references('id')->on('countries');
 
             $table->integer('city_id')->nullable()->unsigned();
             $table->foreign('city_id')->references('id')->on('cities');
-
             $table->timestamps();
-
             $table->softDeletes();
         });
     }
@@ -40,6 +35,6 @@ class CreateStaffTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('visitors');
     }
 }

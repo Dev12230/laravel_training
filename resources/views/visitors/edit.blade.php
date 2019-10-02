@@ -12,17 +12,17 @@
       </div><br />
 @endif
 
-<form action="/staff/{{$staff->id}}" method ="POST" enctype="multipart/form-data">
+<form action="/visitors/{{$visitor->id}}" method ="POST" enctype="multipart/form-data">
 @csrf
 {{ method_field('PATCH')}}
     <div class="form-group" style="width:500px">
       <label for="first_name">First Name:</label>
-      <input type="text" class="form-control" id="first_name" name="first_name" value="{{$staff->user->first_name}}">
+      <input type="text" class="form-control" id="first_name" name="first_name" value="{{$visitor->user->first_name}}">
     </div>
 
     <div class="form-group" style="width:500px">
       <label for="last_name">Last Name:</label>
-      <input type="text" class="form-control" id="last_name" name="last_name" value="{{$staff->user->last_name}}">
+      <input type="text" class="form-control" id="last_name" name="last_name" value="{{$visitor->user->last_name}}">
     </div>
 
     <div class="form-group">
@@ -35,12 +35,12 @@
 
     <div class="form-group" style="width:500px">
       <label for="email">Email:</label>
-      <input type="text" class="form-control" id="email" name="email" value="{{$staff->user->email}}">
+      <input type="text" class="form-control" id="email" name="email" value="{{$visitor->user->email}}">
     </div>
 
     <div class="form-group" style="width:500px">
       <label for="phone">Phone:</label>
-      <input id="phone" type="phone" class="form-control" name="phone"  value="{{$staff->user->phone}}">
+      <input id="phone" type="phone" class="form-control" name="phone"  value="{{$visitor->user->phone}}">
     </div>
 
     <div class="form-group" style="width:500px">
@@ -48,7 +48,7 @@
       <select id="country_id" class="form-control" name="country_id">
         <option selected>Choose...</option>
         @foreach ($countries as $key =>$country)
-      <option value="{{$key}}" {{ ($staff->country->name == $country) ? 'selected' : '' }} >{{$country}}</option>
+      <option value="{{$key}}" {{ ($visitor->city->country->name == $country) ? 'selected' : '' }} >{{$country}}</option>
         @endforeach
       </select>
     </div>
@@ -57,32 +57,10 @@
       <label for="city_id">Select City:</label>
       <select name="city_id" id="city_id" class="form-control" style="width:350px"  >
       @foreach ($cities as $key =>$city)
-      <option value="{{$key}}" {{ ($staff->city->city_name == $city) ? 'selected' : '' }} >{{$city}}</option>
+      <option value="{{$key}}" {{ ($visitor->city->city_name == $city) ? 'selected' : '' }} >{{$city}}</option>
       @endforeach
     </select>
     </div>
-
-    <div class="form-group" style="width:500px">
-      <label for="job_id">Job:</label>
-      <select id="job_id" class="form-control" name="job_id">
-        <option selected>Choose...</option>
-        @foreach ($jobs as $key => $job)
-      <option value="{{$key}}" {{ ($staff->job->name == $job) ? 'selected' : '' }}>{{$job}}</option>
-        @endforeach
-      </select>
-    </div>
-
-    <div class="funkyradio" style="width:500px">
-     <label for="role">Role:</label>
-     <select id="role" class="form-control" name="role">
-        <option selected>Choose...</option>
-        @foreach ($roles as $key => $role)
-      <option value="{{$role}}" {{ ($staff->user->roles->first()->name == $role) ? 'selected' : '' }}>{{$role}}</option>
-        @endforeach
-      </select>
-      
-    </div>
-
 
     <br>
     <div class="form-group" style="width:500px">
@@ -91,7 +69,7 @@
     </div>
 
 
-  <button type="submit" class="btn btn-primary">Update Staff</button>
+  <button type="submit" class="btn btn-primary">Update Visitor</button>
 
 
 </form>
@@ -102,7 +80,7 @@
     if(countryID){
       $.ajax({
         type:"GET",
-           url:"{{url('staff-get-cities')}}?country_id="+countryID,
+           url:"{{url('visitors-get-cities')}}?country_id="+countryID,
            success:function(data){  
             if(data){
                 $("#city_id").empty();

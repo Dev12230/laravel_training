@@ -21,13 +21,12 @@
     </thead>
     </table>
 
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+@push('scripts')
 <script>
     $('#table').DataTable({
         processing: true,
         serverSide: true,
         responsive: true,
-
         ajax: {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -60,7 +59,7 @@
     });
 
 </script>
-
+@endpush
 
 </div>
 @endsection

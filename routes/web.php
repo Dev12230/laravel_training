@@ -38,7 +38,13 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     //------------staff route -------------------
     Route::resource('staff', 'StaffController');
 
-    Route::get('get-cities', 'StaffController@getCities');
-    Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus')->name('Status.toggle');
+    Route::get('staff-get-cities', 'StaffController@getCities');
+    Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus');
 
+     //------------staff route -------------------
+     Route::resource('visitors', 'VisitorsController')->except('show');
+     Route::get('visitors-get-cities', 'VisitorsController@getCities');
+     Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
+
+     Route::get('visitors/export','VisitorsController@exportExcel')->name('visitors.export');
 });

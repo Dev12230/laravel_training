@@ -33,10 +33,9 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->ajax());
         if ($request->ajax()) {
          
-            $staff=Staff::with(['job','image']);
+            $staff=Staff::with(['city','job','image']);
 
             return Datatables::of($staff)
                ->addColumn('role', function ($row) {
@@ -99,8 +98,8 @@ class StaffController extends Controller
         $roles = Role::pluck('name');
         $jobs = Job::pluck('name', 'id');
         $countries = Country::pluck('name', 'id');
-        $cities = City::where("country_id", $staff->user->country_id)->pluck("city_name", "id");
-        
+        $cities = City::where("country_id", $staff->country_id)->pluck("city_name", "id");
+
         return view('staff.edit', compact('staff', 'roles', 'jobs', 'countries','cities'));
     }
 
@@ -114,7 +113,7 @@ class StaffController extends Controller
     public function update(UpdateStaffRequest $request, Staff $staff)
     {
         
-        $staff->update($request->only(['job_id']));
+        $staff->update($request->all());
         $staff->user->update($request->all());
         $staff->user->syncRoles($request->role);
  
@@ -146,7 +145,7 @@ class StaffController extends Controller
     public function toggleStatus(Staff $staff)
     {
         $staff->user->active = !$staff->user->active;
-        $staff->user->save();
+        $staff->user->update();
         return redirect()->route('staff.index');
     }
 }

@@ -20,11 +20,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone','password','country_id','city_id','gender'
+        'first_name', 'last_name', 'email', 'phone','password','gender'
     ];
 
       /** @inheritdoc */
-    protected $with = ['city', 'country'];
 
 
     /**
@@ -58,25 +57,15 @@ class User extends Authenticatable
         $this->attributes['password'] = Hash::make($password);
     }
 
-
-    public function city()
-    {
-        return $this->belongsTo('App\City');
-    }
-
     public function staff()
     {
         return $this->hasOne('App\Staff');
     }
 
-    public function country()
+    public function visitor()
     {
-        return $this->belongsTo('App\Country');
+        return $this->hasOne('App\Visitor');
     }
 
 
-    public function image()
-    {
-        return $this->morphOne('App\Image', 'profile');
-    }
 }

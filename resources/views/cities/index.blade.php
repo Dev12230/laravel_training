@@ -20,7 +20,7 @@
     </thead>
     </table>
 
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+@push('scripts')
 <script>
     $('#table').DataTable({
         processing: true,
@@ -59,7 +59,7 @@
     });
 
 </script>
-
+@endpush
 
 </div>
 @endsection
