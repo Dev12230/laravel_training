@@ -36,7 +36,7 @@ class ForbidBannedUserCustom
         $user = $this->auth->user();
 
 
-        if ($user && $user->isBanned()) {
+        if ($user && !$user->active) {
             \Session::flush();
             return redirect('login')->withInput()->withErrors([
                 'email' => 'This account is blocked.',

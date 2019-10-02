@@ -40,7 +40,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "{{ route('staff.index') }}",
+            url: "/staff",
             dataType: 'json',
             type: 'get',
         },

@@ -8,12 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordToken;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Cog\Laravel\Ban\Traits\Bannable;
-use Cog\Contracts\Ban\Bannable as BannableContract;
 
-class User extends Authenticatable implements BannableContract
+
+class User extends Authenticatable 
 {
-    use Notifiable, HasRoles, SoftDeletes,Bannable;
+    use Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

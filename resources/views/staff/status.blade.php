@@ -1,5 +1,5 @@
-@if($row->user->isBanned())
-<a href="{{ route('staff.active',$row->id) }}" class="btn btn-success btn-sm">Deactive</a>
+@if($row->user->active)
+<a href="/staff/{{$row->id}}/toggle" class="btn btn-success btn-sm">Active</a>
 @else
-<a href="{{ route('staff.deActive',$row->id) }}" class="btn btn-success ban btn-sm">Active </a>
+<a href="/staff/{{$row->id}}/toggle" class="btn btn-success ban btn-sm">Deactive </a>
 @endif

@@ -12,7 +12,6 @@ use App\Country;
 use App\City;
 use App\User;
 use App\Staff;
-use App\Image;
 use Illuminate\Support\Str;
 use App\Traits\ImageUpload;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -27,6 +26,25 @@ class StaffController extends Controller
         $this->authorizeResource(Staff::class);
     }
 
+//     public function getlist(Request $request)
+//     {
+    
+//             $staff=Staff::with(['job','image']);
+// dd($staff)
+//             return Datatables::of($staff)
+//                ->addColumn('role', function ($row) {
+//                 return $row->user->getRoleNames()->first();
+//                })
+//                ->addColumn('action', function ($row) {
+//                 return  view('staff.actions', compact('row'));
+//                })
+//                ->addColumn('status', function ($row) {
+//                 return  view('staff.status', compact('row'));
+//                })->rawColumns(['role','action','status']) ->make(true);
+   
+//          return view('staff.index');
+//     }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +52,11 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->ajax());
         if ($request->ajax()) {
+         
             $staff=Staff::with(['job','image']);
-   
+
             return Datatables::of($staff)
                ->addColumn('role', function ($row) {
                 return $row->user->getRoleNames()->first();
@@ -142,18 +162,10 @@ class StaffController extends Controller
          return response()->json($cities);
     }
 
-
-    public function deActive(Staff $staff)
+    public function toggleStatus(Staff $staff)
     {
-        $this->authorize('active', $staff);
-        $staff->user->ban();
-        return redirect()->route('staff.index');
-    }
-
-    public function active(Staff $staff)
-    {
-        $this->authorize('active', $staff);
-        $staff->user->unban();
+        $staff->user->active = !$staff->user->active;
+        $staff->user->save();
         return redirect()->route('staff.index');
     }
 }

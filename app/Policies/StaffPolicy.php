@@ -104,8 +104,5 @@ class StaffPolicy
         //
     }
 
-    public function active(User $user, Staff $staff)
-    {
-        return $user->hasPermissionTo('staff-active');
-    }
+
 }
