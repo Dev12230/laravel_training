@@ -48,19 +48,11 @@
             type: 'get',
         },
         dom: 'lBfrtip',
-        buttons: [
-                    {
-                        extend: 'collection',
-                        text: 'Export',
-                        buttons: [
-                            'copy',
-                            'excel',
-                            'csv',
-                            'pdf',
-                            'print'
-                        ]
-                    }
-                ],
+        buttons: [{
+                     extend: 'collection',
+                     text: 'Export',
+                     buttons: ['copy','excel','csv','pdf','print']
+            }],
         columns: [ 
             {data: 'user.first_name',name: 'user.first_name',orderable: false}, 
             {data: 'user.last_name',name: 'user.last_name',orderable: false}, 
