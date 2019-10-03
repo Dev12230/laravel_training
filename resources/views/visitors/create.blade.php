@@ -2,17 +2,8 @@
 
 @section('content')
 
-@if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-      </div><br />
-@endif
 
-<form action="{{route('visitors.store')}}" method ="POST" enctype="multipart/form-data">
+<form id="form" action="{{route('visitors.store')}}" method ="POST" enctype="multipart/form-data">
 @csrf
     <div class="form-group" style="width:500px">
       <label for="first_name">First Name:</label>
@@ -96,5 +87,7 @@
     }       
   });
 </script>
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+{!! JsValidator::formRequest('App\Http\Requests\VisitorRequest') !!}
 @endpush
 @endsection

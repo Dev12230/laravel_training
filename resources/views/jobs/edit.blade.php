@@ -29,6 +29,9 @@
 
   <button type="submit" class="btn btn-primary">Update Job</button>
 
-
 </form>
+@push('scripts')
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+{!! JsValidator::formRequest('App\Http\Requests\JobRequest') !!}
+@endpush
 @endsection

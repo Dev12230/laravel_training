@@ -32,4 +32,9 @@
 
   <button type="submit" class="btn btn-primary">Add</button>
 </form>
+
+@push('scripts')
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+{!! JsValidator::formRequest('App\Http\Requests\CityRequest') !!}
+@endpush
 @endsection
