@@ -38,7 +38,7 @@
 
 <br>
 
-  <button type="submit" class="btn btn-primary">Add Role</button>
+  <button type="submit" class="btn btn-primary">Role</button>
 
 
 </form>
