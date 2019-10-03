@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StaffRequest extends FormRequest
@@ -35,11 +36,12 @@ class StaffRequest extends FormRequest
         ];
     }
 
-    public function getId(){
-        if(isset($this->staff->user->id)){
+    public function getId()
+    {
+        if (isset($this->staff->user->id)) {
             return $this->staff->user->id;
-        }else{
-            return Null;
+        } else {
+            return null;
         }
     }
 

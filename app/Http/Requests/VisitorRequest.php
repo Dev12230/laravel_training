@@ -31,15 +31,16 @@ class VisitorRequest extends FormRequest
                 'phone'=>'required|regex:/(01)[0-9]{9}/||unique:users,phone,'.$this->getId().',id,deleted_at,NULL',
                 'city_id'=>'required',
                 'country_id'=>'required',
-       ];
+        ];
     }
 
-    public function getId(){
+    public function getId()
+    {
 
-        if(isset($this->visitor->user->id)){
+        if (isset($this->visitor->user->id)) {
             return $this->visitor->user->id;
-        }else{
-            return Null;
+        } else {
+            return null;
         }
     }
 

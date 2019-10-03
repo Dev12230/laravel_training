@@ -16,12 +16,12 @@
 @csrf
     <div class="form-group" style="width:500px">
       <label for="first_name">First Name:</label>
-      <input type="text" class="form-control" id="first_name" name="first_name">
+      <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}">
     </div>
 
     <div class="form-group" style="width:500px">
       <label for="last_name">Last Name:</label>
-      <input type="text" class="form-control" id="last_name" name="last_name">
+      <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}">
     </div>
 
     <div class="form-group">
@@ -34,12 +34,12 @@
 
     <div class="form-group" style="width:500px">
       <label for="email">Email:</label>
-      <input type="text" class="form-control" id="email" name="email">
+      <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
     </div>
 
     <div class="form-group" style="width:500px">
       <label for="phone">Phone:</label>
-      <input id="phone" type="phone" class="form-control" name="phone" >
+      <input id="phone" type="phone" class="form-control" name="phone" value="{{ old('phone') }}">
     </div>
 
 
@@ -74,7 +74,7 @@
      <select id="role" class="form-control" name="role">
         <option selected>Choose...</option>
         @foreach ($roles as $key => $role)
-      <option value="{{$role}}">{{$role}}</option>
+      <option  value="{{$role}}" >{{$role}}</option>
         @endforeach
       </select>
       

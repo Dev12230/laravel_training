@@ -29,11 +29,12 @@ class RoleRequest extends FormRequest
         ];
     }
 
-    public function getId(){
-        if(isset($this->role->id)){
+    public function getId()
+    {
+        if (isset($this->role->id)) {
             return $this->role->id;
-        }else{
-            return Null;
+        } else {
+            return null;
         }
     }
 
@@ -47,5 +48,4 @@ class RoleRequest extends FormRequest
             'description.max' => 'Maximum character is 250'
         ];
     }
-
 }

@@ -29,10 +29,10 @@ class VisitorsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+    public function index(Request $request)
+    {
       
         if ($request->ajax()) {
-         
             $visitor=Visitor::with(['image','city']);
 
             return Datatables::of($visitor)
@@ -71,7 +71,7 @@ class VisitorsController extends Controller
         $visitor=Visitor::create(
             array_merge($request->all(), ['user_id' => $user->id])
         );
-        $this->UploadImage($request,$visitor);
+        $this->UploadImage($request, $visitor);
   
         $this->sendResetLinkEmail($request);
         return redirect()->route('visitors.index')->with('success', 'User has been Added');
@@ -88,7 +88,7 @@ class VisitorsController extends Controller
         $countries = Country::pluck('name', 'id');
         $cities = City::where("country_id", $visitor->country_id)->pluck("city_name", "id");
 
-        return view('visitors.edit', compact('visitor','countries','cities'));
+        return view('visitors.edit', compact('visitor', 'countries', 'cities'));
     }
 
     /**
@@ -103,7 +103,7 @@ class VisitorsController extends Controller
         $visitor->update($request->all());
         $visitor->user->update($request->all());
  
-        $this->UploadImage($request,$visitor);
+        $this->UploadImage($request, $visitor);
 
         return redirect()->route('visitors.index')->with('success', 'visitor has been updated');
     }

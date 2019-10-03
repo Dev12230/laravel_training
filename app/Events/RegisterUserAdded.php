@@ -23,5 +23,4 @@ class RegisterUserAdded
     {
         $this->user = $user;
     }
-   
 }

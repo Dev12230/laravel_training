@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-
 use App\Events\RegisterUserAdded;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,6 +29,5 @@ class SendWelcomeEmail
     public function handle(RegisterUserAdded $event)
     {
         Mail::to($event->user->email)->send(new WelcomeMail($event->user));
-
     }
 }

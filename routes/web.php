@@ -46,5 +46,5 @@ Route::group(['middleware'=>'is-active','auth'], function () {
 
      Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
 
-     Route::get('visitors/export','VisitorsController@exportExcel')->name('visitors.export');
+     Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
 });

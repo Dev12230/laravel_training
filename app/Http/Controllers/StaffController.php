@@ -33,7 +33,6 @@ class StaffController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-         
             $staff=Staff::with(['city','job','image']);
 
             return Datatables::of($staff)
@@ -80,7 +79,7 @@ class StaffController extends Controller
             array_merge($request->all(), ['user_id' => $user->id])
         );
 
-        $this->UploadImage($request,$staff);
+        $this->UploadImage($request, $staff);
   
         $this->sendResetLinkEmail($request);
         return redirect()->route('staff.index')->with('success', 'User has been Added');
@@ -99,7 +98,7 @@ class StaffController extends Controller
         $countries = Country::pluck('name', 'id');
         $cities = City::where("country_id", $staff->country_id)->pluck("city_name", "id");
 
-        return view('staff.edit', compact('staff', 'roles', 'jobs', 'countries','cities'));
+        return view('staff.edit', compact('staff', 'roles', 'jobs', 'countries', 'cities'));
     }
 
     /**
@@ -115,7 +114,7 @@ class StaffController extends Controller
         $staff->user->update($request->all());
         $staff->user->syncRoles($request->role);
  
-        $this->UploadImage($request,$staff);
+        $this->UploadImage($request, $staff);
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
     }
