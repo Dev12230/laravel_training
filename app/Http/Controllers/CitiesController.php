@@ -18,7 +18,7 @@ class CitiesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $cities = City::query();
+            $cities = City::with('Country');
 
             return Datatables::of($cities)
             ->addColumn('action', function ($row) {
