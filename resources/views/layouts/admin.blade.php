@@ -69,6 +69,10 @@
                     <li class="active">
                         <a href="/visitors"><i class="fa fa-th-large"></i><span class="nav-label">Visitors</span></a> 
                     </li> 
+
+                    <li class="active">
+                        <a href="/news"><i class="fa fa-th-large"></i><span class="nav-label">News</span></a> 
+                    </li> 
                
                
                
@@ -158,6 +162,8 @@
 
     <!-- iCheck -->
     <script src="{{ asset('theme/js/plugins/iCheck/icheck.min.js') }}"></script>
+
+    
     @stack('scripts')
 </body>
 

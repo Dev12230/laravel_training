@@ -40,4 +40,11 @@ class Staff extends Model
     {
         return $this->belongsTo('App\Country');
     }
+
+    public function news()
+    {
+        return $this->hasMany('App\News');
+    }
+
+
 }

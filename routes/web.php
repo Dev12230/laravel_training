@@ -28,11 +28,9 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     //---------- Cities route -------------------
     Route::resource('cities', 'CitiesController');
-
     Route::get('get-cities', 'CitiesController@getCities');
     //---------- staff route -------------------
-    Route::group(['middleware' => ['role:Admin']], function () {
-        
+    Route::group(['middleware' => ['role:Admin']], function () {       
         Route::resource('roles', 'RolesController');
     });
     //------------Jobs route -------------------
@@ -40,11 +38,12 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     //------------staff route -------------------
     Route::resource('staff', 'StaffController');
     Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus');
+    //------------staff route -------------------
+    Route::resource('visitors', 'VisitorsController')->except('show');
+    Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
+    Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
+    //------------News route -------------------
+    Route::resource('news', 'NewsController');
 
-     //------------staff route -------------------
-     Route::resource('visitors', 'VisitorsController')->except('show');
-
-     Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
-
-     Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
+    Route::get('get-authors', 'NewsController@getAuthors');
 });
