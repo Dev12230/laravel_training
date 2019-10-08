@@ -17,4 +17,9 @@ class News extends Model
     {
         return $this->belongsTo('App\Staff', 'author');
     }
+
+    public function image()
+    {
+        return $this->morphMany('App\Image', 'profile');
+    }
 }

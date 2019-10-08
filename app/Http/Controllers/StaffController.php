@@ -79,7 +79,11 @@ class StaffController extends Controller
             array_merge($request->all(), ['user_id' => $user->id])
         );
 
-        $this->UploadImage($request, $staff);
+        if ($request->hasFile('image')) {
+            $this->UploadImage($request, $staff);
+        }else{
+            $this->DefaultImage($request, $staff); 
+        }
   
         $this->sendResetLinkEmail($request);
         return redirect()->route('staff.index')->with('success', 'User has been Added');

@@ -28,6 +28,7 @@ class NewsRequest extends FormRequest
             'secondary_title'=>'max:150|min:3',
             'type'=>'required',
             'author'=>'required',
+            'image' => 'image|mimes:png,jpg|max:1024',
            
         ];
     }

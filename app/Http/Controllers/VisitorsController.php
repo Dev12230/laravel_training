@@ -71,7 +71,12 @@ class VisitorsController extends Controller
         $visitor=Visitor::create(
             array_merge($request->all(), ['user_id' => $user->id])
         );
-        $this->UploadImage($request, $visitor);
+
+        if ($request->hasFile('image')) {
+            $this->UploadImage($request, $visitor);
+        }else{
+            $this->DefaultImage($request, $visitor); 
+        }
   
         $this->sendResetLinkEmail($request);
         return redirect()->route('visitors.index')->with('success', 'User has been Added');
