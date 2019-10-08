@@ -22,7 +22,13 @@ class NewsController extends Controller
     {
         if ($request->ajax()) {
             $news=News::with('staff');
-            return Datatables::of($news)->make(true);
+            return Datatables::of($news)       
+              ->addColumn('action', function ($row) {
+                return  view('news.actions', compact('row'));
+               })
+               ->addColumn('status', function ($row) {
+                return  view('news.status', compact('row'));
+               })->rawColumns(['action','status']) ->make(true);
          }
         return view('news.index');
     }
@@ -117,5 +123,12 @@ class NewsController extends Controller
         $authors=$authors->pluck('user.first_name','user.id');
 
         return response()->json($authors);
+    }
+
+    public function toggleStatus(News $news)
+    {
+        $news->is_publish = !$news->is_publish;
+        $news->update();
+        return redirect()->route('news.index');
     }
 }

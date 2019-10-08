@@ -13,6 +13,8 @@
             <th>Secondary title</th>
             <th>Type</th>
             <th>Author</th>
+            <th>Actions</th>
+            <th>Status</th>
         
             </tr>
     </thead>
@@ -38,7 +40,11 @@
             {data: 'staff.user.first_name',searchable: false,
                 render: function ( data, type, row ) {
                    return row.staff.user.first_name + " " + row.staff.user.last_name;
-                }} 
+                }} ,
+            {data: 'action',name: 'action',orderable: false, searchable: false},
+            {data: 'status',name: 'status',orderable: false, searchable: false},
+
+
         ],
 
     });

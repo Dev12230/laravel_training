@@ -44,6 +44,6 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
     //------------News route -------------------
     Route::resource('news', 'NewsController');
-
     Route::get('get-authors', 'NewsController@getAuthors');
+    Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
 });

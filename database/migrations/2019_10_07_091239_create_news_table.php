@@ -21,6 +21,7 @@ class CreateNewsTable extends Migration
             $table->integer('author')->unsigned();
             $table->foreign('author')->references('id')->on('staff');
             $table->longText('content');
+            $table->boolean('is_publish')->default(1);
 
 
             $table->softDeletes();
