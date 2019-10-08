@@ -12,13 +12,13 @@ use App\City;
 use App\User;
 use App\Staff;
 use Illuminate\Support\Str;
-use App\Traits\ImageUpload;
+use App\Traits\ManageUploads;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class StaffController extends Controller
 {
 
-    use SendsPasswordResetEmails,ImageUpload;
+    use SendsPasswordResetEmails,ManageUploads;
 
     public function __construct()
     {
@@ -79,10 +79,10 @@ class StaffController extends Controller
             array_merge($request->all(), ['user_id' => $user->id])
         );
 
-        if ($request->hasFile('image')) {
-            $this->UploadImage($request, $staff);
+        if ($image=$request->file('image')) {
+            $this->UploadImage($request, $staff,$image);
         }else{
-            $this->DefaultImage($request, $staff); 
+            $this->DefaultImage($request, $staff,$image); 
         }
   
         $this->sendResetLinkEmail($request);
@@ -118,7 +118,9 @@ class StaffController extends Controller
         $staff->user->update($request->all());
         $staff->user->syncRoles($request->role);
  
-        $this->UploadImage($request, $staff);
+        if ($image=$request->file('image')) {
+        $this->UploadImage($request, $staff,$image);
+        }
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
     }

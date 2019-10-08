@@ -2,6 +2,16 @@
 
 @section('content')
 
+@if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+@endif
+
 <form action="{{route('news.store')}}" method ="POST" enctype="multipart/form-data">
 @csrf
     <div class="form-group" style="width:500px">
@@ -37,21 +47,17 @@
     </div>
 
     <div class="form-group">
-    <div class="input-group control-group increment" >
-          <input type="file" name="image[]" class="form-control">
-          <div class="input-group-btn"> 
-            <button class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
-          </div>
-        </div>
-        <div class="clone hide">
-          <div class="control-group input-group" style="margin-top:10px">
-            <input type="file" name="image[]" class="form-control">
-            <div class="input-group-btn"> 
-              <button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
-            </div>
-          </div>
+    <label for="image">Image Upload(can load more than one)</label>
+    <input type="file" class="form-control" name="image[]" multiple="multiple" />
     </div>
+
+    <div class="form-group">
+    <label for="file">File Upload(can load more than one)</label>
+    <input type="file" class="form-control" name="file[]" multiple="multiple" />
     </div>
+
+
+
 
   <button type="submit" class="btn btn-primary">Add</button>
 
@@ -94,20 +100,6 @@
     }       
   });
 </script>
-
-<!-- for image -->
-<script type="text/javascript">
-    $(document).ready(function() {
-      $(".btn-success").click(function(){ 
-          var html = $(".clone").html();
-          $(".increment").after(html);
-      });
-      $("body").on("click",".btn-danger",function(){ 
-          $(this).parents(".control-group").remove();
-      });
-    });
-</script>
-
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\NewsRequest;
+use App\Traits\ManageUploads;
 use DataTables;
 use App\Staff;
 use App\News;
@@ -11,6 +12,7 @@ use App\News;
 
 class NewsController extends Controller
 {
+    use ManageUploads;
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +45,23 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        News::create($request->all());
+        $news=News::create($request->all());
+
+        if ($images = $request->file('image'))
+         {
+            foreach($images as $image)
+            {
+                $this->UploadImage($request,$news,$image);
+            }
+         }
+
+        if($files = $request->file('file'))
+         {
+            foreach($files as $file)
+            {
+                $this->UploadFile($request,$news,$file);
+            }
+         }
 
         return redirect()->route('news.index')->with('success', 'News Added');
     }

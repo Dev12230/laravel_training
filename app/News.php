@@ -22,4 +22,9 @@ class News extends Model
     {
         return $this->morphMany('App\Image', 'profile');
     }
+
+    public function file()
+    {
+        return $this->morphMany('App\File', 'file');
+    }
 }

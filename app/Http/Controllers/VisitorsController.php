@@ -12,12 +12,12 @@ use App\City;
 use App\User;
 use App\Visitor;
 use Illuminate\Support\Str;
-use App\Traits\ImageUpload;
+use App\Traits\ManageUploads;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class VisitorsController extends Controller
 {
-    use SendsPasswordResetEmails,ImageUpload;
+    use SendsPasswordResetEmails,ManageUploads;
 
     public function __construct()
     {
@@ -72,10 +72,10 @@ class VisitorsController extends Controller
             array_merge($request->all(), ['user_id' => $user->id])
         );
 
-        if ($request->hasFile('image')) {
-            $this->UploadImage($request, $visitor);
+        if ($image=$request->file('image')) {
+            $this->UploadImage($request, $visitor,$image);
         }else{
-            $this->DefaultImage($request, $visitor); 
+            $this->DefaultImage($request, $visitor,$image); 
         }
   
         $this->sendResetLinkEmail($request);
@@ -107,8 +107,10 @@ class VisitorsController extends Controller
     {
         $visitor->update($request->all());
         $visitor->user->update($request->all());
- 
-        $this->UploadImage($request, $visitor);
+
+        if ($image=$request->file('image')) {
+        $this->UploadImage($request, $visitor,$image);
+        }
 
         return redirect()->route('visitors.index')->with('success', 'visitor has been updated');
     }
