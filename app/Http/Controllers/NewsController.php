@@ -21,7 +21,8 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $news=News::with('staff');
+            $news=News::query();
+            
             return Datatables::of($news)       
               ->addColumn('action', function ($row) {
                 return  view('news.actions', compact('row'));

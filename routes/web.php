@@ -21,7 +21,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::group(['middleware'=>'is-active','auth'], function () {
 

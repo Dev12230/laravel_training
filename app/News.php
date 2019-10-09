@@ -12,6 +12,7 @@ class News extends Model
     protected $fillable = [
         'main_title','secondary_title','type','author','content'
     ];
+    protected $with = ['staff'];
 
     public function staff()
     {
@@ -26,5 +27,10 @@ class News extends Model
     public function file()
     {
         return $this->morphMany('App\File', 'file');
+    }
+
+    public function related()
+    {
+        return $this->hasMany('App\RelatedNews', 'news_id');
     }
 }

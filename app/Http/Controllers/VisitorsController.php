@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\VisitorRequest;
-use App\Exports\VisitorsExport;
-use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
 use App\Country;
 use App\City;
@@ -135,8 +133,5 @@ class VisitorsController extends Controller
         return redirect()->route('visitors.index');
     }
 
-    public function exportExcel()
-    {
-        return Excel::download(new VisitorsExport, 'Visitors.xlsx');
-    }
+
 }

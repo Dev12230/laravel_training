@@ -57,6 +57,16 @@
     </div>
 
 
+    <div class="form-group">
+    <label>Choose Related News</label>
+    <select data-placeholder="Choose Related..." class="chosen-select" multiple style="width:350px;" tabindex="4" name="related[]">
+          <option value="">Select</option>
+          <option value="United States">United States</option>
+          <option value="United Kingdom">United Kingdom</option>
+      </select>
+    </div>
+    
+
 
 
   <button type="submit" class="btn btn-primary">Add</button>
@@ -100,6 +110,12 @@
     }       
   });
 </script>
+<script>
+$('#multi').picker({
+  search :true
+});
+</script>
+
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}

@@ -21,6 +21,9 @@
     {{-- <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 
+    <link href="{{ asset('theme/css/plugins/select2/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('status.css')}}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -161,6 +164,12 @@
 
     <!-- iCheck -->
     <script src="{{ asset('theme/js/plugins/iCheck/icheck.min.js') }}"></script>
+
+     <!-- Select2 -->
+     <script src="{{ asset('theme/js/plugins/select2/select2.full.min.js') }}"></script>
+     <script>
+        $('.chosen-select').select2();
+     </script>
 
     
     @stack('scripts')
