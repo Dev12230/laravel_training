@@ -10,13 +10,13 @@ class News extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'main_title','secondary_title','type','author','content'
+        'main_title','secondary_title','type','staff_id','content'
     ];
     protected $with = ['staff'];
 
     public function staff()
     {
-        return $this->belongsTo('App\Staff', 'author');
+        return $this->belongsTo('App\Staff', 'staff_id');
     }
 
     public function image()

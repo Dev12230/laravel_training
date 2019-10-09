@@ -80,9 +80,9 @@ class StaffController extends Controller
         );
 
         if ($image=$request->file('image')) {
-            $this->UploadImage($request, $staff,$image);
+            $staff->image()->create(['image'=>$this->UploadImage($image)]);
         }else{
-            $this->DefaultImage($request, $staff,$image); 
+            $staff->image()->create(['image'=>$this->DefaultImage()]);
         }
   
         $this->sendResetLinkEmail($request);
@@ -119,7 +119,9 @@ class StaffController extends Controller
         $staff->user->syncRoles($request->role);
  
         if ($image=$request->file('image')) {
-        $this->UploadImage($request, $staff,$image);
+            $staff->image()->update(['image'=>$this->UploadImage($image)]);
+        }else{
+            $staff->image()->update(['image'=>$this->DefaultImage()]);
         }
 
         return redirect()->route('staff.index')->with('success', 'Staff has been updated');
@@ -141,7 +143,7 @@ class StaffController extends Controller
     public function toggleStatus(Staff $staff)
     {
         $staff->user->active = !$staff->user->active;
-        $staff->user->update();
+        $staff->user->save();
         return redirect()->route('staff.index');
     }
 }

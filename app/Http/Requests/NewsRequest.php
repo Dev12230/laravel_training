@@ -27,7 +27,7 @@ class NewsRequest extends FormRequest
             'main_title'=>'required|max:150|min:3',
             'secondary_title'=>'max:150|min:3',
             'type'=>'required',
-            'author'=>'required',
+            'staff_id'=>'required',
             'image.*' => 'image|mimes:png,jpg|max:1024',
             'file.*' => 'file|mimes:pdf,xlsx|max:1024',
             'related'  => 'array|max:10',

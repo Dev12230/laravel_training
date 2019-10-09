@@ -28,14 +28,14 @@
     <label for="type"> Type:</label>
     <select  id="type" name="type">
         <option>Select ..</option>
-        <option value=1>Article</option>
-        <option value=2>News</option>
+        <option value="1">Article</option>
+        <option value="2">News</option>
     </select>
     </div>
 
     <div class="form-group">
-      <label for="author">Author:</label>
-      <select name="author" id="author" class="form-control" style="width:350px">
+      <label for="staff_id">Author:</label>
+      <select name="staff_id" id="staff_id" class="form-control" style="width:350px">
       </select>
     </div>
       
@@ -86,7 +86,7 @@
 
 </script>
 
-<!-- Author ajax request -->
+<!-- staff_id ajax request -->
 <script type="text/javascript">
  $('#type').change(function(){
     var jobId = $(this).val();   
@@ -96,18 +96,18 @@
            url:"{{url('get-authors')}}?job_id="+jobId,
            success:function(data){  
             if(data){
-                $("#author").empty();
-                $("#author").append('<option>Select</option>');
+                $("#staff_id").empty();
+                $("#staff_id").append('<option>Select</option>');
                 $.each(data,function(key,value){
-                    $("#author").append(`<option value='${key}' >${value}</option>`);
+                    $("#staff_id").append(`<option value='${key}' >${value}</option>`);
                 });
            }else{ 
-             $("#author").empty(); 
+             $("#staff_id").empty(); 
            }             
           } 
       }); 
     }else{
-     $("#author").empty(); 
+     $("#staff_id").empty(); 
     }       
   });
 </script>

@@ -17,9 +17,9 @@ class CreateNewsTable extends Migration
             $table->increments('id');
             $table->string('main_title');
             $table->string('secondary_title');
-            $table->enum('type', ['news', 'article']);
-            $table->integer('author')->unsigned();
-            $table->foreign('author')->references('id')->on('staff');
+            $table->enum('type', [1=>'articale',2=>'news']);
+            $table->integer('staff_id')->unsigned();
+            $table->foreign('staff_id')->references('id')->on('staff');
             $table->longText('content');
             $table->boolean('is_publish')->default(1);
 

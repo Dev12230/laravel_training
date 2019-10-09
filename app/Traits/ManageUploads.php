@@ -5,35 +5,24 @@ namespace App\Traits;
 trait ManageUploads
 {
  
-    public function UploadImage($request,$model,$image)
+    public function UploadImage($image)
     {
-         $imgUrl=$image->store('uploads', 'public');
-         $this->SaveImage($model,$request,$imgUrl);
+         return $image->store('uploads', 'public');
+    }
+
+    public function UploadFile($file)
+    {
+         return $file->store('files', 'public');
     }
     
-    public function SaveImage($model,$request,$imgUrl){
-         $request->isMethod('POST')
-         ? $model->image()->create(['image'=> $imgUrl])
-         : $model->image()->Update(['image'=>$imgUrl]);
-    }
-
-    public function DefaultImage($request,$model)
+    public function DefaultImage()
     {
-        $imgUrl='default.png';
-        $this->SaveImage($model,$request,$imgUrl);
+        return 'default.png';
+ 
     }
 
-    public function UploadFile($request,$model,$file)
-    {
-         $fileUrl=$file->store('files', 'public');
-         $this->SaveFile($model,$request,$fileUrl);
-    }
+ 
 
-    public function SaveFile($model,$request,$fileUrl){
-        $request->isMethod('POST')
-        ? $model->file()->create(['file'=> $fileUrl])
-        : $model->file()->Update(['file'=> $fileUrl]);
-   }
 
 
     

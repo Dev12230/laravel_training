@@ -71,9 +71,9 @@ class VisitorsController extends Controller
         );
 
         if ($image=$request->file('image')) {
-            $this->UploadImage($request, $visitor,$image);
+            $visitor->image()->create(['image'=>$this->UploadImage($image)]);
         }else{
-            $this->DefaultImage($request, $visitor,$image); 
+            $visitor->image()->create(['image'=>$this->DefaultImage()]);
         }
   
         $this->sendResetLinkEmail($request);
@@ -107,7 +107,9 @@ class VisitorsController extends Controller
         $visitor->user->update($request->all());
 
         if ($image=$request->file('image')) {
-        $this->UploadImage($request, $visitor,$image);
+            $visitor->image()->update(['image'=>$this->UploadImage($image)]);
+        }else{
+            $visitor->image()->update(['image'=>$this->DefaultImage()]);
         }
 
         return redirect()->route('visitors.index')->with('success', 'visitor has been updated');
@@ -129,7 +131,7 @@ class VisitorsController extends Controller
     public function toggleStatus(Visitor $visitor)
     {
         $visitor->user->active = !$visitor->user->active;
-        $visitor->user->update();
+        $visitor->user->save();
         return redirect()->route('visitors.index');
     }
 
