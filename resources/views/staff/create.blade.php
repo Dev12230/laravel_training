@@ -64,7 +64,7 @@
       <select id="job_id" class="form-control" name="job_id">
         <option selected>Choose...</option>
         @foreach ($jobs as $key => $job)
-      <option value="{{$key}}">{{$job}}</option>
+       <option value="{{$key}}">{{$job}}</option>
         @endforeach
       </select>
     </div>

@@ -59,10 +59,11 @@
 
     <div class="form-group">
     <label>Choose Related News</label>
-    <select data-placeholder="Choose Related..." class="chosen-select" multiple style="width:350px;" tabindex="4" name="related[]">
+    <select data-placeholder="Choose News..." class="chosen-select" multiple style="width:400px;" name="related[]">
           <option value="">Select</option>
-          <option value="United States">United States</option>
-          <option value="United Kingdom">United Kingdom</option>
+          @foreach ($relNews as $key => $news)
+          <option value="{{$key}}">{{$news}}</option>
+          @endforeach>
       </select>
     </div>
     

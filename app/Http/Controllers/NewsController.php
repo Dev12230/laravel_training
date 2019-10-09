@@ -41,7 +41,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('news.create');
+        $relNews=News::where('is_publish',1)->pluck("main_title", "id");
+        return view('news.create',compact('relNews'));
     }
 
     /**
@@ -54,22 +55,24 @@ class NewsController extends Controller
     {
         $news=News::create($request->all());
 
-        if ($images = $request->file('image'))
-         {
+        if ($images = $request->file('image')){
             foreach($images as $image)
-            {
                 $this->UploadImage($request,$news,$image);
-            }
          }
 
-        if($files = $request->file('file'))
-         {
+        if($files = $request->file('file')){
             foreach($files as $file)
-            {
                 $this->UploadFile($request,$news,$file);
-            }
          }
 
+         if($rel_news = $request['related']){
+            foreach($rel_news as $related)
+                $news->related()->create([
+                    'news_id' => $news->id,
+                    'related_id' => $related,
+                ]);
+         }
+         
         return redirect()->route('news.index')->with('success', 'News Added');
     }
 
