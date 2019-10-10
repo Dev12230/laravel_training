@@ -37,7 +37,7 @@
             {data: 'main_title',name: 'main_title',orderable: false}, 
             {data: 'secondary_title',name: 'secondary_title',orderable: false}, 
             {data: 'type',name: 'type',orderable: false}, 
-            {data: 'staff.user.first_name',searchable: false,
+            {data: 'author',orderable: false, searchable: false,
                 render: function ( data, type, row ) {
                    return row.staff.user.first_name + " " + row.staff.user.last_name;
                 }} ,

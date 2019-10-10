@@ -8,6 +8,7 @@ use App\Traits\ManageUploads;
 use DataTables;
 use App\Staff;
 use App\News;
+use DB;
 use App\RelatedNews;
 
 
@@ -30,7 +31,8 @@ class NewsController extends Controller
                })
                ->addColumn('status', function ($row) {
                 return  view('news.status', compact('row'));
-               })->rawColumns(['action','status']) ->make(true);
+               })
+               ->rawColumns(['action','status']) ->make(true);
          }
         return view('news.index');
     }
@@ -56,14 +58,14 @@ class NewsController extends Controller
     {
         $news=News::create($request->all());
 
-        if ($images = $request->file('image')){
+        if ($images = $request->input('image')){
             foreach($images as $image)
-                $news->image()->create(['image'=>$this->UploadImage($image)]);
+                $news->image()->create(['image'=>$image]);
          }
 
-        if($files = $request->file('file')){
+        if($files = $request->input('file')){
             foreach($files as $file)
-                $news->file()->create(['file'=>$this->UploadFile($file)]);
+                $news->file()->create(['file'=>$file]);
          }
 
          if($rel_news = $request['related']){
@@ -93,13 +95,11 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $images = $news->image()->get();
-        $files = $news->file()->get();
         $relNews=News::where('is_publish',1)->pluck("main_title", "id");
         $selectedNews =RelatedNews::where('news_id',$news->id)->get();
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
-        return view('news.edit',compact('news','images','files','relNews','selectedNews'));
+        return view('news.edit',compact('files','relNews','selectedNews'));
     }
 
     /**
@@ -113,19 +113,18 @@ class NewsController extends Controller
     {
         $news->update($request->all());
 
-        if ($images = $request->file('image')){
+        if ($images = $request->input('image')){
             $news->image()->delete();
             foreach($images as $image)
-                $news->image()->create(['image'=>$this->UploadImage($image)]);
+                $news->image()->create(['image'=>$image]);
          }
 
-        if($files = $request->file('file')){
+        if($files = $request->input('image')){
             $news->file()->delete();
             foreach($files as $file)
-                $news->file()->create(['file'=>$this->UploadFile($file)]);
+                $news->file()->create(['file'=>$file]);
          }
-
-
+         
         if($rel_news = $request['related']){
             $news->related()->delete();
             foreach($rel_news as $related)
@@ -160,5 +159,14 @@ class NewsController extends Controller
         $news->is_publish = !$news->is_publish;
         $news->save();
         return redirect()->route('news.index');
+    }
+
+    public function uploads(Request $request){
+        if($image = $request->file('image')){
+            $Url = $this->UploadImage($image);
+        }elseif($file = $request->file('file')){
+            $Url = $this->UploadFile($file);
+        }    
+        return response()->json(['url' => $Url]);
     }
 }

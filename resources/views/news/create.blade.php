@@ -12,7 +12,7 @@
       </div><br />
 @endif
 
-<form action="{{route('news.store')}}" method ="POST" enctype="multipart/form-data">
+<form role="news" action="{{route('news.store')}}" method ="POST" enctype="multipart/form-data">
 @csrf
     <div class="form-group" style="width:500px">
       <label for="main_title">Main Title:</label>
@@ -47,14 +47,17 @@
     </div>
 
     <div class="form-group">
-    <label for="image">Image Upload(can load more than one)</label>
-    <input type="file" class="form-control" name="image[]" multiple="multiple" />
-    </div>
+            <label for="image">Image Upload(can load more than one)</label>
+            <div class="needsclick dropzone" id="image-drop">
+            </div>
+      </div>
 
+  
     <div class="form-group">
-    <label for="file">File Upload(can load more than one)</label>
-    <input type="file" class="form-control" name="file[]" multiple="multiple" />
-    </div>
+            <label for="file">File Upload(can load more than one)</label>
+            <div class="needsclick dropzone" id="file-drop">
+            </div>
+      </div>  
 
 
     <div class="form-group">
@@ -67,14 +70,12 @@
       </select>
     </div>
     
-
-
-
   <button type="submit" class="btn btn-primary">Add</button>
 
 </form>
 
 @push('scripts')
+
 <!-- ckEditor -->
 <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
 <script>
@@ -111,12 +112,44 @@
     }       
   });
 </script>
+<!-- Drop Image -->
 <script>
-$('#multi').picker({
-  search :true
-});
-</script>
+  Dropzone.autoDiscover = false;
+  var uploadedImage = {}
+  let imageDropzone = new Dropzone('#image-drop', {
+    url: "{{ route('uploads') }}",
+    paramName: "image",
+    maxThumbnailFilesize: 1, // MB
+    acceptedFiles: ".png,.jpg",
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    success: function (image, response) {
+      $('form').append('<input type="hidden" name="image[]" value="' + response.url + '">')
+      uploadedImage[image.url] = response.url
+    }
 
+  })
+</script>
+<!-- File Image -->
+<script>
+Dropzone.autoDiscover = false;
+  var uploadedFile = {}
+  let fileDropzone = new Dropzone('#file-drop', {
+    url: "{{ route('uploads') }}",
+    maxThumbnailFilesize: 1, // MB
+    acceptedFiles: ".pdf,.xlsx",
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    success: function (file, response) {
+      $('form').append('<input type="hidden" name="file[]" value="' + response.url + '">')
+      uploadedFile[file.url] = response.url
+    }, 
+  })
+  </script>
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}

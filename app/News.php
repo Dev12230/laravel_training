@@ -10,7 +10,7 @@ class News extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'main_title','secondary_title','type','staff_id','content'
+        'main_title','secondary_title','type','staff_id','content',
     ];
     protected $with = ['staff'];
 

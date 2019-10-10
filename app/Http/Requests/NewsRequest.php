@@ -28,8 +28,6 @@ class NewsRequest extends FormRequest
             'secondary_title'=>'max:150|min:3',
             'type'=>'required',
             'staff_id'=>'required',
-            'image.*' => 'image|mimes:png,jpg|max:1024',
-            'file.*' => 'file|mimes:pdf,xlsx|max:1024',
             'related'  => 'array|max:10',
            
         ];

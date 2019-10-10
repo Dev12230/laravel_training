@@ -45,4 +45,6 @@ Route::group(['middleware'=>'is-active','auth'], function () {
     Route::resource('news', 'NewsController');
     Route::get('get-authors', 'NewsController@getAuthors');
     Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
+
+    Route::post('uploads', 'NewsController@uploads')->name('uploads');
 });

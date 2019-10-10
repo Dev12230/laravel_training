@@ -7,7 +7,7 @@ trait ManageUploads
  
     public function UploadImage($image)
     {
-         return $image->store('uploads', 'public');
+        return $image->store('uploads', 'public');
     }
 
     public function UploadFile($file)

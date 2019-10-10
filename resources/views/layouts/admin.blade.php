@@ -17,12 +17,19 @@
     <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}" rel="stylesheet">
     
-    {{-- Yajra Datatables --}}
+    <!-- Yajra Datatables-->
     {{-- <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 
     <link href="{{ asset('theme/css/plugins/select2/select2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('status.css')}}" rel="stylesheet">
+
+
+    <!-- dropzone -->
+    <link href="{{ asset('theme/css/plugins/dropzone/basic.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
+    <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet">
+
+
 
 </head>
 
@@ -171,6 +178,10 @@
         $('.chosen-select').select2();
      </script>
 
+        <!-- DROPZONE -->
+    <script src="{{ asset('theme/js/plugins/dropzone/dropzone.js') }}"></script>
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     
     @stack('scripts')
 </body>
