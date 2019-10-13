@@ -100,7 +100,8 @@ class NewsController extends Controller
 
         $authors = Staff::where('job_id',$news->staff->job_id)->get();
         $authors=$authors->pluck('user.first_name','id');
-        return view('news.edit',compact('news','files','relNews','selectedNews','authors'));
+        
+        return view('news.edit',compact('news','relNews','selectedNews','authors'));
     }
 
     /**

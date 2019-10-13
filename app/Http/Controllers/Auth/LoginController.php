@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Rules\GoogleRecaptcha;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -30,7 +31,13 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function authenticated(Request $request, $user)
+    {
+            if (Auth::user()->hasRole('visitor')) {
+              return redirect('/');
+            }
+              return redirect('/home');
+    }
 
 
 

@@ -76,6 +76,8 @@ class VisitorsController extends Controller
         }else{
             $visitor->image()->create(['image'=>$this->DefaultImage()]);
         }
+
+        $user->assignRole('visitor');
   
         $this->sendResetLinkEmail($request);
         return redirect()->route('visitors.index')->with('success', 'User has been Added');

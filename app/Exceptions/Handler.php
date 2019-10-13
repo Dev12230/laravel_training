@@ -44,15 +44,16 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $exception)
     {
-        if ($this->isHttpException($e))
+        if ($this->isHttpException($exception))
         {
-            return $this->renderHttpException($e);
+            return $this->renderHttpException($exception);
         }
         else
         {
-            return parent::render($request, $e);
+            return parent::render($request, $exception);
         }
     }
+
 }
