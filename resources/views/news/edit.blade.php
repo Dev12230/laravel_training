@@ -121,7 +121,7 @@
 <!-- Drop Image -->
 <script>
   Dropzone.autoDiscover = false;
-  var uploadedImage = {}
+  var uploadedImages = []
   let imageDropzone = new Dropzone('#image-drop', {
     url: "{{ route('uploads') }}",
     paramName: "image",
@@ -132,16 +132,27 @@
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     success: function (image, response) {
-      $('form').append('<input type="hidden" name="image[]" value="' + response.url + '">')
-      uploadedImage[image.url] = response.url
-    }
+      $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.url + '">')
+      uploadedImages.push(response.url)
+    },
+    removedfile: function (image) {
+      image.previewElement.remove()
+      var name = ''
+        uploadedImages.forEach(myFunction);
+        function myFunction(item) {
+          var n = item.includes(image.name);
+           if (n ==true){
+            name = item
+           }
+      }
+      $('form').find('input[name="image[]"][value="' + name + '"]').remove()  
+    },
 
   })
 </script>
-<!-- File Image -->
 <script>
 Dropzone.autoDiscover = false;
-  var uploadedFile = {}
+  var uploadedFiles = []
   let fileDropzone = new Dropzone('#file-drop', {
     url: "{{ route('uploads') }}",
     maxThumbnailFilesize: 1, // MB
@@ -152,8 +163,20 @@ Dropzone.autoDiscover = false;
     },
     success: function (file, response) {
       $('form').append('<input type="hidden" name="file[]" value="' + response.url + '">')
-      uploadedFile[file.url] = response.url
+      uploadedFiles.push(response.url)
     }, 
+    removedfile: function (file) {
+      file.previewElement.remove()
+      var name = ''
+      uploadedFiles.forEach(myFunction);
+        function myFunction(item) {
+          var n = item.includes(file.name);
+           if (n ==true){
+            name = item
+           }
+      }
+      $('form').find('input[name="file[]"][value="' + name + '"]').remove()  
+    },
   })
   </script>
 <!-- js validation -->

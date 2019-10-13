@@ -1,3 +1,4 @@
+<a href="/news/{{$row->id}}" class="bttn btn btn-xs btn-primary " data-id="{{$row->id}}"><span>Show</span></a> 
 
 <a href="/news/{{$row->id}}/edit" class="bttn btn btn-xs btn-success " data-id="{{$row->id}}"><i class="fa fa-edit"></i><span>Edit</span></a> 
 

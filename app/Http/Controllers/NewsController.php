@@ -56,6 +56,7 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
+        // dd($request->input('image'));
         $news=News::create($request->all());
 
         if ($images = $request->input('image')){
@@ -82,9 +83,11 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(News $news)
     {
-        //
+        $images=$news->image()->pluck("image");
+        // dd($images);
+        return view('news.show',compact('news','images'));
     }
 
     /**
@@ -163,11 +166,6 @@ class NewsController extends Controller
     }
 
     public function uploads(Request $request){
-        if($image = $request->file('image')){
-            $Url = $this->UploadImage($image);
-        }elseif($file = $request->file('file')){
-            $Url = $this->UploadFile($file);
-        }    
-        return response()->json(['url' => $Url]);
+        return $this->serverUpload($request);
     }
 }
