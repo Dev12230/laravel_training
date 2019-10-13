@@ -12,10 +12,11 @@ use App\Visitor;
 use Illuminate\Support\Str;
 use App\Traits\ManageUploads;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Traits\toggle;
 
 class VisitorsController extends Controller
 {
-    use SendsPasswordResetEmails,ManageUploads;
+    use SendsPasswordResetEmails,ManageUploads,toggle;
 
     public function __construct()
     {
@@ -129,9 +130,8 @@ class VisitorsController extends Controller
 
     public function toggleStatus(Visitor $visitor)
     {
-        $visitor->user->active = !$visitor->user->active;
-        $visitor->user->save();
-        return redirect()->route('visitors.index');
+        $this->active($visitor->user);
+        return redirect()->route('staff.index');
     }
 
 

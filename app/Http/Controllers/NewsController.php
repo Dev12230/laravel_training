@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewsRequest;
 use App\Traits\ManageUploads;
+use App\Traits\toggle;
 use DataTables;
 use App\Staff;
 use App\News;
-use DB;
-use App\RelatedNews;
 
 
 class NewsController extends Controller
 {
-    use ManageUploads;
+    use ManageUploads,toggle;
     /**
      * Display a listing of the resource.
      *
@@ -157,8 +156,7 @@ class NewsController extends Controller
 
     public function toggleStatus(News $news)
     {
-        $news->is_publish = !$news->is_publish;
-        $news->save();
+        $this->publish($news);
         return redirect()->route('news.index');
     }
 

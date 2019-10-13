@@ -13,12 +13,14 @@ use App\User;
 use App\Staff;
 use Illuminate\Support\Str;
 use App\Traits\ManageUploads;
+use App\Traits\toggle;
+
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class StaffController extends Controller
 {
 
-    use SendsPasswordResetEmails,ManageUploads;
+    use SendsPasswordResetEmails,ManageUploads,toggle;
 
     public function __construct()
     {
@@ -141,8 +143,7 @@ class StaffController extends Controller
 
     public function toggleStatus(Staff $staff)
     {
-        $staff->user->active = !$staff->user->active;
-        $staff->user->save();
+        $this->active($staff->user);
         return redirect()->route('staff.index');
     }
 }
