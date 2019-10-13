@@ -115,7 +115,7 @@
 <!-- Drop Image -->
 <script>
   Dropzone.autoDiscover = false;
-  var uploadedImages = []
+  var uploadedImages = {}
   let imageDropzone = new Dropzone('#image-drop', {
     url: "{{ route('uploads') }}",
     paramName: "image",
@@ -125,29 +125,33 @@
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
+    renameFile: function(image) {
+                var dt = new Date();
+                var time = dt.getTime();
+                console.log(time+image.name)
+               return time+image.name;
+    },
     success: function (image, response) {
       $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.url + '">')
-      uploadedImages.push(response.url)
+      uploadedImages[image.name] = response.url
     },
     removedfile: function (image) {
-      image.previewElement.remove()
-      var name = ''
-        uploadedImages.forEach(myFunction);
-        function myFunction(item) {
-          var n = item.includes(image.name);
-           if (n ==true){
-            name = item
-           }
-      }
-      $('form').find('input[name="image[]"][value="' + name + '"]').remove()  
-    },
+                image.previewElement.remove()
+                let name = '';
+                if (typeof image.file_name !== 'undefined') {
+                    name = image.file_name;
+                } else {
+                    name = uploadedImages[image.name];
+                }
+                $('form').find('input[name="image[]"][value="'+ name +'"]').remove()
+            },
 
   })
 </script>
 <!-- Drop File -->
 <script>
 Dropzone.autoDiscover = false;
-  var uploadedFiles = []
+  var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
     url: "{{ route('uploads') }}",
     maxThumbnailFilesize: 1, // MB
@@ -158,20 +162,21 @@ Dropzone.autoDiscover = false;
     },
     success: function (file, response) {
       $('form').append('<input type="hidden" name="file[]" value="' + response.url + '">')
-      uploadedFiles.push(response.url)
+      uploadedFiles[file.name]=response.url
+      console.log(uploadedFiles)
     }, 
     removedfile: function (file) {
-      file.previewElement.remove()
-      var name = ''
-      uploadedFiles.forEach(myFunction);
-        function myFunction(item) {
-          var n = item.includes(file.name);
-           if (n ==true){
-            name = item
-           }
-      }
-      $('form').find('input[name="file[]"][value="' + name + '"]').remove()  
-    },
+      console.log(file.name)
+                file.previewElement.remove()
+                let name = '';
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name;
+                } else {
+                    name = uploadedFiles[file.name];
+                }
+                console.log(name)
+                $('form').find('input[name="file[]"][value="'+ name +'"]').remove()
+            },
   })
   </script>
 <!-- js validation -->
