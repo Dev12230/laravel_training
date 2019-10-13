@@ -48,7 +48,7 @@ class News extends Model
     public static function is_publish()
     {
         return Cache::rememberForever('users', function() {
-             return News::where('is_publish',1)->pluck("main_title", "id");
+             return News::where('is_publish',true)->pluck("main_title", "id");
          });
     }
 
