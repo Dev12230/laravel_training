@@ -76,6 +76,7 @@ class StaffController extends Controller
             array_merge($request->all(), ['password'=> Str::random(8)])
         );
         $user->assignRole($request->role);
+        $user->assignRole('staff');
 
         $staff=Staff::create(
             array_merge($request->all(), ['user_id' => $user->id])

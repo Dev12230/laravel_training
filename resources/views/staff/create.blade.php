@@ -74,7 +74,9 @@
      <select id="role" class="form-control" name="role">
         <option selected>Choose...</option>
         @foreach ($roles as $key => $role)
-      <option  value="{{$role}}" >{{$role}}</option>
+          @if($role !=='staff')
+        <option  value="{{$role}}" >{{$role}}</option>
+          @endif
         @endforeach
       </select>
       

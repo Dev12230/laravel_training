@@ -24,15 +24,18 @@
 Auth::routes();  
 Route::group(['middleware'=>'is-active','auth'], function () {
 
-Route::get('/home', 'HomeController@index')->name('home');
+  Route::group(['middleware' => ['role:Admin|staff']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+        //---------- roles route -------------------
+        Route::group(['middleware' => ['role:Admin']], function () {       
+            Route::resource('roles', 'RolesController');
+
+        });
 
     //---------- Cities route -------------------
     Route::resource('cities', 'CitiesController');
     Route::get('get-cities', 'CitiesController@getCities');
-    //---------- staff route -------------------
-    Route::group(['middleware' => ['role:Admin']], function () {       
-        Route::resource('roles', 'RolesController');
-    });
+
     //------------Jobs route -------------------
     Route::resource('jobs', 'JobsController');
     //------------staff route -------------------
@@ -48,4 +51,5 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
 
     Route::post('uploads', 'NewsController@uploads')->name('uploads');
+    });
 });

@@ -77,7 +77,9 @@
      <select id="role" class="form-control" name="role">
         <option selected>Choose...</option>
         @foreach ($roles as $key => $role)
+        @if($role !=='staff')
       <option value="{{$role}}" {{ ($staff->user->roles->first()->name == $role) ? 'selected' : '' }}>{{$role}}</option>
+        @endif
         @endforeach
       </select>
       

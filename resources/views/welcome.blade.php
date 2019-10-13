@@ -34,14 +34,20 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="page-scroll" href="#page-top">Home</a></li>
-                        <li><a class="page-scroll" href="#features">Features</a></li>
-                        <li><a class="page-scroll" href="#team">Team</a></li>
-                        <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
-                        <li><a class="page-scroll" href="#pricing">Pricing</a></li>
-                        <li><a class="page-scroll" href="#contact">Contact</a></li>
+                        @auth
+                        <li>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                            </form>
+                        </li>
+                        @else
                         <li><a class="page-scroll" href="{{ route('register') }}">Sign up</a></li>
                         <li><a class="page-scroll" href="{{ route('login') }}">Login</a></li>
+                        @endauth
                     </ul>
                 </div>
             </div>
