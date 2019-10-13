@@ -99,7 +99,7 @@ class NewsController extends Controller
         $selectedNews =RelatedNews::where('news_id',$news->id)->get();
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
-        return view('news.edit',compact('files','relNews','selectedNews'));
+        return view('news.edit',compact('news','files','relNews','selectedNews'));
     }
 
     /**
