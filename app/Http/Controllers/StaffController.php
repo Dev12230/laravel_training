@@ -78,9 +78,7 @@ class StaffController extends Controller
         $user->assignRole($request->role);
         $user->assignRole('staff');
 
-        $staff=Staff::create(
-            array_merge($request->all(), ['user_id' => $user->id])
-        );
+        $staff=$user->staff()->create($request->all());
 
         if ($image=$request->file('image')) {
             $staff->image()->create(['image'=>$this->UploadImage($image)]);

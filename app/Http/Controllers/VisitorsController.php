@@ -67,9 +67,7 @@ class VisitorsController extends Controller
         $user=User::create(
             array_merge($request->all(), ['password'=> Str::random(8)])
         );
-        $visitor=Visitor::create(
-            array_merge($request->all(), ['user_id' => $user->id])
-        );
+        $visitor=$user->visitor()->create($request->all());
 
         if ($image=$request->file('image')) {
             $visitor->image()->create(['image'=>$this->UploadImage($image)]);

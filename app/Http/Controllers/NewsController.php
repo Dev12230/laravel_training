@@ -21,9 +21,9 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
+        if (!$request->ajax()) {
             $news=News::query();
-            
+                      
             return Datatables::of($news)       
               ->addColumn('action', function ($row) {
                 return  view('news.actions', compact('row'));
@@ -94,8 +94,8 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $relNews=$news->is_publish();
-        $selectedNews =$news->related()->get();
+        $relNews=$news->is_publish();    //get published news
+        $selectedNews =$news->related()->get();  //get selected related news 
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
         $authors = Staff::where('job_id',$news->staff->job_id)->get();
