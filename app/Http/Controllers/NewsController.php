@@ -98,7 +98,9 @@ class NewsController extends Controller
         $selectedNews =$news->related()->get();
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
-        return view('news.edit',compact('news','files','relNews','selectedNews'));
+        $authors = Staff::where('job_id',$news->staff->job_id)->get();
+        $authors=$authors->pluck('user.first_name','id');
+        return view('news.edit',compact('news','files','relNews','selectedNews','authors'));
     }
 
     /**
@@ -148,7 +150,7 @@ class NewsController extends Controller
 
     public function getAuthors(Request $request)
     {
-        $authors = Staff::with('User')->where('job_id',$request->job_id)->get();
+        $authors = Staff::where('job_id',$request->job_id)->get();
         $authors=$authors->pluck('user.first_name','id');
 
         return response()->json($authors);

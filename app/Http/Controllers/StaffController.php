@@ -99,6 +99,7 @@ class StaffController extends Controller
      */
     public function edit(Staff $staff)
     {
+        
         $roles = Role::pluck('name');
         $jobs = Job::pluck('name', 'id');
         $countries = Country::pluck('name', 'id');

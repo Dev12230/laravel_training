@@ -36,7 +36,9 @@
     <div class="form-group">
       <label for="staff_id">Author:</label>
       <select name="staff_id" id="staff_id" class="form-control" style="width:350px">
-      <option value="{{$news->staff->id}}">{{$news->staff->user->first_name}}<option>
+      @foreach ($authors as $key =>$author)
+      <option value="{{$key}}" {{ ($news->staff->id== $key) ? 'selected' : '' }} >{{$author}}<option>
+       @endforeach
       </select>
     </div>
       
