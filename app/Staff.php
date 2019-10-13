@@ -9,6 +9,16 @@ class Staff extends Model
 {
     use SoftDeletes;
 
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($staff) {
+             $staff->image()->delete();
+             $staff->user()->delete();
+        });
+    }
+
     protected $fillable = [
         'user_id','job_id','country_id','city_id'
     ];

@@ -123,7 +123,6 @@ class VisitorsController extends Controller
      */
     public function destroy(Visitor $visitor)
     {
-        $visitor->user()->delete();
         $visitor->delete();
         return redirect()->route('visitors.index')->with('success', 'visitor deleted');
     }

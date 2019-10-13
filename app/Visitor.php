@@ -9,6 +9,15 @@ class Visitor extends Model
 {
     use SoftDeletes;
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($visitor) {
+             $visitor->image()->delete();
+             $visitor->user()->delete();
+        });
+    }
+
     protected $fillable = [
         'user_id','country_id','city_id'
     ];

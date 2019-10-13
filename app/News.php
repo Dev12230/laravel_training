@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class News extends Model
 {
     use SoftDeletes;
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($news) {
+             $news->image()->delete();
+             $news->file()->delete();
+             $news->related()->delete();
+        });
+    }
     
     protected $fillable = [
         'main_title','secondary_title','type','staff_id','content',
@@ -33,4 +43,6 @@ class News extends Model
     {
         return $this->hasMany('App\RelatedNews', 'news_id');
     }
+
+
 }
