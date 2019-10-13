@@ -56,7 +56,6 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        // dd($request->input('image'));
         $news=News::create($request->all());
 
         if ($images = $request->input('image')){
@@ -85,9 +84,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        $images=$news->image()->pluck("image");
-        // dd($images);
-        return view('news.show',compact('news','images'));
+        return view('news.show',compact('news'));
     }
 
     /**
@@ -99,7 +96,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $relNews=News::where('is_publish',1)->pluck("main_title", "id");
-        $selectedNews =RelatedNews::where('news_id',$news->id)->get();
+        $selectedNews =$news->related()->get();
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
         return view('news.edit',compact('news','files','relNews','selectedNews'));
@@ -122,7 +119,7 @@ class NewsController extends Controller
                 $news->image()->create(['image'=>$image]);
          }
 
-        if($files = $request->input('image')){
+        if($files = $request->input('file')){
             $news->file()->delete();
             foreach($files as $file)
                 $news->file()->create(['file'=>$file]);

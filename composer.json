@@ -14,9 +14,9 @@
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.0",
+        "proengsoft/laravel-jsvalidation": ">2.2.0",
         "spatie/laravel-permission": "^3.0",
-        "yajra/laravel-datatables-oracle": "^9.0",
-        "proengsoft/laravel-jsvalidation": ">2.2.0"
+        "yajra/laravel-datatables-oracle": "^9.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

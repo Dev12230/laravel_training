@@ -22,7 +22,7 @@ class News extends Model
     protected $fillable = [
         'main_title','secondary_title','type','staff_id','content',
     ];
-    protected $with = ['staff'];
+    protected $with = ['staff','related'];
 
     public function staff()
     {

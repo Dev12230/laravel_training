@@ -154,6 +154,7 @@
 Dropzone.autoDiscover = false;
   var uploadedFiles = []
   let fileDropzone = new Dropzone('#file-drop', {
+    paramName: "file",
     url: "{{ route('uploads') }}",
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".pdf,.xlsx",

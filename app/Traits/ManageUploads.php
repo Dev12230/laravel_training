@@ -7,13 +7,14 @@ trait ManageUploads
  
     public function UploadImage($image)
     {
-        $imageName = time().$image->getClientOriginalName();
-        return $image->storeAs('uploads', $imageName,'public');
+        $imgName = time().$image->getClientOriginalName();
+        return $image->storeAs('uploads', $imgName,'public');
     }
 
     public function UploadFile($file)
     {
-         return $file->store('files', 'public');
+        $fileName = time().$file->getClientOriginalName();
+         return $file->storeAs('files',$fileName,'public');
     }
     
     public function DefaultImage()
@@ -27,6 +28,7 @@ trait ManageUploads
         if($image = $request->file('image')){
             $Url = $this->UploadImage($image);
         }elseif($file = $request->file('file')){
+            dd('file');
             $Url = $this->UploadFile($file);
         }    
         return response()->json(['url' => $Url]);
