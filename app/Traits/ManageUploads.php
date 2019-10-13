@@ -28,7 +28,6 @@ trait ManageUploads
         if($image = $request->file('image')){
             $Url = $this->UploadImage($image);
         }elseif($file = $request->file('file')){
-            dd('file');
             $Url = $this->UploadFile($file);
         }    
         return response()->json(['url' => $Url]);

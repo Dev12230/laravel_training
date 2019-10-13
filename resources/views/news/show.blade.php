@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label class="control-label" for="status"> Files:</label><br>
                     @foreach($news->file as $file)
-                    <a href="{{Storage::url($file->file)}}" >{{$file->file}}</a><br>
+                    <a href="{{Storage::url($file->file)}}" >{{explode("/",$file->file)[1]}}</a><br>
                     @endforeach
                 </div>
                 @endif

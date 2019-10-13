@@ -163,6 +163,7 @@ Dropzone.autoDiscover = false;
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     success: function (file, response) {
+      console.log(response.url)
       $('form').append('<input type="hidden" name="file[]" value="' + response.url + '">')
       uploadedFiles.push(response.url)
     }, 
