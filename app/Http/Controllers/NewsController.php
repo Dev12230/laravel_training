@@ -43,7 +43,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $relNews=News::where('is_publish',1)->pluck("main_title", "id");
+        $relNews=News::is_publish();
         return view('news.create',compact('relNews'));
     }
 
@@ -94,7 +94,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $relNews=News::where('is_publish',1)->pluck("main_title", "id");
+        $relNews=$news->is_publish();
         $selectedNews =$news->related()->get();
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 

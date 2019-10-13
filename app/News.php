@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cache;
 
 class News extends Model
 {
@@ -42,6 +43,13 @@ class News extends Model
     public function related()
     {
         return $this->hasMany('App\RelatedNews', 'news_id');
+    }
+
+    public static function is_publish()
+    {
+        return Cache::rememberForever('users', function() {
+             return News::where('is_publish',1)->pluck("main_title", "id");
+         });
     }
 
 
