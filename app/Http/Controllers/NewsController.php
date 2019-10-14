@@ -38,7 +38,7 @@ class NewsController extends Controller
               ->addColumn('status', function ($row) {
                 return  view('news.status', compact('row'));
                })
-              ->rawColumns(['author','action','status']) ->make(true);
+              ->rawColumns(['action','status']) ->make(true);
          }
         return view('news.index');
     }
