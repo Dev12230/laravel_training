@@ -32,7 +32,7 @@ class VisitorsController extends Controller
     {
       
         if ($request->ajax()) {
-            $visitor=Visitor::with(['image','city']);
+            $visitor=Visitor::with(['image']);
 
             return Datatables::of($visitor)
                ->addColumn('action', function ($row) {

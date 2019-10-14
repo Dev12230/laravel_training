@@ -13,7 +13,9 @@
             <th>Secondary title</th>
             <th>Type</th>
             <th>Author</th>
+            @if(auth()->user()->can('news-edit') || auth()->user()->can('news-delete')|| auth()->user()->can('news-show'))
             <th>Actions</th>
+            @endif
             <th>Status</th>
         
             </tr>
@@ -41,7 +43,9 @@
                 render: function ( data, type, row ) {
                    return row.staff.user.first_name + " " + row.staff.user.last_name;
                 }} ,
+                @if(auth()->user()->can('news-edit') || auth()->user()->can('news-delete')|| auth()->user()->can('news-show'))
             {data: 'action',name: 'action',orderable: false, searchable: false},
+              @endif
             {data: 'status',name: 'status',orderable: false, searchable: false},
 
 

@@ -23,7 +23,7 @@ class Visitor extends Model
     ];
       /** @inheritdoc */
  
-    protected $with = ['user'];
+    protected $with = ['user','city'];
 
 
     public function user()

@@ -28,17 +28,17 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        if (!$request->ajax()) {
+        if ($request->ajax()) {
             $news=News::query();
                       
             return Datatables::of($news)       
               ->addColumn('action', function ($row) {
                 return  view('news.actions', compact('row'));
                })
-               ->addColumn('status', function ($row) {
+              ->addColumn('status', function ($row) {
                 return  view('news.status', compact('row'));
                })
-               ->rawColumns(['action','status']) ->make(true);
+              ->rawColumns(['author','action','status']) ->make(true);
          }
         return view('news.index');
     }
