@@ -43,7 +43,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $relNews=News::is_publish();
+        $relNews=News::getPublished();
         return view('news.create',compact('relNews'));
     }
 
@@ -94,7 +94,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $relNews=$news->is_publish();    //get published news
+        $relNews=$news->getPublished();    //get published news
         $selectedNews =$news->related()->get();  //get selected related news 
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
