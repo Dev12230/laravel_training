@@ -14,6 +14,13 @@ use App\News;
 class NewsController extends Controller
 {
     use ManageUploads,toggle;
+
+
+    public function __construct()
+    {
+        $this->authorizeResource(News::class);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -36,6 +36,13 @@ class PermissionTableSeeder extends Seeder
             'visitor-edit',
             'visitor-delete',
             'visitor-active',
+
+            'news-list',
+            'news-show',
+            'news-create',
+            'news-edit',
+            'news-delete',
+            'news-active',
            
          ];
  
