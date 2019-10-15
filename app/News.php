@@ -46,10 +46,4 @@ class News extends Model
         return $this->hasMany('App\RelatedNews', 'news_id');
     }
 
-    public static function getPublished()
-    {
-        return Cache::rememberForever('users', function () {
-             return News::where('is_publish', true)->pluck("main_title", "id");
-        });
-    }
 }

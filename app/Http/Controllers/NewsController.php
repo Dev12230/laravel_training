@@ -51,7 +51,6 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $relNews=News::getPublished();
         return view('news.create', compact('relNews'));
     }
 
@@ -103,14 +102,13 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $relNews=$news->getPublished();    //get published news
-        $selectedNews =$news->related()->get();  //get selected related news
+        $selectedNews =$news->related()->get();  
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
         $authors = Staff::where('job_id', $news->staff->job_id)->get();
         $authors=$authors->pluck('user.first_name', 'id');
         
-        return view('news.edit', compact('news', 'relNews', 'selectedNews', 'authors'));
+        return view('news.edit', compact('news','selectedNews', 'authors'));
     }
 
     /**
@@ -161,6 +159,10 @@ class NewsController extends Controller
         $authors=$authors->pluck('user.first_name', 'id');
 
         return response()->json($authors);
+    }
+
+    public function getPublishedNews(){
+        return News::where('is_publish', true)->pluck("main_title", "id");
     }
 
     public function toggleStatus(News $news)

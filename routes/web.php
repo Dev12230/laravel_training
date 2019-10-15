@@ -47,16 +47,17 @@
         //------------News route -------------------
             Route::resource('news', 'NewsController');
             Route::get('get-authors', 'NewsController@getAuthors');
+            Route::get('get-published', 'NewsController@getPublishedNews');
             Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
 
             Route::post('uploads', 'NewsController@uploads')->name('uploads');
     
         //------------Images route -------------------
             Route::get('get-images', 'ImagesController@getImages')->name('getImages');
-            Route::get('delete-image/{id}', 'ImagesController@deleteImage')->name('deleteImage');
+            Route::get('delete-image/{id}', 'ImagesController@destroy')->name('deleteImage');
 
         //------------Files route -------------------
             Route::get('get-files', 'FilesController@getFiles')->name('getFiles');
-            Route::get('delete-file/{id}', 'FilesController@deleteFile')->name('deleteFile');   
+            Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');   
         });
     });

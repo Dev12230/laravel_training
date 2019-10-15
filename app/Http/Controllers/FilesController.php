@@ -16,7 +16,7 @@ class FilesController extends Controller
 
         return response()->json($files);
     }
-    public function deleteFile($id)
+    public function destroy($id)
     {
         $file=File::find($id);
         $file->delete();

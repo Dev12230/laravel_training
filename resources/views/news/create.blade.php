@@ -62,12 +62,8 @@
 
     <div class="form-group">
     <label>Choose Related News</label>
-    <select data-placeholder="Choose News..." class="chosen-select" multiple style="width:400px;" name="related[]">
-          <option value="">Select</option>
-          @foreach ($relNews as $key => $news)
-          <option value="{{$key}}">{{$news}}</option>
-          @endforeach>
-      </select>
+    <select id="published" data-placeholder="Choose News..." class="chosen-select" multiple style="width:400px;" name="related[]">
+    </select>
     </div>
     
   <button type="submit" class="btn btn-primary">Add</button>
@@ -85,6 +81,24 @@
                 console.error( error );
             } );
 
+</script>
+<!-- published news -->
+<script> 
+      $.ajax({
+        type:"GET",
+        url:'/get-published/' ,
+           success:function(data){  
+            if(data){
+                $("#published").empty();
+                $("#published").append('<option>Select</option>');
+                $.each(data,function(key,value){
+                    $("#published").append(`<option value='${key}' >${value}</option>`);
+                });
+           }else{ 
+             $("#published").empty(); 
+           }             
+          } 
+      });     
 </script>
 
 <!-- staff_id ajax request -->

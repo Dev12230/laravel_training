@@ -15,7 +15,8 @@ class ImagesController extends Controller
 
         return response()->json($images);
     }
-    public function deleteImage($id)
+
+    public function destroy($id)
     {
         $image=Image::find($id);
         $image->delete();

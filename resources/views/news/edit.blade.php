@@ -68,15 +68,8 @@
 
     <div class="form-group">
     <label>Choose Related News</label>
-    <select data-placeholder="Choose News..." class="chosen-select" multiple style="width:400px;" name="related[]">
-    @foreach ($relNews as $key => $news)
-         @if(in_array($news, $selectedNews))
-          <option value="{{$key}}" selected>{{$news}}</option>
-          @else
-          <option value="{{$key}}" >{{$news}}</option>
-          @endif
-    @endforeach>
-      </select>
+    <select id="published" data-placeholder="Choose News..." class="chosen-select" multiple style="width:400px;" name="related[]">
+    </select>
     </div>
     
 
@@ -97,7 +90,35 @@
             } );
 
 </script>
+<!-- published news -->
+<script> 
+      var selected=[] 
+      @foreach ($selectedNews as $key => $title)
+          var val= "<?php echo $title ?>";
+           selected.push(val)
+      @endforeach
 
+      $.ajax({
+        type:"GET",
+        url:'/get-published/' ,
+           success:function(data){ 
+            if(data){
+                $("#published").empty();
+                $("#published").append('<option>Select</option>');
+                $.each(data,function(key,value){
+                  $('.chosen-select').select2();
+                  if(selected.includes(value)){
+                        $("#published").append(`<option  value='${key}' selected>${value}</option>`);
+                  }else{   
+                        $("#published").append(`<option value='${key}' >${value}</option>`);
+                  }
+                });
+           }else{ 
+             $("#published").empty(); 
+           }             
+          } 
+      });     
+</script>
 <!-- staff_id ajax request -->
 <script type="text/javascript">
  $('#type').change(function(){
@@ -207,15 +228,8 @@ Dropzone.autoDiscover = false;
           if(data){
             data.forEach(myFunction);
             function myFunction(item, index) {
-            var mockFile = {name: item.file};
-
             var ext = item.file.split('.').pop();
-             console.log(ext)
-          
-            //   //     $(mockFile.previewElement).find(".dz-image img").attr("src", "/Content/Images/pdf.png");
-            //   // }
-
-
+            var mockFile = {name: item.file};
             myDropzonefile.options.addedfile.call(myDropzonefile, mockFile)
             myDropzonefile.options.thumbnail.call(myDropzonefile, mockFile,`{{ Storage::url('${mockFile.name}') }}`)
             if (ext == "pdf") {
