@@ -10,10 +10,11 @@ class News extends Model
 {
     use SoftDeletes;
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($news) {
+        static::deleting(function ($news) {
              $news->image()->delete();
              $news->file()->delete();
              $news->related()->delete();
@@ -37,7 +38,7 @@ class News extends Model
 
     public function file()
     {
-        return $this->morphMany('App\File', 'file');
+        return $this->morphMany('App\File', 'fileable');
     }
 
     public function related()
@@ -47,11 +48,8 @@ class News extends Model
 
     public static function getPublished()
     {
-        return Cache::rememberForever('users', function() {
-             return News::where('is_publish',true)->pluck("main_title", "id");
-         });
+        return Cache::rememberForever('users', function () {
+             return News::where('is_publish', true)->pluck("main_title", "id");
+        });
     }
-
-
-
 }

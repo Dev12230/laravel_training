@@ -10,10 +10,11 @@ class Staff extends Model
     use SoftDeletes;
 
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($staff) {
+        static::deleting(function ($staff) {
              $staff->image()->delete();
              $staff->user()->delete();
         });
@@ -55,6 +56,4 @@ class Staff extends Model
     {
         return $this->hasMany('App\News');
     }
-
-
 }

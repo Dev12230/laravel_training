@@ -9,10 +9,11 @@ class Visitor extends Model
 {
     use SoftDeletes;
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($visitor) {
+        static::deleting(function ($visitor) {
              $visitor->image()->delete();
              $visitor->user()->delete();
         });

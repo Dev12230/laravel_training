@@ -33,9 +33,9 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-            if (Auth::user()->hasRole('Admin|staff')) {
-              return redirect('/home');
-            }
+        if (Auth::user()->hasRole('Admin|staff')) {
+            return redirect('/home');
+        }
               return redirect('/');
     }
 

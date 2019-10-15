@@ -34,7 +34,7 @@ class RoleRequest extends FormRequest
         if (isset($this->role->id)) {
             return $this->role->id;
         } else {
-            return Null;
+            return null;
         }
     }
 

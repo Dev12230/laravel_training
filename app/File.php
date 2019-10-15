@@ -9,13 +9,13 @@ class File extends Model
 {
     use SoftDeletes;
 
-    protected $with = ['file'];
+    protected $with = ['fileable'];
 
     protected $fillable = [
         'file',
     ];
 
-    public function file()
+    public function fileable()
     {
         return $this->morphTo();
     }

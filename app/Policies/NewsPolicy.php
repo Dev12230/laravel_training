@@ -11,7 +11,7 @@ class NewsPolicy
 
     public function viewAny(User $user)
     {
-        if ($user->can('news-list') || $user->can('news-edit') || $user->can('news-delete') || $user->can('news-show') ) {
+        if ($user->can('news-list') || $user->can('news-edit') || $user->can('news-delete') || $user->can('news-show')) {
             return true;
         }
         return false;
@@ -26,7 +26,7 @@ class NewsPolicy
      */
     public function view(User $user, news $news)
     {
-        if ($user->can('news-list') || $user->can('news-edit') || $user->can('news-delete') || $user->can('news-show') ) {
+        if ($user->can('news-list') || $user->can('news-edit') || $user->can('news-delete') || $user->can('news-show')) {
             return true;
         }
         return false;

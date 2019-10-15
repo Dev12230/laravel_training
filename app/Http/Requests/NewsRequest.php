@@ -32,5 +32,4 @@ class NewsRequest extends FormRequest
            
         ];
     }
-
 }

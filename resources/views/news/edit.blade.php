@@ -15,10 +15,13 @@
 <form action="/news/{{$news->id}}" method ="POST" enctype="multipart/form-data">
 @csrf
 {{ method_field('PATCH')}}
+
     <div class="form-group" style="width:500px">
       <label for="main_title">Main Title:</label>
       <input type="text" class="form-control" id="main_title" name="main_title" value="{{$news->main_title}}">
     </div>
+
+<input id="news" type="hidden" name="id" value="{{$news->id}}">
 
     <div class="form-group" style="width:500px">
       <label for="secondary_title">Secondary Title:</label>
@@ -122,71 +125,115 @@
 </script>
 <!-- Drop Image -->
 <script>
-  Dropzone.autoDiscover = false;
-  var uploadedImages = {}
-  let imageDropzone = new Dropzone('#image-drop', {
-    url: "{{ route('uploads') }}",
-    paramName: "image",
-    maxThumbnailFilesize: 1, // MB
-    acceptedFiles: ".png,.jpg",
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    renameFile: function(image) {
-                var dt = new Date();
-                var time = dt.getTime();
-                console.log(time+image.name)
-               return time+image.name;
-    },
-    success: function (image, response) {
-      $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.url + '">')
-      uploadedImages[image.name] = response.url
-    },
-    removedfile: function (image) {
-                image.previewElement.remove()
-                let name = '';
-                if (typeof image.file_name !== 'undefined') {
-                    name = image.file_name;
-                } else {
-                    name = uploadedImages[image.name];
-                }
-                $('form').find('input[name="image[]"][value="'+ name +'"]').remove()
-            },
-
-  })
+Dropzone.autoDiscover = false;
+    var uploadedImages = {}
+      let imageDropzone = new Dropzone('#image-drop', {
+      url: "{{ route('uploads') }}",
+      paramName: "image",
+      maxThumbnailFilesize: 1, // MB
+      acceptedFiles: ".png,.jpg",
+      addRemoveLinks: true,
+      headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+      success: function (image, response) {
+        $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.id + '">')
+        uploadedImages[image.name] = response.id
+      },
+      removedfile: function (image) {
+        image.previewElement.remove()
+        let id = '';
+        id = uploadedImages[image.name];
+          $.ajax({
+          type:"GET",
+          url:'/delete-image/'+id ,
+          });
+        $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
+      },
+      init:function(){
+        var newsId = $('#news').val(); 
+        myDropzone = this;
+        $.ajax({
+          type:"GET",
+          url:"{{ route('getImages') }}?news_id="+newsId,
+          success: function(data){
+            if(data){
+              data.forEach(myFunction);
+              function myFunction(item, index) {
+                var mockFile = {name: item.image};
+                myDropzone.options.addedfile.call(myDropzone, mockFile)
+                myDropzone.options.thumbnail.call(myDropzone, mockFile,`{{ Storage::url('${mockFile.name}') }}`)
+                $('form').append('<input id="my" type="hidden" name="image[]" value="' + item.id + '">')
+                uploadedImages[mockFile.name]=item.id
+              } 
+            }else{ 
+            $("#form").empty()
+            } 
+          }
+        });
+      }, 
+})
 </script>
+
 <!-- Drop File -->
 <script>
-Dropzone.autoDiscover = false;
+  Dropzone.autoDiscover = false;
   var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
     url: "{{ route('uploads') }}",
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".pdf,.xlsx",
     addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
+    headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
     success: function (file, response) {
-      $('form').append('<input type="hidden" name="file[]" value="' + response.url + '">')
-      uploadedFiles[file.name]=response.url
-      console.log(uploadedFiles)
-    }, 
+      $('form').append('<input id="my" type="hidden" name="file[]" value="' + response.id + '">')
+      uploadedFiles[file.name] = response.id
+     },
     removedfile: function (file) {
-      console.log(file.name)
                 file.previewElement.remove()
-                let name = '';
-                if (typeof file.file_name !== 'undefined') {
-                    name = file.file_name;
-                } else {
-                    name = uploadedFiles[file.name];
-                }
-                console.log(name)
-                $('form').find('input[name="file[]"][value="'+ name +'"]').remove()
-            },
+                let id = '';
+                    id = uploadedFiles[file.name];
+                    $.ajax({
+                      type:"GET",
+                      url:'/delete-file/'+id ,
+                    });
+                $('form').find('input[name="file[]"][value="'+ id +'"]').remove()
+     },
+    init:function(){
+        var newsId = $('#news').val();  
+        myDropzonefile = this;
+        $.ajax({
+          type:"GET",
+           url:"{{ route('getFiles') }}?news_id="+newsId,
+        success: function(data){
+          if(data){
+            data.forEach(myFunction);
+            function myFunction(item, index) {
+            var mockFile = {name: item.file};
+
+            var ext = item.file.split('.').pop();
+             console.log(ext)
+          
+            //   //     $(mockFile.previewElement).find(".dz-image img").attr("src", "/Content/Images/pdf.png");
+            //   // }
+
+
+            myDropzonefile.options.addedfile.call(myDropzonefile, mockFile)
+            myDropzonefile.options.thumbnail.call(myDropzonefile, mockFile,`{{ Storage::url('${mockFile.name}') }}`)
+            if (ext == "pdf") {
+              $(mockFile.previewElement).find(".dz-image img").attr("src", "{{ Storage::url('pdf.png') }}")
+            }else if(ext == "xlsx"){
+              $(mockFile.previewElement).find(".dz-image img").attr("src", "{{ Storage::url('excel.png') }}")
+            }
+            $('form').append('<input id="my" type="hidden" name="file[]" value="' + item.id + '">')
+            uploadedFiles[mockFile.name]=item.id
+          }   
+        }else{ 
+          $("#form").empty()
+        }  
+       }
+      });
+    },           
   })
-  </script>
+</script>
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}

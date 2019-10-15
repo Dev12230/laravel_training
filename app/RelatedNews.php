@@ -14,7 +14,8 @@ class RelatedNews extends Model
     ];
     protected $with = ['news'];
 
-    public function news(){
+    public function news()
+    {
         return $this->belongsTo('App\News', 'related_id');
     }
 }

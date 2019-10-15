@@ -66,8 +66,8 @@ class User extends Authenticatable
         return $this->hasOne('App\Visitor');
     }
 
-    public function getFullNameAttribute()	 	 
-{	 	 
-    return $this->first_name . " " . $this->last_name;	 	 
-}
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
 }

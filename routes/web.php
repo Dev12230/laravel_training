@@ -21,35 +21,42 @@
     });
 
   
-Auth::routes();  
-Route::group(['middleware'=>'is-active','auth'], function () {
+    Auth::routes();
+    Route::group(['middleware'=>'is-active','auth'], function () {
 
-  Route::group(['middleware' => ['role:Admin|staff']], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-        //---------- roles route -------------------
-        Route::group(['middleware' => ['role:Admin']], function () {       
-            Route::resource('roles', 'RolesController');
+        Route::group(['middleware' => ['role:Admin|staff']], function () {
+            Route::get('/home', 'HomeController@index')->name('home');
+          //---------- roles route -------------------
+            Route::group(['middleware' => ['role:Admin']], function () {
+                Route::resource('roles', 'RolesController');
+            });
 
+        //---------- Cities route -------------------
+            Route::resource('cities', 'CitiesController');
+            Route::get('get-cities', 'CitiesController@getCities');
+
+        //------------Jobs route -------------------
+            Route::resource('jobs', 'JobsController');
+        //------------staff route -------------------
+            Route::resource('staff', 'StaffController');
+            Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus');
+        //------------staff route -------------------
+            Route::resource('visitors', 'VisitorsController')->except('show');
+            Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
+            Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
+        //------------News route -------------------
+            Route::resource('news', 'NewsController');
+            Route::get('get-authors', 'NewsController@getAuthors');
+            Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
+
+            Route::post('uploads', 'NewsController@uploads')->name('uploads');
+    
+        //------------Images route -------------------
+            Route::get('get-images', 'ImagesController@getImages')->name('getImages');
+            Route::get('delete-image/{id}', 'ImagesController@deleteImage')->name('deleteImage');
+
+        //------------Files route -------------------
+            Route::get('get-files', 'FilesController@getFiles')->name('getFiles');
+            Route::get('delete-file/{id}', 'FilesController@deleteFile')->name('deleteFile');   
         });
-
-    //---------- Cities route -------------------
-    Route::resource('cities', 'CitiesController');
-    Route::get('get-cities', 'CitiesController@getCities');
-
-    //------------Jobs route -------------------
-    Route::resource('jobs', 'JobsController');
-    //------------staff route -------------------
-    Route::resource('staff', 'StaffController');
-    Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus');
-    //------------staff route -------------------
-    Route::resource('visitors', 'VisitorsController')->except('show');
-    Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
-    Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
-    //------------News route -------------------
-    Route::resource('news', 'NewsController');
-    Route::get('get-authors', 'NewsController@getAuthors');
-    Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
-
-    Route::post('uploads', 'NewsController@uploads')->name('uploads');
     });
-});

@@ -45,4 +45,5 @@ class ForbidBannedUserCustom
 
 
         return $next($request);
-    }}
+    }
+}

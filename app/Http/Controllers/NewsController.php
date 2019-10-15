@@ -9,7 +9,8 @@ use App\Traits\toggle;
 use DataTables;
 use App\Staff;
 use App\News;
-
+use App\Image;
+use App\File;
 
 class NewsController extends Controller
 {
@@ -31,15 +32,15 @@ class NewsController extends Controller
         if ($request->ajax()) {
             $news=News::query();
                       
-            return Datatables::of($news)       
+            return Datatables::of($news)
               ->addColumn('action', function ($row) {
                 return  view('news.actions', compact('row'));
-               })
+              })
               ->addColumn('status', function ($row) {
                 return  view('news.status', compact('row'));
-               })
+              })
               ->rawColumns(['action','status']) ->make(true);
-         }
+        }
         return view('news.index');
     }
 
@@ -51,7 +52,7 @@ class NewsController extends Controller
     public function create()
     {
         $relNews=News::getPublished();
-        return view('news.create',compact('relNews'));
+        return view('news.create', compact('relNews'));
     }
 
     /**
@@ -64,20 +65,21 @@ class NewsController extends Controller
     {
         $news=News::create($request->all());
 
-        if ($images = $request->input('image')){
-            foreach($images as $image)
-                $news->image()->create(['image'=>$image]);
-         }
+        if ($ids = $request->input('image')) {
+            $images = Image::whereIn('id', $ids)->get();
+            $news->image()->saveMany($images->getDictionary());
+        }
 
-        if($files = $request->input('file')){
-            foreach($files as $file)
-                $news->file()->create(['file'=>$file]);
-         }
+        if ($ids = $request->input('file')) {
+            $files = File::whereIn('id', $ids)->get();
+            $news->file()->saveMany($files->getDictionary());
+        }
 
-         if($rel_news = $request['related']){
-            foreach($rel_news as $related)
+        if ($rel_news = $request['related']) {
+            foreach ($rel_news as $related) {
                 $news->related()->create(['related_id' => $related]);
-         }
+            }
+        }
 
         return redirect()->route('news.index')->with('success', 'News Added');
     }
@@ -90,7 +92,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        return view('news.show',compact('news'));
+        return view('news.show', compact('news'));
     }
 
     /**
@@ -102,13 +104,13 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $relNews=$news->getPublished();    //get published news
-        $selectedNews =$news->related()->get();  //get selected related news 
+        $selectedNews =$news->related()->get();  //get selected related news
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
-        $authors = Staff::where('job_id',$news->staff->job_id)->get();
-        $authors=$authors->pluck('user.first_name','id');
+        $authors = Staff::where('job_id', $news->staff->job_id)->get();
+        $authors=$authors->pluck('user.first_name', 'id');
         
-        return view('news.edit',compact('news','relNews','selectedNews','authors'));
+        return view('news.edit', compact('news', 'relNews', 'selectedNews', 'authors'));
     }
 
     /**
@@ -122,26 +124,23 @@ class NewsController extends Controller
     {
         $news->update($request->all());
 
-        if ($images = $request->input('image')){
-            $news->image()->delete();
-            foreach($images as $image)
-                $news->image()->create(['image'=>$image]);
-         }
+        if ($ids = $request->input('image')) {
+            $images = Image::whereIn('id', $ids)->get();
+            $news->image()->saveMany($images->getDictionary());
+        }
 
-        if($files = $request->input('file')){
-            $news->file()->delete();
-            foreach($files as $file)
-                $news->file()->create(['file'=>$file]);
-         }
+        if ($ids = $request->input('file')) {
+            $files = File::whereIn('id', $ids)->get();
+            $news->file()->saveMany($files->getDictionary());
+        }
          
-        if($rel_news = $request['related']){
+        if ($rel_news = $request['related']) {
             $news->related()->delete();
-            foreach($rel_news as $related)
+            foreach ($rel_news as $related) {
                 $news->related()->create(['related_id' => $related]);
-         }
-         return redirect()->route('news.index')->with('success', 'news has been updated'); 
-
-    
+            }
+        }
+         return redirect()->route('news.index')->with('success', 'news has been updated');
     }
 
     /**
@@ -158,8 +157,8 @@ class NewsController extends Controller
 
     public function getAuthors(Request $request)
     {
-        $authors = Staff::where('job_id',$request->job_id)->get();
-        $authors=$authors->pluck('user.first_name','id');
+        $authors = Staff::where('job_id', $request->job_id)->get();
+        $authors=$authors->pluck('user.first_name', 'id');
 
         return response()->json($authors);
     }
@@ -170,7 +169,17 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function uploads(Request $request){
-        return $this->serverUpload($request);
+    public function uploads(Request $request)
+    {
+         $url =$this->serverUpload($request);
+
+        if ($request->file('image')) {
+             $file=Image::create(['image'=>$url]);
+        }elseif ($request->file('file')) {
+             $file=File::create(['file'=>$url]);
+        }
+
+        return response()->json(['id' => $file->id,'name'=>$url]);
     }
+
 }

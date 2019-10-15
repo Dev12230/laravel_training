@@ -122,63 +122,54 @@
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".png,.jpg",
     addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    renameFile: function(image) {
-                var dt = new Date();
-                var time = dt.getTime();
-                console.log(time+image.name)
-               return time+image.name;
-    },
+    headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
     success: function (image, response) {
-      $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.url + '">')
-      uploadedImages[image.name] = response.url
+      $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.id + '">')
+      uploadedImages[image.name] = response.id
     },
     removedfile: function (image) {
-                image.previewElement.remove()
-                let name = '';
-                if (typeof image.file_name !== 'undefined') {
-                    name = image.file_name;
-                } else {
-                    name = uploadedImages[image.name];
-                }
-                $('form').find('input[name="image[]"][value="'+ name +'"]').remove()
-            },
+      image.previewElement.remove()
+      let id = '';
+      id = uploadedImages[image.name];
+        $.ajax({
+        type:"GET",
+        url:'/delete-image/'+id ,
+        });
+      $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
+    },
 
   })
 </script>
 <!-- Drop File -->
 <script>
-Dropzone.autoDiscover = false;
+  Dropzone.autoDiscover = false;
   var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
-    url: "{{ route('uploads') }}",
-    maxThumbnailFilesize: 1, // MB
-    acceptedFiles: ".pdf,.xlsx",
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    success: function (file, response) {
-      $('form').append('<input type="hidden" name="file[]" value="' + response.url + '">')
-      uploadedFiles[file.name]=response.url
-      console.log(uploadedFiles)
-    }, 
-    removedfile: function (file) {
-      console.log(file.name)
-                file.previewElement.remove()
-                let name = '';
-                if (typeof file.file_name !== 'undefined') {
-                    name = file.file_name;
-                } else {
-                    name = uploadedFiles[file.name];
-                }
-                console.log(name)
-                $('form').find('input[name="file[]"][value="'+ name +'"]').remove()
-            },
+      url: "{{ route('uploads') }}",
+      paramName: "file",
+      maxThumbnailFilesize: 1, // MB
+      acceptedFiles: ".pdf,.xlsx",
+      addRemoveLinks: true,
+      headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+      success: function (file, response) {
+          console.log(response)
+          $('form').append('<input id="my" type="hidden" name="file[]" value="' + response.id + '">')
+          uploadedFiles[file.name] = response.id
+          console.log(uploadedFiles)
+        },
+      removedfile: function (file) {
+          file.previewElement.remove()
+          let id = '';
+          id = uploadedFiles[file.name];
+            $.ajax({
+            type:"GET",
+            url:'/delete-file/'+id ,
+            });
+          $('form').find('input[name="file[]"][value="'+ id +'"]').remove()
+        },
+
   })
-  </script>
+</script>
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}

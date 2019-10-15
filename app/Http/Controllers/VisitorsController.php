@@ -71,7 +71,7 @@ class VisitorsController extends Controller
 
         if ($image=$request->file('image')) {
             $visitor->image()->create(['image'=>$this->UploadImage($image)]);
-        }else{
+        } else {
             $visitor->image()->create(['image'=>$this->DefaultImage()]);
         }
 
@@ -108,7 +108,7 @@ class VisitorsController extends Controller
 
         if ($image=$request->file('image')) {
             $visitor->image()->update(['image'=>$this->UploadImage($image)]);
-        }else{
+        } else {
             $visitor->image()->update(['image'=>$this->DefaultImage()]);
         }
 
@@ -132,6 +132,4 @@ class VisitorsController extends Controller
         $this->active($visitor->user);
         return redirect()->route('staff.index');
     }
-
-
 }

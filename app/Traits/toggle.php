@@ -15,7 +15,4 @@ trait toggle
         $model->active = !$model->active;
         $model->save();
     }
-
- 
-
 }
