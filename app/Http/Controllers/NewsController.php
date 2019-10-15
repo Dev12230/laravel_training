@@ -162,7 +162,8 @@ class NewsController extends Controller
     }
 
     public function getPublishedNews(){
-        return News::where('is_publish', true)->pluck("main_title", "id");
+        $news= News::where('is_publish', true)->pluck("main_title", "id");
+        return response()->json($news);
     }
 
     public function toggleStatus(News $news)
@@ -173,14 +174,13 @@ class NewsController extends Controller
 
     public function uploads(Request $request)
     {
-         $url =$this->serverUpload($request);
+        $url =$this->serverUpload($request);
 
         if ($request->file('image')) {
              $file=Image::create(['image'=>$url]);
         }elseif ($request->file('file')) {
              $file=File::create(['file'=>$url]);
         }
-
         return response()->json(['id' => $file->id,'name'=>$url]);
     }
 

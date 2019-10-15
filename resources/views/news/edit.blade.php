@@ -92,32 +92,32 @@
 </script>
 <!-- published news -->
 <script> 
-      var selected=[] 
-      @foreach ($selectedNews as $key => $title)
-          var val= "<?php echo $title ?>";
-           selected.push(val)
-      @endforeach
+var selected=[] 
+@foreach ($selectedNews as $key => $title)
+var val= "<?php echo $title ?>";
+selected.push(val)
+@endforeach
 
-      $.ajax({
-        type:"GET",
-        url:'/get-published/' ,
-           success:function(data){ 
-            if(data){
-                $("#published").empty();
-                $("#published").append('<option>Select</option>');
-                $.each(data,function(key,value){
-                  $('.chosen-select').select2();
-                  if(selected.includes(value)){
-                        $("#published").append(`<option  value='${key}' selected>${value}</option>`);
-                  }else{   
-                        $("#published").append(`<option value='${key}' >${value}</option>`);
-                  }
-                });
-           }else{ 
-             $("#published").empty(); 
-           }             
-          } 
-      });     
+  $.ajax({
+    type:"GET",
+    url:'/get-published/' ,
+    success:function(data){ 
+      if(data){
+        $("#published").empty();
+        $("#published").append('<option>Select</option>');
+        $.each(data,function(key,value){
+          $('.chosen-select').select2();
+          if(selected.includes(value)){
+          $("#published").append(`<option value='${key}' selected>${value}</option>`);
+          }else{ 
+          $("#published").append(`<option value='${key}' >${value}</option>`);
+          }
+        });
+      }else{ 
+      $("#published").empty(); 
+      } 
+    } 
+  }); 
 </script>
 <!-- staff_id ajax request -->
 <script type="text/javascript">
