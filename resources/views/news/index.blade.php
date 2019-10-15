@@ -16,8 +16,6 @@
             @if(auth()->user()->can('news-edit') || auth()->user()->can('news-delete')|| auth()->user()->can('news-show'))
             <th>Actions</th>
             @endif
-            <th>Status</th>
-        
             </tr>
     </thead>
     </table>
@@ -46,8 +44,6 @@
             @if(auth()->user()->can('news-edit') || auth()->user()->can('news-delete')|| auth()->user()->can('news-show'))
             {data: 'action',name: 'action',orderable: false, searchable: false},
               @endif
-            {data: 'status',name: 'status',orderable: false, searchable: false},
-
 
         ],
 

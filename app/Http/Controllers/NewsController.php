@@ -36,10 +36,7 @@ class NewsController extends Controller
               ->addColumn('action', function ($row) {
                 return  view('news.actions', compact('row'));
               })
-              ->addColumn('status', function ($row) {
-                return  view('news.status', compact('row'));
-              })
-              ->rawColumns(['action','status']) ->make(true);
+              ->rawColumns(['action']) ->make(true);
         }
         return view('news.index');
     }
@@ -105,8 +102,7 @@ class NewsController extends Controller
         $selectedNews =$news->related()->get();  
         $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
 
-        $authors = Staff::where('job_id', $news->staff->job_id)->get();
-        $authors=$authors->pluck('user.first_name', 'id');
+        $authors = $this->returnAuthors($news->staff->job_id);
         
         return view('news.edit', compact('news','selectedNews', 'authors'));
     }
@@ -155,13 +151,21 @@ class NewsController extends Controller
 
     public function getAuthors(Request $request)
     {
-        $authors = Staff::where('job_id', $request->job_id)->get();
-        $authors=$authors->pluck('user.first_name', 'id');
-
+        $authors = $this->returnAuthors($request->job_id);
         return response()->json($authors);
     }
 
+    public function returnAuthors($id)
+    {
+        $authors = Staff::where('job_id', $id)->get();
+        $authors=$authors->pluck('user.first_name', 'id');
+        return $authors;
+    }
+
+    
+
     public function getPublishedNews(){
+
         $news= News::where('is_publish', true)->pluck("main_title", "id");
         return response()->json($news);
     }
@@ -174,13 +178,14 @@ class NewsController extends Controller
 
     public function uploads(Request $request)
     {
-        $url =$this->serverUpload($request);
+         $url =$this->serverUpload($request);
 
         if ($request->file('image')) {
              $file=Image::create(['image'=>$url]);
         }elseif ($request->file('file')) {
              $file=File::create(['file'=>$url]);
         }
+
         return response()->json(['id' => $file->id,'name'=>$url]);
     }
 
