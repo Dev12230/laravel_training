@@ -70,7 +70,7 @@ class VisitorsController extends Controller
         $visitor=$user->visitor()->create($request->all());
 
         if ($image=$request->file('image')) {
-            $visitor->image()->create(['image'=>$this->UploadImage($image)]);
+            $visitor->image()->create(['image'=>$this->UploadImage($image,$visitor)]);
         } else {
             $visitor->image()->create(['image'=>$this->DefaultImage()]);
         }
@@ -107,7 +107,7 @@ class VisitorsController extends Controller
         $visitor->user->update($request->all());
 
         if ($image=$request->file('image')) {
-            $visitor->image()->update(['image'=>$this->UploadImage($image)]);
+            $visitor->image()->update(['image'=>$this->UploadImage($image,$visitor)]);
         } else {
             $visitor->image()->update(['image'=>$this->DefaultImage()]);
         }

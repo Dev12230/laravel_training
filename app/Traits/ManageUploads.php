@@ -5,16 +5,14 @@ namespace App\Traits;
 trait ManageUploads
 {
  
-    public function UploadImage($image)
+    public function UploadImage($image,$model)
     {
-        $imgName = time().$image->getClientOriginalName();
-        return $image->storeAs('uploads', $imgName, 'public');
+        return $image->store('uploads/'.$model->getTable().'', 'public');
     }
 
-    public function UploadFile($file)
+    public function UploadFile($file,$model)
     {
-        $fileName = time().$file->getClientOriginalName();
-         return $file->storeAs('files', $fileName, 'public');
+         return $file->store('files/'.$model->getTable().'', 'public');
     }
     
     public function DefaultImage()
@@ -22,12 +20,12 @@ trait ManageUploads
         return 'default.png';
     }
 
-    public function serverUpload($request)
+    public function serverUpload($request,$model)
     {
         if ($image = $request->file('image')) {
-            $Url = $this->UploadImage($image);
+            $Url = $this->UploadImage($image,$model);
         } elseif ($file = $request->file('file')) {
-            $Url = $this->UploadFile($file);
+            $Url = $this->UploadFile($file,$model);
         }
         return $Url;
     }

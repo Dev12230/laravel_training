@@ -97,18 +97,11 @@
 </script>
 <!-- published news -->
 <script>
-  var selected=[] 
-@foreach ($selectedNews as $key => $title)
-var val= "<?php echo $title ?>";
-selected.push(val)
-@endforeach
 $(".chosen-select").select2({
         ajax: {
-            dataType: 'json',
             type: "GET",
-            url: `${window.location.origin}/get-published`,
+            url:"{{url('get-published')}}",
             data: function (params) {
-                console.log(params)
                 if (params){
                     return {
                         search: params.term,
@@ -116,17 +109,14 @@ $(".chosen-select").select2({
                 }
             },
             processResults: function (data) {
-                console.log(data)
-                let res = data.map(function (item) {
+                let result = data.map(function (item) {
                     return {id: item.id, text: item.main_title};
                 });
                 return {
-                    results: res
+                    results: result
                 };
             }
         },
-        minimumInputLength: 1,
-        max_selected_options: 10
     });
   </script>
 <!-- staff_id ajax request -->

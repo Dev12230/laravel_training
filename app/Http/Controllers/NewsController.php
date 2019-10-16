@@ -99,6 +99,7 @@ class NewsController extends Controller
     {
         $selectedNews =$news->related()->get();  
         $selectedNews=$selectedNews->pluck('main_title','id')->toArray();
+
         $authors = $this->returnAuthors($news->staff->job_id);
         
         return view('news.edit', compact('news','selectedNews', 'authors'));
@@ -175,14 +176,14 @@ class NewsController extends Controller
 
     public function uploads(Request $request)
     {
-         $url =$this->serverUpload($request);
+        $model =new News;
+        $url =$this->serverUpload($request,$model);
 
         if ($request->file('image')) {
              $file=Image::create(['image'=>$url]);
         }elseif ($request->file('file')) {
              $file=File::create(['file'=>$url]);
         }
-
         return response()->json(['id' => $file->id,'name'=>$url]);
     }
 

@@ -83,23 +83,29 @@
 
 </script>
 <!-- published news -->
-<script> 
-      $.ajax({
-        type:"GET",
-        url:'/get-published/' ,
-           success:function(data){  
-            if(data){
-                $("#published").empty();
-                $("#published").append('<option>Select</option>');
-                $.each(data,function(key,value){
-                    $("#published").append(`<option value='${key}' >${value}</option>`);
+<script>
+$(".chosen-select").select2({
+        ajax: {
+            type: "GET",
+            url:"{{url('get-published')}}",
+            data: function (params) {
+                if (params){
+                    return {
+                        search: params.term,
+                    };
+                }
+            },
+            processResults: function (data) {
+                let result = data.map(function (item) {
+                    return {id: item.id, text: item.main_title};
                 });
-           }else{ 
-             $("#published").empty(); 
-           }             
-          } 
-      });     
-</script>
+                return {
+                    results: result
+                };
+            }
+        },
+    });
+  </script>
 
 <!-- staff_id ajax request -->
 <script type="text/javascript">
