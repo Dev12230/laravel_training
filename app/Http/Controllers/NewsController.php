@@ -180,8 +180,7 @@ class NewsController extends Controller
 
     public function uploads(Request $request)
     {
-        $model =new News;
-        $url =$this->serverUpload($request,$model);
+        $url =$this->serverUpload($request,'news');
 
         if ($request->file('image')) {
              $file=Image::create(['image'=>$url]);

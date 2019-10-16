@@ -81,7 +81,7 @@ class StaffController extends Controller
         $staff=$user->staff()->create($request->all());
 
         if ($image=$request->file('image')) {
-            $staff->image()->create(['image'=>$this->UploadImage($image,$staff)]);
+            $staff->image()->create(['image'=>$this->UploadImage($image,'staff')]);
         } else {
             $staff->image()->create(['image'=>$this->DefaultImage()]);
         }
@@ -120,7 +120,7 @@ class StaffController extends Controller
         $staff->user->syncRoles($request->role);
  
         if ($image=$request->file('image')) {
-            $staff->image()->update(['image'=>$this->UploadImage($image,$staff)]);
+            $staff->image()->update(['image'=>$this->UploadImage($image,'staff')]);
         } else {
             $staff->image()->update(['image'=>$this->DefaultImage()]);
         }
