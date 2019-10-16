@@ -28,8 +28,9 @@
     <label for="type"> Type:</label>
     <select  id="type" name="type">
         <option>Select ..</option>
-        <option value="1">Article</option>
-        <option value="2">News</option>
+        @foreach($types as $key =>$value)
+        <option value="{{$key}}">{{$value}}</option>
+        @endforeach
     </select>
     </div>
 

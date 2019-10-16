@@ -164,6 +164,7 @@ return [
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        BenSampo\Enum\EnumServiceProvider::class,
 
         /*
          * Package Service Providers...

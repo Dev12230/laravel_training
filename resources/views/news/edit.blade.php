@@ -31,8 +31,9 @@
     <div class="form-group">
     <label for="type"> Type:</label>
     <select  id="type" name="type">
-        <option value="1" {{ ($news->type == 'artical') ? 'selected' : '' }}>Article</option>
-        <option value="2" {{ ($news->type == 'news') ? 'selected' : '' }}>News</option>
+        @foreach($types as $key =>$value)
+        <option value="{{$key}}"{{ ($news->type == $value) ? 'selected' : '' }}>{{$value}}</option>
+        @endforeach
     </select>
     </div>
 

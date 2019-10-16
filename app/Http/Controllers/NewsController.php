@@ -11,6 +11,7 @@ use App\Staff;
 use App\News;
 use App\Image;
 use App\File;
+use App\Enums\NewsType;
 
 class NewsController extends Controller
 {
@@ -48,7 +49,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('news.create', compact('relNews'));
+        $types=NewsType::toSelectArray();
+        return view('news.create', compact('relNews','types'));
     }
 
     /**
@@ -97,12 +99,14 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
+        $types=NewsType::toSelectArray();
+
         $selectedNews =$news->related()->get();  
         $selectedNews=$selectedNews->pluck('main_title','id')->toArray();
 
         $authors = $this->returnAuthors($news->staff->job_id);
         
-        return view('news.edit', compact('news','selectedNews', 'authors'));
+        return view('news.edit', compact('news','selectedNews', 'authors','types'));
     }
 
     /**

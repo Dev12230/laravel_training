@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\NewsType;
+use BenSampo\Enum\Rules\EnumValue;
+
 
 class NewsRequest extends FormRequest
 {
@@ -24,11 +27,11 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'main_title'=>'required|max:150|min:3',
-            'secondary_title'=>'max:150|min:3',
-            'type'=>'required',
-            'staff_id'=>'required',
-            'related'  => 'array|max:10',
+            'main_title'=>['required,max:150,min:3'],
+            'secondary_title'=>['max:150,min:3'],
+            'type'=>['required', new EnumValue(NewsType::class,false)],
+            'staff_id'=>['required', 'exists:staff,id'],
+            'related'  => ['array,max:10'],
            
         ];
     }
