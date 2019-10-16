@@ -69,7 +69,12 @@
     <div class="form-group">
     <label>Choose Related News</label>
     <select id="published" data-placeholder="Choose News..." class="chosen-select" multiple style="width:400px;" name="related[]">
-    </select>
+    @if(!empty($selectedNews))
+      @foreach($selectedNews as $key=>$news)
+      <option selected="selected" value="{{$key}}">{{$news}}</option>
+      @endforeach
+    @endif  
+  </select>
     </div>
     
 
@@ -91,34 +96,39 @@
 
 </script>
 <!-- published news -->
-<script> 
-var selected=[] 
+<script>
+  var selected=[] 
 @foreach ($selectedNews as $key => $title)
 var val= "<?php echo $title ?>";
 selected.push(val)
 @endforeach
-
-  $.ajax({
-    type:"GET",
-    url:'/get-published/' ,
-    success:function(data){ 
-      if(data){
-        $("#published").empty();
-        $("#published").append('<option>Select</option>');
-        $.each(data,function(key,value){
-          $('.chosen-select').select2();
-          if(selected.includes(value)){
-          $("#published").append(`<option value='${key}' selected>${value}</option>`);
-          }else{ 
-          $("#published").append(`<option value='${key}' >${value}</option>`);
-          }
-        });
-      }else{ 
-      $("#published").empty(); 
-      } 
-    } 
-  }); 
-</script>
+$(".chosen-select").select2({
+        ajax: {
+            dataType: 'json',
+            type: "GET",
+            url: `${window.location.origin}/get-published`,
+            data: function (params) {
+                console.log(params)
+                if (params){
+                    return {
+                        search: params.term,
+                    };
+                }
+            },
+            processResults: function (data) {
+                console.log(data)
+                let res = data.map(function (item) {
+                    return {id: item.id, text: item.main_title};
+                });
+                return {
+                    results: res
+                };
+            }
+        },
+        minimumInputLength: 1,
+        max_selected_options: 10
+    });
+  </script>
 <!-- staff_id ajax request -->
 <script type="text/javascript">
  $('#type').change(function(){

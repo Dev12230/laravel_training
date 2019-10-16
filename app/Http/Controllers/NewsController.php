@@ -72,9 +72,7 @@ class NewsController extends Controller
         }
 
         if ($rel_news = $request['related']) {
-            foreach ($rel_news as $related) {
-                $news->related()->create(['related_id' => $related]);
-            }
+            $news->related()->sync($rel_news);
         }
 
         return redirect()->route('news.index')->with('success', 'News Added');
@@ -100,8 +98,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $selectedNews =$news->related()->get();  
-        $selectedNews=$selectedNews->pluck('news.main_title')->toArray();
-
+        $selectedNews=$selectedNews->pluck('main_title','id')->toArray();
         $authors = $this->returnAuthors($news->staff->job_id);
         
         return view('news.edit', compact('news','selectedNews', 'authors'));
@@ -129,10 +126,7 @@ class NewsController extends Controller
         }
          
         if ($rel_news = $request['related']) {
-            $news->related()->delete();
-            foreach ($rel_news as $related) {
-                $news->related()->create(['related_id' => $related]);
-            }
+            $news->related()->sync($rel_news);
         }
          return redirect()->route('news.index')->with('success', 'news has been updated');
     }
@@ -164,9 +158,12 @@ class NewsController extends Controller
 
     
 
-    public function getPublishedNews(){
+    public function getPublishedNews(Request $request){
+        $query = $request['search'];
+        $news= News::where('is_publish', true)
+        ->where('main_title', 'like', "%$query%")
+        ->select('main_title', 'id')->get();
 
-        $news= News::where('is_publish', true)->pluck("main_title", "id");
         return response()->json($news);
     }
 
