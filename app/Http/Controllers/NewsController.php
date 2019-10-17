@@ -13,6 +13,7 @@ use App\Image;
 use App\File;
 use App\Enums\NewsType;
 
+
 class NewsController extends Controller
 {
     use ManageUploads,toggle;
@@ -61,18 +62,15 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
+
         $news=News::create($request->all());
 
-        if ($ids = $request->input('image')) {
-            $images = Image::whereIn('id', $ids)->get();
-            $news->image()->saveMany($images->getDictionary());
+        if ($request->input('image')) {
+            $news->image()->saveMany($this->getInput($request));
         }
-
-        if ($ids = $request->input('file')) {
-            $files = File::whereIn('id', $ids)->get();
-            $news->file()->saveMany($files->getDictionary());
+        if ($request->input('file')) {
+            $news->file()->saveMany($this->getInput($request));
         }
-
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);
         }
@@ -120,20 +118,16 @@ class NewsController extends Controller
     {
         $news->update($request->all());
 
-        if ($ids = $request->input('image')) {
-            $images = Image::whereIn('id', $ids)->get();
-            $news->image()->saveMany($images->getDictionary());
+        if ($request->input('image')) {
+            $news->image()->saveMany($this->getInput($request));
         }
-
-        if ($ids = $request->input('file')) {
-            $files = File::whereIn('id', $ids)->get();
-            $news->file()->saveMany($files->getDictionary());
-        }
-         
+        if ($request->input('file')) {
+            $news->file()->saveMany($this->getInput($request));
+        }        
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);
         }
-         return redirect()->route('news.index')->with('success', 'news has been updated');
+        return redirect()->route('news.index')->with('success', 'news has been updated');
     }
 
     /**
@@ -163,16 +157,17 @@ class NewsController extends Controller
 
     public function getPublishedNews(Request $request){
         $query = $request['search'];
-        $news= News::where('is_publish', true)->where('main_title', 'like', "%$query%")
-            ->select('main_title', 'id')->get();
+        $news = News::where('is_publish', true)->where('main_title', 'like', "%$query%")
+             ->select('main_title', 'id')->get();
 
         return response()->json($news);
     }
 
-    public function toggleStatus(News $news)
-    {
-        $this->publish($news);
-        return redirect()->route('news.index');
+    public function getInput($request){
+        if($ids=$request->input('image')){
+            return Image::whereIn('id', $ids)->get()->getDictionary();
+        }else if($ids=$request->input('file')){
+            return File::whereIn('id', $ids)->get()->getDictionary();
+        }
     }
-
 }

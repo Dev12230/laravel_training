@@ -17,8 +17,7 @@ class Staff extends Model
         static::deleting(function ($staff) {
              $staff->image()->delete();
              $staff->user()->delete();
-        });
-    }
+        });    }
 
     protected $fillable = [
         'user_id','job_id','country_id','city_id'
@@ -55,5 +54,11 @@ class Staff extends Model
     public function news()
     {
         return $this->hasMany('App\News');
+    }
+
+    public function toggleStatus()
+    {
+        $this->user->active = !$this->user->active;
+        $this->user->save();
     }
 }

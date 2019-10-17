@@ -15,9 +15,12 @@
 </form>
 @endif
 
+<form action="/news/{{$row->id}}/toggle" method ="POST" enctype="multipart/form-data">
+@csrf
+{{ method_field('PATCH')}}
 @if($row->is_publish)
-<a href="/news/{{$row->id}}/toggle" class="btn btn-success btn-sm">Publish</a>
+<button type="submit" class="bttn btn btn-xs btn-info">Publish
 @else
-<a href="/news/{{$row->id}}/toggle" class="btn btn-success ban btn-sm">Unpublish</a>
+<button type="submit" class="bttn btn btn-xs btn-success">Unbublish
 @endif
 

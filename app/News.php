@@ -46,4 +46,10 @@ class News extends Model
         
     }
 
+    public function toggleStatus()
+    {
+        $this->is_publish = !$this->is_publish;
+        $this->save();
+    }
+
 }

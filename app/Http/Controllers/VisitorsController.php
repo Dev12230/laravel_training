@@ -126,10 +126,4 @@ class VisitorsController extends Controller
         $visitor->delete();
         return redirect()->route('visitors.index')->with('success', 'visitor deleted');
     }
-
-    public function toggleStatus(Visitor $visitor)
-    {
-        $this->active($visitor->user);
-        return redirect()->route('staff.index');
-    }
 }

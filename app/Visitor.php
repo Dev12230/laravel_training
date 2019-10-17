@@ -46,4 +46,10 @@ class Visitor extends Model
     {
         return $this->belongsTo('App\Country');
     }
+
+    public function toggleStatus()
+    {
+        $this->user->active = !$this->user->active;
+        $this->user->save();
+    }
 }

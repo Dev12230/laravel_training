@@ -1,5 +1,11 @@
+
+<form action="/staff/{{$row->id}}/toggle" method ="POST" enctype="multipart/form-data">
+@csrf
+{{ method_field('PATCH')}}
 @if($row->user->active)
-<a href="/staff/{{$row->id}}/toggle" class="btn btn-success btn-sm">Active</a>
+<button type="submit" class="bttn btn btn-xs btn-info">Active
 @else
-<a href="/staff/{{$row->id}}/toggle" class="btn btn-success ban btn-sm">Deactive </a>
+<button type="submit" class="bttn btn btn-xs btn-success">Deactive
 @endif
+
+

@@ -139,10 +139,4 @@ class StaffController extends Controller
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted');
     }
-
-    public function toggleStatus(Staff $staff)
-    {
-        $this->active($staff->user);
-        return redirect()->route('staff.index');
-    }
 }

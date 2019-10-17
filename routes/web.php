@@ -39,16 +39,16 @@
             Route::resource('jobs', 'JobsController');
         //------------staff route -------------------
             Route::resource('staff', 'StaffController');
-            Route::get('staff/{staff}/toggle', 'StaffController@toggleStatus');
+            Route::PATCH('/staff/{id}/toggle', 'StatusController@update');
         //------------staff route -------------------
             Route::resource('visitors', 'VisitorsController')->except('show');
-            Route::get('visitors/{visitor}/toggle', 'VisitorsController@toggleStatus');
+            Route::PATCH('/visitors/{id}/toggle', 'StatusController@update');
             Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
         //------------News route -------------------
             Route::resource('news', 'NewsController');
             Route::get('get-authors', 'NewsController@getAuthors');
             Route::get('get-published', 'NewsController@getPublishedNews');
-            Route::get('news/{news}/toggle', 'NewsController@toggleStatus');
+            Route::PATCH('/news/{id}/toggle', 'StatusController@update');
 
             Route::post('uploads', 'NewsController@uploads')->name('uploads');
     
@@ -63,4 +63,6 @@
             Route::post('upload-file', 'FilesController@uploadToServer')->name('uploadFile');
             Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');   
         });
+
+          
     });
