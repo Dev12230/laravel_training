@@ -27,11 +27,11 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'main_title'=>['required,max:150,min:3'],
-            'secondary_title'=>['max:150,min:3'],
+            'main_title'=>'required|max:150|min:3',
+            'secondary_title'=>'max:150|min:3',
             'type'=>['required', new EnumValue(NewsType::class,false)],
-            'staff_id'=>['required', 'exists:staff,id'],
-            'related'  => ['array,max:10'],
+            'staff_id'=>'required|exists:staff,id',
+            'related'  => 'array|max:10',
            
         ];
     }

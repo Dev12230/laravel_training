@@ -54,10 +54,13 @@
     
         //------------Images route -------------------
             Route::get('get-images', 'ImagesController@getImages')->name('getImages');
+            Route::post('upload-image', 'ImagesController@uploadToServer')->name('uploadImage');
             Route::get('delete-image/{id}', 'ImagesController@destroy')->name('deleteImage');
+
 
         //------------Files route -------------------
             Route::get('get-files', 'FilesController@getFiles')->name('getFiles');
+            Route::post('upload-file', 'FilesController@uploadToServer')->name('uploadFile');
             Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');   
         });
     });

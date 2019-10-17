@@ -161,13 +161,10 @@ class NewsController extends Controller
         return $authors;
     }
 
-    
-
     public function getPublishedNews(Request $request){
         $query = $request['search'];
-        $news= News::where('is_publish', true)
-        ->where('main_title', 'like', "%$query%")
-        ->select('main_title', 'id')->get();
+        $news= News::where('is_publish', true)->where('main_title', 'like', "%$query%")
+            ->select('main_title', 'id')->get();
 
         return response()->json($news);
     }
@@ -176,18 +173,6 @@ class NewsController extends Controller
     {
         $this->publish($news);
         return redirect()->route('news.index');
-    }
-
-    public function uploads(Request $request)
-    {
-        $url =$this->serverUpload($request,'news');
-
-        if ($request->file('image')) {
-             $file=Image::create(['image'=>$url]);
-        }elseif ($request->file('file')) {
-             $file=File::create(['file'=>$url]);
-        }
-        return response()->json(['id' => $file->id,'name'=>$url]);
     }
 
 }

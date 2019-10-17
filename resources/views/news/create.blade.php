@@ -138,7 +138,7 @@ $(".chosen-select").select2({
   Dropzone.autoDiscover = false;
   var uploadedImages = {}
   let imageDropzone = new Dropzone('#image-drop', {
-    url: "{{ route('uploads') }}",
+    url: "{{url('upload-image')}}",
     paramName: "image",
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".png,.jpg",
@@ -166,14 +166,13 @@ $(".chosen-select").select2({
   Dropzone.autoDiscover = false;
   var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
-      url: "{{ route('uploads') }}",
+      url: "{{url('upload-file')}}",
       paramName: "file",
       maxThumbnailFilesize: 1, // MB
       acceptedFiles: ".pdf,.xlsx",
       addRemoveLinks: true,
       headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
       success: function (file, response) {
-          console.log(response)
           $('form').append('<input id="my" type="hidden" name="file[]" value="' + response.id + '">')
           uploadedFiles[file.name] = response.id
           console.log(uploadedFiles)

@@ -19,14 +19,4 @@ trait ManageUploads
     {
         return 'default.png';
     }
-
-    public function serverUpload($request,$model)
-    {
-        if ($image = $request->file('image')) {
-            $Url = $this->UploadImage($image,$model);
-        } elseif ($file = $request->file('file')) {
-            $Url = $this->UploadFile($file,$model);
-        }
-        return $Url;
-    }
 }

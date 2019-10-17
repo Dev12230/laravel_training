@@ -150,7 +150,7 @@ $(".chosen-select").select2({
 Dropzone.autoDiscover = false;
     var uploadedImages = {}
       let imageDropzone = new Dropzone('#image-drop', {
-      url: "{{ route('uploads') }}",
+      url: "{{url('upload-image')}}",
       paramName: "image",
       maxThumbnailFilesize: 1, // MB
       acceptedFiles: ".png,.jpg",
@@ -200,7 +200,7 @@ Dropzone.autoDiscover = false;
   Dropzone.autoDiscover = false;
   var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
-    url: "{{ route('uploads') }}",
+    url: "{{url('upload-file')}}",
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".pdf,.xlsx",
     addRemoveLinks: true,
