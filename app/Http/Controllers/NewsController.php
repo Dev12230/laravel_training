@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewsRequest;
 use App\Traits\ManageUploads;
-use App\Traits\toggle;
 use DataTables;
 use App\Staff;
 use App\News;
@@ -16,7 +15,7 @@ use App\Enums\NewsType;
 
 class NewsController extends Controller
 {
-    use ManageUploads,toggle;
+    use ManageUploads;
 
 
     public function __construct()

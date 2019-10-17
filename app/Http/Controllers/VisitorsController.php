@@ -12,11 +12,10 @@ use App\Visitor;
 use Illuminate\Support\Str;
 use App\Traits\ManageUploads;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use App\Traits\toggle;
 
 class VisitorsController extends Controller
 {
-    use SendsPasswordResetEmails,ManageUploads,toggle;
+    use SendsPasswordResetEmails,ManageUploads;
 
     public function __construct()
     {

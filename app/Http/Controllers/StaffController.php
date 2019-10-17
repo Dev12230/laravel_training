@@ -13,14 +13,13 @@ use App\User;
 use App\Staff;
 use Illuminate\Support\Str;
 use App\Traits\ManageUploads;
-use App\Traits\toggle;
 
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class StaffController extends Controller
 {
 
-    use SendsPasswordResetEmails,ManageUploads,toggle;
+    use SendsPasswordResetEmails,ManageUploads;
 
     public function __construct()
     {
