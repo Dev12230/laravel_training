@@ -4,32 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\News;
+use App\Event;
 use App\Image;
-use App\Traits\ManageUploads;
+use App\Traits\ManageFiles;
 
 class ImagesController extends Controller
 {
-    use ManageUploads;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    use ManageFiles;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    private $classes;
 
+    public function __construct()
+    {
+        $this->classes =[
+            News::class =>'news',
+            Event::class =>'event'
+    ];
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -39,40 +30,6 @@ class ImagesController extends Controller
     public function store($url)
     {
         return Image::create(['image'=>$url]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -89,17 +46,29 @@ class ImagesController extends Controller
 
     public function getImages(Request $request)
     {
-        $news=News::find($request->news_id);
-        $images=$news->image;
+        $model_object=app($this->getClass($request))::find($request->id);
+        $images=$model_object->image;
 
         return response()->json($images);
     }
 
     public function uploadToServer(Request $request)
     {
-        $url = $this->UploadImage($request->file('image'),'news');
+        $url = $this->UploadImage($request->file('image'),$this->getModelName($request));
         $image = $this->store($url);
         return response()->json(['id' => $image->id,'name'=>$url]);
+    }
+
+
+    public function getClass($request){
+        $class=array_search($this->getModelName($request), $this->classes);
+        return $class;
+    }
+
+    public function getModelName($request){
+        $url=$request->getPathInfo();
+        $model_name = explode('/', $url)[1];
+        return $model_name;
     }
 
 }

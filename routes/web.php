@@ -15,12 +15,10 @@
         logger($sql->sql);
     });
 
-
     Route::get('/', function () {
         return view('welcome');
     });
 
-  
     Auth::routes();
     Route::group(['middleware'=>'is-active','auth'], function () {
 
@@ -30,11 +28,9 @@
             Route::group(['middleware' => ['role:Admin']], function () {
                 Route::resource('roles', 'RolesController');
             });
-
         //---------- Cities route -------------------
             Route::resource('cities', 'CitiesController');
             Route::get('get-cities', 'CitiesController@getCities');
-
         //------------Jobs route -------------------
             Route::resource('jobs', 'JobsController');
         //------------staff route -------------------
@@ -51,17 +47,17 @@
             Route::PATCH('/news/{id}/toggle', 'StatusController@update');
 
             Route::post('uploads', 'NewsController@uploads')->name('uploads');
-    
         //------------Images route -------------------
-            Route::get('get-images', 'ImagesController@getImages')->name('getImages');
-            Route::post('upload-image', 'ImagesController@uploadToServer')->name('uploadImage');
+            Route::post('{model}/get-images', 'ImagesController@getImages')->name('getImages');
+            Route::post('{model}/upload-image', 'ImagesController@uploadToServer')->name('uploadImage');
             Route::get('delete-image/{id}', 'ImagesController@destroy')->name('deleteImage');
-
-
         //------------Files route -------------------
             Route::get('get-files', 'FilesController@getFiles')->name('getFiles');
             Route::post('upload-file', 'FilesController@uploadToServer')->name('uploadFile');
-            Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');   
+            Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');  
+        //------------Jobs route -------------------
+            Route::resource('events', 'EventsController'); 
+            Route::get('get-visitors', 'EventsController@getVisitors');    
         });
 
           

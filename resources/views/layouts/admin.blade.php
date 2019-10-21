@@ -29,9 +29,11 @@
     <link href="{{ asset('theme/css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
     <link href="{{ asset('theme/css/style.css') }}" rel="stylesheet">
 
-
-
-
+    <!-- dataTimepicker -->
+    <!-- <link href="{{ asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+   
+ 
 </head>
 
 <body>
@@ -48,11 +50,15 @@
                                     <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
                                         </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
                                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                    <li><a href="profile.html">Profile</a></li>
-                                    <li><a href="contacts.html">Contacts</a></li>
-                                    <li><a href="mailbox.html">Mailbox</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="login.html">Logout</a></li>
+                                <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out"></i> {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
                                 </ul>
                             </div>
                             <div class="logo-element">
@@ -83,6 +89,11 @@
                     <li class="active">
                         <a href="/news"><i class="fa fa-th-large"></i><span class="nav-label">News</span></a> 
                     </li> 
+
+                    <li class="active">
+                        <a href="/events"><i class="fa fa-th-large"></i><span class="nav-label">Events</span></a> 
+                    </li> 
+               
                
                
                
@@ -140,6 +151,14 @@
     <!-- Mainly scripts -->
     <script src="{{ asset('theme/js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('theme/js/bootstrap.min.js') }}"></script>
+
+    <!-- datetimrpicker     -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+
     <script src="{{ asset('theme/js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
     <script src="{{ asset('theme/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 
@@ -152,9 +171,6 @@
     <script src="{{ asset('theme/js/plugins/flot/jquery.flot.symbol.js') }}"></script>
     <script src="{{ asset('theme/js/plugins/flot/jquery.flot.time.js') }}"></script>
 
-    <!-- Peity -->
-    <script src="{{ asset('theme/js/plugins/peity/jquery.peity.min.js') }}"></script>
-    <script src="{{ asset('theme/js/demo/peity-demo.js') }}"></script>
 
     <!-- Custom and plugin javascript -->
     <script src="{{ asset('theme/js/inspinia.js') }}"></script>
@@ -167,6 +183,10 @@
     <script src="{{ asset('theme/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('theme/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
 
+    <!-- Peity -->
+    <script src="{{ asset('theme/js/plugins/peity/jquery.peity.min.js') }}"></script>
+    <script src="{{ asset('theme/js/demo/peity-demo.js') }}"></script>
+       
     <!-- DataTables  -->
     <script src="{{ asset('theme/js/plugins/dataTables/datatables.min.js') }}"></script>
 
@@ -183,6 +203,9 @@
     <script src="{{ asset('theme/js/plugins/dropzone/dropzone.js') }}"></script>
 
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    
+    <!-- datePicker -->
+    <script src="{{ asset('theme/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
     
     @stack('scripts')
 </body>

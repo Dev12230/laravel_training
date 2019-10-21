@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\NewsRequest;
-use App\Traits\ManageUploads;
+use App\Traits\ManageFiles;
 use DataTables;
 use App\Staff;
 use App\News;
-use App\Image;
-use App\File;
 use App\Enums\NewsType;
 
 
 class NewsController extends Controller
 {
-    use ManageUploads;
+    use ManageFiles;
 
 
     public function __construct()
@@ -65,10 +63,10 @@ class NewsController extends Controller
         $news=News::create($request->all());
 
         if ($request->input('image')) {
-            $news->image()->saveMany($this->getInput($request));
+            $news->image()->saveMany($this->getStoredFiles($request));
         }
         if ($request->input('file')) {
-            $news->file()->saveMany($this->getInput($request));
+            $news->file()->saveMany($this->getStoredFiles($request));
         }
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);
@@ -118,10 +116,10 @@ class NewsController extends Controller
         $news->update($request->all());
 
         if ($request->input('image')) {
-            $news->image()->saveMany($this->getInput($request));
+            $news->image()->saveMany($this->getStoredFiles($request));
         }
         if ($request->input('file')) {
-            $news->file()->saveMany($this->getInput($request));
+            $news->file()->saveMany($this->getStoredFiles($request));
         }        
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);
@@ -162,11 +160,4 @@ class NewsController extends Controller
         return response()->json($news);
     }
 
-    public function getInput($request){
-        if($ids=$request->input('image')){
-            return Image::whereIn('id', $ids)->get()->getDictionary();
-        }else if($ids=$request->input('file')){
-            return File::whereIn('id', $ids)->get()->getDictionary();
-        }
-    }
 }

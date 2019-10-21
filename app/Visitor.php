@@ -47,9 +47,15 @@ class Visitor extends Model
         return $this->belongsTo('App\Country');
     }
 
+    public function events()
+    {
+        return $this->belongsToMany('App\Event');
+    }
+
     public function toggleStatus()
     {
         $this->user->active = !$this->user->active;
         $this->user->save();
     }
+
 }

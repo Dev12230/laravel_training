@@ -51,7 +51,7 @@
             <label for="image">Image Upload(can load more than one)</label>
             <div class="needsclick dropzone" id="image-drop">
             </div>
-      </div>
+    </div>
 
   
     <div class="form-group">
@@ -138,7 +138,7 @@ $(".chosen-select").select2({
   Dropzone.autoDiscover = false;
   var uploadedImages = {}
   let imageDropzone = new Dropzone('#image-drop', {
-    url: "{{url('upload-image')}}",
+    url: "{{url('news/upload-image')}}",
     paramName: "image",
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".png,.jpg",

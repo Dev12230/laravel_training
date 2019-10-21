@@ -150,7 +150,7 @@ $(".chosen-select").select2({
 Dropzone.autoDiscover = false;
     var uploadedImages = {}
       let imageDropzone = new Dropzone('#image-drop', {
-      url: "{{url('upload-image')}}",
+      url: "{{url('news/upload-image')}}",
       paramName: "image",
       maxThumbnailFilesize: 1, // MB
       acceptedFiles: ".png,.jpg",
@@ -174,8 +174,9 @@ Dropzone.autoDiscover = false;
         var newsId = $('#news').val(); 
         myDropzone = this;
         $.ajax({
-          type:"GET",
-          url:"{{ route('getImages') }}?news_id="+newsId,
+          type:"POST",
+          headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+          url:"{{url('news/get-images')}}?id="+newsId,
           success: function(data){
             if(data){
               data.forEach(myFunction);

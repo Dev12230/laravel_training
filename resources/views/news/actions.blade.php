@@ -13,14 +13,16 @@
 <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i><span>Delete</span>
 </button>
 </form>
+
 @endif
 
 <form action="/news/{{$row->id}}/toggle" method ="POST" enctype="multipart/form-data">
 @csrf
 {{ method_field('PATCH')}}
 @if($row->is_publish)
-<button type="submit" class="bttn btn btn-xs btn-info">Publish
+<button type="submit" class="bttn btn btn-xs btn-success">Publish
 @else
-<button type="submit" class="bttn btn btn-xs btn-success">Unbublish
+<button type="submit" class="bttn btn btn-xs btn-success">UnPublish
 @endif
+
 
