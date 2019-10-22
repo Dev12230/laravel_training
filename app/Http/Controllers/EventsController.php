@@ -51,8 +51,8 @@ class EventsController extends Controller
     {
         $event=Event::create($request->all());
 
-        if ($request->input('image')) {
-            $event->image()->saveMany($this->getStoredFiles($request));
+        if ($image=$request->input('image')) {
+            $event->image()->saveMany($this->getStoredFiles($image,$request));
         }
         if ($visitors = $request['visitor_id']) {
             $event->visitors()->sync($visitors);
@@ -87,8 +87,8 @@ class EventsController extends Controller
     {
         $event->update($request->all());
 
-        if ($request->input('image')) {
-            $event->image()->saveMany($this->getStoredFiles($request));
+        if ($image=$request->input('image')) {
+            $event->image()->saveMany($this->getStoredFiles($image,$request));
         }
         if ($visitors = $request['visitor_id']) {
             $event->visitors()->sync($visitors);

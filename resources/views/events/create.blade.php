@@ -12,7 +12,7 @@
       </div><br />
 @endif
 
-<form role="news" action="{{route('events.store')}}" method ="POST" enctype="multipart/form-data">
+<form id="event" action="{{route('events.store')}}" method ="POST" enctype="multipart/form-data">
 @csrf
     <div class="form-group" style="width:500px">
       <label for="main_title">Main Title:</label>
@@ -121,37 +121,12 @@ $(".chosen-select").select2({
 },
 });
 </script>
-<!-- Drop Image -->
-<script>
-  Dropzone.autoDiscover = false;
-  var uploadedImages = {}
-  let imageDropzone = new Dropzone('#image-drop', {
-    url: "{{url('event/upload-image')}}",
-    paramName: "image",
-    maxThumbnailFilesize: 1, // MB
-    acceptedFiles: ".png,.jpg",
-    addRemoveLinks: true,
-    headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-    success: function (image, response) {
-      $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.id + '">')
-      uploadedImages[image.name] = response.id
-    },
-    removedfile: function (image) {
-      image.previewElement.remove()
-      let id = '';
-      id = uploadedImages[image.name];
-        $.ajax({
-        type:"GET",
-        url:'/delete-image/'+id ,
-        });
-      $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
-    },
-
-  })
-</script>
 <!-- google map  -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
 <script src="/js/mapInput.js"></script>
+
+<!-- Drop Image -->
+@include('script-methods/dropzone_image')
 
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>

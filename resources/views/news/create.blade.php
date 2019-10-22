@@ -12,7 +12,7 @@
       </div><br />
 @endif
 
-<form role="news" action="{{route('news.store')}}" method ="POST" enctype="multipart/form-data">
+<form id="news" action="{{route('news.store')}}" method ="POST" enctype="multipart/form-data">
 @csrf
     <div class="form-group" style="width:500px">
       <label for="main_title">Main Title:</label>
@@ -134,62 +134,9 @@ $(".chosen-select").select2({
   });
 </script>
 <!-- Drop Image -->
-<script>
-  Dropzone.autoDiscover = false;
-  var uploadedImages = {}
-  let imageDropzone = new Dropzone('#image-drop', {
-    url: "{{url('news/upload-image')}}",
-    paramName: "image",
-    maxThumbnailFilesize: 1, // MB
-    acceptedFiles: ".png,.jpg",
-    addRemoveLinks: true,
-    headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-    success: function (image, response) {
-      $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.id + '">')
-      uploadedImages[image.name] = response.id
-    },
-    removedfile: function (image) {
-      image.previewElement.remove()
-      let id = '';
-      id = uploadedImages[image.name];
-        $.ajax({
-        type:"GET",
-        url:'/delete-image/'+id ,
-        });
-      $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
-    },
-
-  })
-</script>
+@include('script-methods/dropzone_image')
 <!-- Drop File -->
-<script>
-  Dropzone.autoDiscover = false;
-  var uploadedFiles = {}
-  let fileDropzone = new Dropzone('#file-drop', {
-      url: "{{url('upload-file')}}",
-      paramName: "file",
-      maxThumbnailFilesize: 1, // MB
-      acceptedFiles: ".pdf,.xlsx",
-      addRemoveLinks: true,
-      headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-      success: function (file, response) {
-          $('form').append('<input id="my" type="hidden" name="file[]" value="' + response.id + '">')
-          uploadedFiles[file.name] = response.id
-          console.log(uploadedFiles)
-        },
-      removedfile: function (file) {
-          file.previewElement.remove()
-          let id = '';
-          id = uploadedFiles[file.name];
-            $.ajax({
-            type:"GET",
-            url:'/delete-file/'+id ,
-            });
-          $('form').find('input[name="file[]"][value="'+ id +'"]').remove()
-        },
-
-  })
-</script>
+@include('script-methods/dropzone_file')
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}

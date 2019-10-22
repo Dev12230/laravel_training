@@ -12,7 +12,7 @@
       </div><br />
 @endif
 
-<form role="news" action="/events/{{$event->id}}" method ="POST" enctype="multipart/form-data">
+<form id="event" action="/events/{{$event->id}}" method ="POST" enctype="multipart/form-data">
 @csrf
 {{ method_field('PATCH')}}
     <div class="form-group" style="width:500px">
@@ -20,7 +20,7 @@
       <input type="text" class="form-control" id="main_title" name="main_title" value="{{$event->main_title}}" >
     </div>
 
-   <input id="event" type="hidden" name="id" value="{{$event->id}}">
+   <input id="objId" type="hidden" name="id" value="{{$event->id}}">
 
     <div class="form-group" style="width:500px">
       <label for="secondary_title">Secondary Title:</label>
@@ -128,59 +128,13 @@ $(".chosen-select").select2({
 },
 });
 </script>
-<!-- Drop Image -->
-<script>
-Dropzone.autoDiscover = false;
-    var uploadedImages = {}
-      let imageDropzone = new Dropzone('#image-drop', {
-      url: "{{url('event/upload-image')}}",
-      paramName: "image",
-      maxThumbnailFilesize: 1, // MB
-      acceptedFiles: ".png,.jpg",
-      addRemoveLinks: true,
-      headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-      success: function (image, response) {
-        $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.id + '">')
-        uploadedImages[image.name] = response.id
-      },
-      removedfile: function (image) {
-        image.previewElement.remove()
-        let id = '';
-        id = uploadedImages[image.name];
-          $.ajax({
-          type:"GET",
-          url:'/delete-image/'+id ,
-          });
-        $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
-      },
-      init:function(){
-        var eventId = $('#event').val(); 
-        myDropzone = this;
-        $.ajax({
-          type:"POST",
-          headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-          url:"{{url('event/get-images')}}?id="+eventId,
-          success: function(data){
-            if(data){
-              data.forEach(myFunction);
-              function myFunction(item, index) {
-                var mockFile = {name: item.image};
-                myDropzone.options.addedfile.call(myDropzone, mockFile)
-                myDropzone.options.thumbnail.call(myDropzone, mockFile,`{{ Storage::url('${mockFile.name}') }}`)
-                $('form').append('<input id="my" type="hidden" name="image[]" value="' + item.id + '">')
-                uploadedImages[mockFile.name]=item.id
-              } 
-            }else{ 
-            $("#form").empty()
-            } 
-          }
-        });
-      }, 
-})
-</script>
 <!-- google map  -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
 <script src="/js/mapInput.js"></script>
+
+<!-- Drop Image -->
+@include('script-methods/dropzone_image')
+
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\EventsRequest') !!}

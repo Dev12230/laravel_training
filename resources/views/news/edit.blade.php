@@ -12,7 +12,7 @@
       </div><br />
 @endif
 
-<form action="/news/{{$news->id}}" method ="POST" enctype="multipart/form-data">
+<form id="news" action="/news/{{$news->id}}" method ="POST" enctype="multipart/form-data">
 @csrf
 {{ method_field('PATCH')}}
 
@@ -21,7 +21,7 @@
       <input type="text" class="form-control" id="main_title" name="main_title" value="{{$news->main_title}}">
     </div>
 
-<input id="news" type="hidden" name="id" value="{{$news->id}}">
+   <input id="objId" type="hidden" name="id" value="{{$news->id}}">
 
     <div class="form-group" style="width:500px">
       <label for="secondary_title">Secondary Title:</label>
@@ -78,9 +78,6 @@
   </select>
     </div>
     
-
-
-
   <button type="submit" class="btn btn-primary">Add</button>
 
 </form>
@@ -145,111 +142,11 @@ $(".chosen-select").select2({
     }       
   });
 </script>
-<!-- Drop Image -->
-<script>
-Dropzone.autoDiscover = false;
-    var uploadedImages = {}
-      let imageDropzone = new Dropzone('#image-drop', {
-      url: "{{url('news/upload-image')}}",
-      paramName: "image",
-      maxThumbnailFilesize: 1, // MB
-      acceptedFiles: ".png,.jpg",
-      addRemoveLinks: true,
-      headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-      success: function (image, response) {
-        $('form').append('<input id="my" type="hidden" name="image[]" value="' + response.id + '">')
-        uploadedImages[image.name] = response.id
-      },
-      removedfile: function (image) {
-        image.previewElement.remove()
-        let id = '';
-        id = uploadedImages[image.name];
-          $.ajax({
-          type:"GET",
-          url:'/delete-image/'+id ,
-          });
-        $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
-      },
-      init:function(){
-        var newsId = $('#news').val(); 
-        myDropzone = this;
-        $.ajax({
-          type:"POST",
-          headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-          url:"{{url('news/get-images')}}?id="+newsId,
-          success: function(data){
-            if(data){
-              data.forEach(myFunction);
-              function myFunction(item, index) {
-                var mockFile = {name: item.image};
-                myDropzone.options.addedfile.call(myDropzone, mockFile)
-                myDropzone.options.thumbnail.call(myDropzone, mockFile,`{{ Storage::url('${mockFile.name}') }}`)
-                $('form').append('<input id="my" type="hidden" name="image[]" value="' + item.id + '">')
-                uploadedImages[mockFile.name]=item.id
-              } 
-            }else{ 
-            $("#form").empty()
-            } 
-          }
-        });
-      }, 
-})
-</script>
-
 <!-- Drop File -->
-<script>
-  Dropzone.autoDiscover = false;
-  var uploadedFiles = {}
-  let fileDropzone = new Dropzone('#file-drop', {
-    url: "{{url('upload-file')}}",
-    maxThumbnailFilesize: 1, // MB
-    acceptedFiles: ".pdf,.xlsx",
-    addRemoveLinks: true,
-    headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-    success: function (file, response) {
-      $('form').append('<input id="my" type="hidden" name="file[]" value="' + response.id + '">')
-      uploadedFiles[file.name] = response.id
-     },
-    removedfile: function (file) {
-                file.previewElement.remove()
-                let id = '';
-                    id = uploadedFiles[file.name];
-                    $.ajax({
-                      type:"GET",
-                      url:'/delete-file/'+id ,
-                    });
-                $('form').find('input[name="file[]"][value="'+ id +'"]').remove()
-     },
-    init:function(){
-        var newsId = $('#news').val();  
-        myDropzonefile = this;
-        $.ajax({
-          type:"GET",
-           url:"{{ route('getFiles') }}?news_id="+newsId,
-        success: function(data){
-          if(data){
-            data.forEach(myFunction);
-            function myFunction(item, index) {
-            var ext = item.file.split('.').pop();
-            var mockFile = {name: item.file};
-            myDropzonefile.options.addedfile.call(myDropzonefile, mockFile)
-            myDropzonefile.options.thumbnail.call(myDropzonefile, mockFile,`{{ Storage::url('${mockFile.name}') }}`)
-            if (ext == "pdf") {
-              $(mockFile.previewElement).find(".dz-image img").attr("src", "{{ Storage::url('pdf.png') }}")
-            }else if(ext == "xlsx"){
-              $(mockFile.previewElement).find(".dz-image img").attr("src", "{{ Storage::url('excel.png') }}")
-            }
-            $('form').append('<input id="my" type="hidden" name="file[]" value="' + item.id + '">')
-            uploadedFiles[mockFile.name]=item.id
-          }   
-        }else{ 
-          $("#form").empty()
-        }  
-       }
-      });
-    },           
-  })
-</script>
+@include('script-methods/dropzone_file')
+<!-- Drop Image -->
+@include('script-methods/dropzone_image')
+
 <!-- js validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\NewsRequest') !!}
