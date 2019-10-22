@@ -12,9 +12,9 @@ class ImagesController extends Controller
     use ManageFiles,ModelInstance;
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created image in storage.
      *
-     * @param  Url of resource
+     * @param  Url of image
      */
     public function store($url)
     {
@@ -22,7 +22,7 @@ class ImagesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified image from storage.
      *
      * @param  int  $id
      */
@@ -33,7 +33,7 @@ class ImagesController extends Controller
     }
 
     /**
-     * Retrieve stored resources using ids of them.
+     * Retrieve stored images using ids of them.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -47,7 +47,8 @@ class ImagesController extends Controller
     }
 
     /**
-     * Create resource in storage and store
+     * Upload image direct to server
+     * Create image in storage and store
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

@@ -8,8 +8,8 @@ use App\File;
 trait ManageFiles
 {
     /**
-     * Create resource in storage
-     * @param  requested file & $model name
+     * Upload image in storage
+     * @param  requested image & $model name
      * @return image url
      */
     public function UploadImage($image, $model)
@@ -18,8 +18,8 @@ trait ManageFiles
     }
 
     /**
-     * Create resource in storage
-     * @param  requested file & $model name e
+     * Upload file in storage
+     * @param  requested file & $model name 
      * @return file url
      */
     public function UploadFile($file, $model)

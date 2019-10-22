@@ -12,16 +12,16 @@ class FilesController extends Controller
     use ManageFiles;
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created file in storage.
      *
-     * @param  Url of resource
+     * @param  Url of file
      */
     public function store($url)
     {
         return File::create(['file'=>$url]);
     }
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified file from storage.
      *
      * @param  int  $id
      */
@@ -31,7 +31,7 @@ class FilesController extends Controller
         $file->delete();
     }
     /**
-     * Retrieve stored resources using ids of them.
+     * Retrieve stored files using ids of them.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -44,7 +44,8 @@ class FilesController extends Controller
         return response()->json($files);
     }
     /**
-     * Create resource in storage and store
+     * Upload file direct to server
+     * Create file in storage and store
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
