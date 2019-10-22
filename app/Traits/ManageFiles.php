@@ -19,7 +19,7 @@ trait ManageFiles
 
     /**
      * Upload file in storage
-     * @param  requested file & $model name 
+     * @param  requested file & $model name
      * @return file url
      */
     public function UploadFile($file, $model)
