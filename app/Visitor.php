@@ -57,5 +57,4 @@ class Visitor extends Model
         $this->user->active = !$this->user->active;
         $this->user->save();
     }
-
 }

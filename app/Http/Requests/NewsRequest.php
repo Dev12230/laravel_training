@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\NewsType;
 use BenSampo\Enum\Rules\EnumValue;
 
-
 class NewsRequest extends FormRequest
 {
     /**
@@ -29,7 +28,7 @@ class NewsRequest extends FormRequest
         return [
             'main_title'=>'required|max:150|min:3',
             'secondary_title'=>'max:150|min:3',
-            'type'=>['required', new EnumValue(NewsType::class,false)],
+            'type'=>['required', new EnumValue(NewsType::class, false)],
             'staff_id'=>'required|exists:staff,id',
             'related'  => 'array|max:10',
            

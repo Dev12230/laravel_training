@@ -25,5 +25,4 @@ class EventInvitation
     {
         $this->event=$event;
     }
-
 }

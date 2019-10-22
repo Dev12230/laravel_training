@@ -17,7 +17,8 @@ class Staff extends Model
         static::deleting(function ($staff) {
              $staff->image()->delete();
              $staff->user()->delete();
-        });    }
+        });
+    }
 
     protected $fillable = [
         'user_id','job_id','country_id','city_id'

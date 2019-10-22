@@ -12,7 +12,7 @@ class InvitationMail extends Mailable
     use Queueable, SerializesModels;
 
     /** @var Event */
-          public $event;
+    public $event;
     /**
      * Create a new message instance.
      */

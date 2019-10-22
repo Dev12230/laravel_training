@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
@@ -25,11 +26,13 @@ class Event extends Model
         return $this->morphMany('App\Image', 'profile');
     }
 
-    public function getStartDateAttribute($value) {
+    public function getStartDateAttribute($value)
+    {
         return Carbon::parse($value)->format('Y-m-d h:i A');
     }
 
-    public function getEndDateAttribute($value) {
+    public function getEndDateAttribute($value)
+    {
         return Carbon::parse($value)->format('Y-m-d h:i A');
     }
 }

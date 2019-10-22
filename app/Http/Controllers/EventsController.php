@@ -21,7 +21,7 @@ class EventsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $events=Event::query();                 
+            $events=Event::query();
             return Datatables::of($events)
               ->addColumn('action', function ($row) {
                 return  view('events.actions', compact('row'));
@@ -56,7 +56,7 @@ class EventsController extends Controller
         }
         if ($visitors = $request['visitor_id']) {
             $event->visitors()->sync($visitors);
-            event(new EventInvitation($event));       
+            event(new EventInvitation($event));
         }
 
         return redirect()->route('events.index')->with('success', 'event Added');
@@ -70,10 +70,10 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
-        $visitors =$event->visitors()->get();  
-        $visitors =$visitors ->pluck('user.first_name','id')->toArray();
+        $visitors =$event->visitors()->get();
+        $visitors =$visitors ->pluck('user.first_name', 'id')->toArray();
 
-        return view('events.edit',compact('event','visitors'));
+        return view('events.edit', compact('event', 'visitors'));
     }
 
     /**
@@ -91,7 +91,7 @@ class EventsController extends Controller
             $event->image()->saveMany($this->getStoredFiles($request));
         }
         if ($visitors = $request['visitor_id']) {
-            $event->visitors()->sync($visitors);     
+            $event->visitors()->sync($visitors);
         }
         return redirect()->route('events.index')->with('success', 'events has been updated');
     }
@@ -108,13 +108,13 @@ class EventsController extends Controller
         return redirect()->route('events.index')->with('success', 'events deleted');
     }
 
-    public function getVisitors(Request $request){
+    public function getVisitors(Request $request)
+    {
         $query = $request['search'];
-        $visitors = Visitor::whereHas('user', function($q) use($query){
-            $q->where('first_name','like', "%$query%");
+        $visitors = Visitor::whereHas('user', function ($q) use ($query) {
+            $q->where('first_name', 'like', "%$query%");
         })->get();
         
         return response()->json($visitors);
     }
-
 }

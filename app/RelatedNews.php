@@ -17,6 +17,6 @@ class RelatedNews extends Model
 
     public function news()
     {
-        return $this->belongsToMany('App\News','related_news', 'related_id', 'news_id');
+        return $this->belongsToMany('App\News', 'related_news', 'related_id', 'news_id');
     }
 }

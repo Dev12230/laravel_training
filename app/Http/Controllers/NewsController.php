@@ -10,7 +10,6 @@ use App\Staff;
 use App\News;
 use App\Enums\NewsType;
 
-
 class NewsController extends Controller
 {
     use ManageFiles;
@@ -48,7 +47,7 @@ class NewsController extends Controller
     public function create()
     {
         $types=NewsType::toSelectArray();
-        return view('news.create', compact('relNews','types'));
+        return view('news.create', compact('relNews', 'types'));
     }
 
     /**
@@ -96,12 +95,12 @@ class NewsController extends Controller
     {
         $types=NewsType::toSelectArray();
 
-        $selectedNews =$news->related()->get();  
-        $selectedNews=$selectedNews->pluck('main_title','id')->toArray();
+        $selectedNews =$news->related()->get();
+        $selectedNews=$selectedNews->pluck('main_title', 'id')->toArray();
 
         $authors = $this->returnAuthors($news->staff->job_id);
         
-        return view('news.edit', compact('news','selectedNews', 'authors','types'));
+        return view('news.edit', compact('news', 'selectedNews', 'authors', 'types'));
     }
 
     /**
@@ -120,7 +119,7 @@ class NewsController extends Controller
         }
         if ($request->input('file')) {
             $news->file()->saveMany($this->getStoredFiles($request));
-        }        
+        }
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);
         }
@@ -152,12 +151,12 @@ class NewsController extends Controller
         return $authors;
     }
 
-    public function getPublishedNews(Request $request){
+    public function getPublishedNews(Request $request)
+    {
         $query = $request['search'];
         $news = News::where('is_publish', true)->where('main_title', 'like', "%$query%")
              ->select('main_title', 'id')->get();
 
         return response()->json($news);
     }
-
 }

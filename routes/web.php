@@ -54,11 +54,9 @@
         //------------Files route -------------------
             Route::get('get-files', 'FilesController@getFiles')->name('getFiles');
             Route::post('upload-file', 'FilesController@uploadToServer')->name('uploadFile');
-            Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');  
+            Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');
         //------------Jobs route -------------------
-            Route::resource('events', 'EventsController'); 
-            Route::get('get-visitors', 'EventsController@getVisitors');    
+            Route::resource('events', 'EventsController');
+            Route::get('get-visitors', 'EventsController@getVisitors');
         });
-
-          
     });

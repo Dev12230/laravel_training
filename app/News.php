@@ -42,8 +42,7 @@ class News extends Model
 
     public function related()
     {
-        return $this->belongsToMany('App\RelatedNews','related_news', 'news_id', 'related_id');
-        
+        return $this->belongsToMany('App\RelatedNews', 'related_news', 'news_id', 'related_id');
     }
 
     public function toggleStatus()
@@ -51,5 +50,4 @@ class News extends Model
         $this->is_publish = !$this->is_publish;
         $this->save();
     }
-
 }

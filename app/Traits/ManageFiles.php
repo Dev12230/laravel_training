@@ -1,35 +1,36 @@
 <?php
 
 namespace App\Traits;
+
 use App\Image;
 use App\File;
  
 trait ManageFiles
 {
-   /**
-     * upload image to server.
-     *
+    /**
+     * Create resource in storage
+     * @param  requested file & $model name
      * @return image url
      */
-    public function UploadImage($image,$model)
+    public function UploadImage($image, $model)
     {
         return $image->store('uploads/'.$model.'', 'public');
     }
 
     /**
-     * upload file to server .
-     *
+     * Create resource in storage
+     * @param  requested file & $model name e
      * @return file url
      */
-    public function UploadFile($file,$model)
+    public function UploadFile($file, $model)
     {
         return $file->store('files/'.$model.'', 'public');
     }
 
     /**
-     * upload default image .
+     * Get default image .
      *
-     * @return image url
+     * @return default image url
      */
     public function DefaultImage()
     {
@@ -37,14 +38,15 @@ trait ManageFiles
     }
 
     /**
-     * get uploaded and already stored files or images using ids  
-     *
+     * Retrieve uploaded and already stored files or images using ids
+     * @param request
      * @return files
      */
-    public function getStoredFiles($request){
-        if($ids=$request->input('image')){
+    public function getStoredFiles($request)
+    {
+        if ($ids=$request->input('image')) {
             return Image::whereIn('id', $ids)->get()->getDictionary();
-        }else if($ids=$request->input('file')){
+        } elseif ($ids=$request->input('file')) {
             return File::whereIn('id', $ids)->get()->getDictionary();
         }
     }
