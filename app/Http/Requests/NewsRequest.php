@@ -28,6 +28,7 @@ class NewsRequest extends FormRequest
         return [
             'main_title'=>'required|max:150|min:3',
             'secondary_title'=>'max:150|min:3',
+            'content' =>'required|string',
             'type'=>['required', new EnumValue(NewsType::class, false)],
             'staff_id'=>'required|exists:staff,id',
             'related'  => 'array|max:10',

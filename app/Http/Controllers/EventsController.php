@@ -71,7 +71,7 @@ class EventsController extends Controller
     public function edit(Event $event)
     {
         $visitors =$event->visitors()->get();
-        $visitors =$visitors ->pluck('user.first_name', 'id')->toArray();
+        $visitors =$visitors->pluck('user.first_name', 'id')->toArray();
 
         return view('events.edit', compact('event', 'visitors'));
     }
@@ -93,6 +93,7 @@ class EventsController extends Controller
         if ($visitors = $request['visitor_id']) {
             $event->visitors()->sync($visitors);
         }
+
         return redirect()->route('events.index')->with('success', 'events has been updated');
     }
 

@@ -26,8 +26,11 @@ class EventsRequest extends FormRequest
         return [
             'main_title'=>'required|max:150|min:3',
             'secondary_title'=>'max:150|min:3',
+            'content' =>'required|string',
             'start_date'=> 'required|date|date_format:Y-m-d H:i:s|after:yesterday',
             'end_date'=> 'required|date|date_format:Y-m-d H:i:s|after:start_date',
+            'image'=>'array',
+            
         ];
     }
 }

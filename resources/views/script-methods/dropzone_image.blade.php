@@ -1,15 +1,15 @@
 <script type="text/javascript">
-
+//get name of model (news or event) from id of form 
 if(document.getElementById("news")){
 var model= 'news'
 }else if(document.getElementById("event")){
 var model= 'event'
 }
-
+//------------------------------------------------
 Dropzone.autoDiscover = false;
     var uploadedImages = {}
       let imageDropzone = new Dropzone('#image-drop', {
-      url: `{{url('${model}/upload-image')}}`,
+      url: `{{url('${model}/upload-image')}}`,  //use ${model-name} in url 
       paramName: "image",
       maxThumbnailFilesize: 1, // MB
       acceptedFiles: ".png,.jpg",
@@ -30,13 +30,13 @@ Dropzone.autoDiscover = false;
         $('form').find('input[name="image[]"][value="'+ id +'"]').remove()
       },
       init:function(){
-        @if(isset($news) || isset($event))
+        @if(isset($news) || isset($event))   // if method update, in case of (news or event) 
         var Id = $('#objId').val(); 
         myDropzone = this;
         $.ajax({
           type:"POST",
           headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-          url:`{{url('${model}/get-images')}}?id=`+Id,
+          url:`{{url('${model}/get-images')}}?id=`+Id,    //use ${model-name} in url 
           success: function(data){
             if(data){
               data.forEach(myFunction);
@@ -54,7 +54,7 @@ Dropzone.autoDiscover = false;
         });
         @endif
 
-       if (model=='event'){
+       if (model=='event'){       // cover image if model is event
         this.on("complete",function(image){
                  var radio = document.createElement('input')
                  radio.type='radio'

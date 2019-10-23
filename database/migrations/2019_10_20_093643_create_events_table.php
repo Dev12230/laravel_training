@@ -24,7 +24,7 @@ class CreateEventsTable extends Migration
             $table->double('address_latitude')->nullable();
             $table->double('address_longitude')->nullable();
             $table->boolean('is_publish')->default(0);
-            $table->integer('cover_image')->unsigned();
+            $table->integer('cover_image')->unsigned()->nullable();
             $table->foreign('cover_image')->references('id')->on('images');
             $table->softDeletes();
             $table->timestamps();
