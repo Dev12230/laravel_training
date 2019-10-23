@@ -53,6 +53,21 @@ Dropzone.autoDiscover = false;
           }
         });
         @endif
-      }, 
+
+       if (model=='event'){
+        this.on("complete",function(image){
+                 var newNode = document.createElement('input')
+                 newNode.type='checkbox'
+                 newNode.name='cover_image'
+                 newNode.value=uploadedImages[image.name]
+                 newNode.id='cover'
+                 var label = document.createElement('label')
+                 label.htmlFor = 'cover'
+                 label.appendChild(document.createTextNode('Mark As Cover'))                   
+                 image.previewTemplate.appendChild(newNode)
+                 image.previewTemplate.appendChild(label)
+            });
+       }
+    }, 
 })
 </script>

@@ -13,7 +13,7 @@ class Event extends Model
 
 
     protected $fillable = [
-        'main_title','secondary_title','content','start_date','end_date','address_address','address_latitude','address_longitude','is_publish'
+        'main_title','secondary_title','content','start_date','end_date','address_address','address_latitude','address_longitude','is_publish','cover_image'
     ];
 
     public function visitors()
