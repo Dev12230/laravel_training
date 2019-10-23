@@ -57,7 +57,7 @@ Dropzone.autoDiscover = false;
        if (model=='event'){
         this.on("complete",function(image){
                  var newNode = document.createElement('input')
-                 newNode.type='checkbox'
+                 newNode.type='radio'
                  newNode.name='cover_image'
                  newNode.value=uploadedImages[image.name]
                  newNode.id='cover'
