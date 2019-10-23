@@ -14,6 +14,10 @@ class StatusController extends Controller
     /**
      * Update status of specified resource .
      *
+     * get class using URL  using  ModelInstance trait
+     * find object from this class 
+     * Update status of this object .
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
