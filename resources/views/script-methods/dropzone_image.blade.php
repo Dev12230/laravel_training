@@ -56,15 +56,15 @@ Dropzone.autoDiscover = false;
 
        if (model=='event'){
         this.on("complete",function(image){
-                 var newNode = document.createElement('input')
-                 newNode.type='radio'
-                 newNode.name='cover_image'
-                 newNode.value=uploadedImages[image.name]
-                 newNode.id='cover'
+                 var radio = document.createElement('input')
+                 radio.type='radio'
+                 radio.name='cover_image'
+                 radio.value=uploadedImages[image.name]
+                 radio.id='cover'
                  var label = document.createElement('label')
                  label.htmlFor = 'cover'
                  label.appendChild(document.createTextNode('Mark As Cover'))                   
-                 image.previewTemplate.appendChild(newNode)
+                 image.previewTemplate.appendChild(radio)
                  image.previewTemplate.appendChild(label)
             });
        }
