@@ -33,10 +33,10 @@ class ImagesController extends Controller
     }
 
     /**
-     * Retrieve stored images using ids of them.
+     * Retrieve stored images using ids of them:
      * get class(News or Event) using (getImages(fn) URL)  using  ModelInstance trait
      * find object from this class using $request
-     * get images of this object
+     * get images of this class object
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
