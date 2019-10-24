@@ -62,10 +62,10 @@ class NewsController extends Controller
         $news=News::create($request->all());
 
         if ($image =$request->input('image')) {
-            $news->image()->saveMany($this->getStoredFiles($image,$request));
+            $news->image()->saveMany($this->getStoredFiles($image, $request));
         }
         if ($file =$request->input('file')) {
-            $news->file()->saveMany($this->getStoredFiles($file,$request));
+            $news->file()->saveMany($this->getStoredFiles($file, $request));
         }
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);
@@ -115,10 +115,10 @@ class NewsController extends Controller
         $news->update($request->all());
 
         if ($image =$request->input('image')) {
-            $news->image()->saveMany($this->getStoredFiles($image,$request));
+            $news->image()->saveMany($this->getStoredFiles($image, $request));
         }
         if ($file =$request->input('file')) {
-            $news->file()->saveMany($this->getStoredFiles($file,$request));
+            $news->file()->saveMany($this->getStoredFiles($file, $request));
         }
         if ($rel_news = $request['related']) {
             $news->related()->sync($rel_news);

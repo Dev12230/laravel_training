@@ -42,7 +42,7 @@ trait ManageFiles
      * @param request
      * @return files
      */
-    public function getStoredFiles($file,$request)
+    public function getStoredFiles($file, $request)
     {
         if ($file==$request->input('image')) {
             return Image::whereIn('id', $file)->get()->getDictionary();

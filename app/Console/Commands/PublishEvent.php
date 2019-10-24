@@ -39,10 +39,10 @@ class PublishEvent extends Command
     public function handle()
     {
         $events=Event::all();
-        foreach ($events as $event){
-            if(strtotime($event->start_date) <= strtotime(now('Africa/cairo')) &&  strtotime(now('Africa/cairo')) <= strtotime($event->end_date) ){  
+        foreach ($events as $event) {
+            if (strtotime($event->start_date) <= strtotime(now('Africa/cairo')) &&  strtotime(now('Africa/cairo')) <= strtotime($event->end_date)) {
                 $event->update(['is_publish'=>true]);
-            }else{
+            } else {
                 $event->update(['is_publish'=>false]);
             }
         }

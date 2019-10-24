@@ -44,7 +44,7 @@ class ImagesController extends Controller
     public function getImages(Request $request)
     {
 
-        $model_object=app($this->getClass($request))::find($request->id); 
+        $model_object=app($this->getClass($request))::find($request->id);
         $images=$model_object->image;
 
         return response()->json($images);
