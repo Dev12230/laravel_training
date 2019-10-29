@@ -96,14 +96,4 @@ class FoldersController extends Controller
     {
         //
     }
-
-    // public function linkMediaToFolder(Folder $folder,Request $request){
-    //     if(isset($request->image_id)){;
-    //         $folder->image()->delete();
-    //         $folder->image()->save($this->getStoredMedia($request));
-    //     }else if(isset($request->file_id)){
-    //         $folder->file()->delete();
-    //         $folder->image()->save($this->getStoredMedia($request));
-    //     }
-    // }
 }

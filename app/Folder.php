@@ -22,4 +22,10 @@ class Folder extends Model
     {
         return $this->morphOne('App\File', 'fileable');
     }
+
+    public function video()
+    {
+        return $this->morphOne('App\Video', 'Videoable');
+    }
+
 }

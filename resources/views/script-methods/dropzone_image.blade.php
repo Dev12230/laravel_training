@@ -9,7 +9,7 @@ var model= 'event'
 Dropzone.autoDiscover = false;
     var uploadedImages = {}
       let imageDropzone = new Dropzone('#image-drop', {
-      url: `{{url('${model}/upload-image')}}`,  //use ${model-name} in url 
+      url: `{{url('${model}/image')}}`,  //use ${model-name} in url 
       paramName: "image",
       maxThumbnailFilesize: 1, // MB
       acceptedFiles: ".png,.jpg",

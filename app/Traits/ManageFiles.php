@@ -26,6 +26,15 @@ trait ManageFiles
     {
         return $file->store('files/'.$model.'', 'public');
     }
+    /**
+     * Upload image in storage
+     * @param  requested image & $model name
+     * @return image url
+     */
+    public function UploadVideo($video, $model)
+    {
+        return $video->store('videos/'.$model.'', 'public');
+    }
 
     /**
      * Get default image .

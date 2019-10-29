@@ -9,7 +9,7 @@ var model= 'folder'
   Dropzone.autoDiscover = false;
   var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
-    url: `{{url('${model}/upload-file')}}`,
+    url: `{{url('${model}/file')}}`,
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".pdf,.xlsx",
     addRemoveLinks: true,

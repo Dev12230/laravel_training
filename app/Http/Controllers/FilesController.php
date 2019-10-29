@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\News;
 use App\File;
+use App\Folder;
 use App\Traits\ManageFiles;
 use App\Traits\ModelInstance;
 
@@ -12,53 +13,32 @@ class FilesController extends Controller
 {
     use ManageFiles,ModelInstance;
 
-    /**
-     * Store a newly created file in storage.
-     *
-     * @param  Url of file
-     */
-    public function store($url,$request)
-    {
-        $file= File::create(['file'=>$url]);
-        if($request->name ||$request->description){
-            $file->detail()->create($request->all());
-        }
-        return $file;
+    public function store(Request $request){
+        $url = $this->UploadFile($request->file('file'), $this->getModelName($request));
+        $file =File::create(['file'=>$url]);
+        return response()->json(['id' => $file->id,'name'=>$url]);
     }
-    /**
-     * Remove the specified file from storage.
-     *
-     * @param  int  $id
-     */
-    public function destroy($id)
-    {
+
+    public function destroy($id){
         $file=File::find($id);
         $file->delete();
     }
-    /**
-     * Retrieve stored files using ids of them.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getFiles(Request $request)
-    {
+
+    public function getFiles(Request $request){
         $model_object=app($this->getClass($request))::find($request->id);
         $files=$model_object->file;
-
         return response()->json($files);
     }
-    /**
-     * Upload file direct to server
-     * Create file in storage and store
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function uploadToServer(Request $request)
-    {
-        $url = $this->UploadFile($request->file('file'), $this->getModelName($request));
-        $file=$this->store($url,$request);
-        return response()->json(['id' => $file->id,'name'=>$url]);
+
+    public function uploadFileForFolder(Folder $folder,Request $request){
+        $url = $this->UploadFile($request->file('file'), 'folder'); 
+        if($folder->file){
+            $Filefolder=$folder->file()->update(['file'=>$url]);
+            $folder->file->detail->update($request->all());
+        }else{
+            $Filefolder=$folder->file()->create(['file'=>$url]);
+            $Filefolder->detail()->create($request->all());
+        }
+        return response()->json(['name'=>$url]);
     }
 }
