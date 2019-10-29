@@ -19,4 +19,9 @@ class File extends Model
     {
         return $this->morphTo();
     }
+
+    public function detail()
+    {
+        return $this->morphOne('App\Detail', 'profile');
+    }
 }

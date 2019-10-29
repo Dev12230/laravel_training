@@ -6,19 +6,24 @@ use Illuminate\Http\Request;
 use App\News;
 use App\File;
 use App\Traits\ManageFiles;
+use App\Traits\ModelInstance;
 
 class FilesController extends Controller
 {
-    use ManageFiles;
+    use ManageFiles,ModelInstance;
 
     /**
      * Store a newly created file in storage.
      *
      * @param  Url of file
      */
-    public function store($url)
+    public function store($url,$request)
     {
-        return File::create(['file'=>$url]);
+        $file= File::create(['file'=>$url]);
+        if($request->name ||$request->description){
+            $file->detail()->create($request->all());
+        }
+        return $file;
     }
     /**
      * Remove the specified file from storage.
@@ -38,8 +43,8 @@ class FilesController extends Controller
      */
     public function getFiles(Request $request)
     {
-        $news=News::find($request->news_id);
-        $files=$news->file;
+        $model_object=app($this->getClass($request))::find($request->id);
+        $files=$model_object->file;
 
         return response()->json($files);
     }
@@ -52,8 +57,8 @@ class FilesController extends Controller
      */
     public function uploadToServer(Request $request)
     {
-        $url = $this->UploadFile($request->file('file'), 'news');
-        $file=$this->store($url);
+        $url = $this->UploadFile($request->file('file'), $this->getModelName($request));
+        $file=$this->store($url,$request);
         return response()->json(['id' => $file->id,'name'=>$url]);
     }
 }

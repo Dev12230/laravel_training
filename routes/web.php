@@ -51,12 +51,18 @@
             Route::post('{model}/get-images', 'ImagesController@getImages')->name('getImages');
             Route::post('{model}/upload-image', 'ImagesController@uploadToServer')->name('uploadImage');
             Route::get('delete-image/{id}', 'ImagesController@destroy')->name('deleteImage');
+
+            Route::POST('upload-Folder-Image/{folder}', 'ImagesController@ImageFolder')->name('ImageFolder');
         //------------Files route -------------------
-            Route::get('get-files', 'FilesController@getFiles')->name('getFiles');
-            Route::post('upload-file', 'FilesController@uploadToServer')->name('uploadFile');
+            Route::post('{model}/get-files', 'FilesController@getFiles')->name('getFiles');
+            Route::post('{model}/upload-file', 'FilesController@uploadToServer')->name('uploadFile');
             Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');
-        //------------Jobs route -------------------
+        //------------Events route -------------------
             Route::resource('events', 'EventsController');
             Route::get('get-visitors', 'EventsController@getVisitors');
+        //------------Library route -------------------
+            Route::resource('folders', 'FoldersController');  
+            Route::post('link-media/{folder}', 'FoldersController@linkMediaToFolder');      
+
         });
     });

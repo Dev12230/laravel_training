@@ -50,4 +50,13 @@ trait ManageFiles
             return File::whereIn('id', $file)->get()->getDictionary();
         }
     }
+
+    public function getStoredMedia($request)
+    {
+        if (isset($request->image_id)) {
+            return Image::find($request->image_id);
+        }else if(isset($request->file_id)){
+            return File::find($request->file_id);
+        }
+    }
 }
