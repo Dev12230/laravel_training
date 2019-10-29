@@ -3,26 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Image extends Model
+class Detail extends Model
 {
-    use SoftDeletes;
-
     protected $with = ['profile'];
 
     protected $fillable = [
-        'image',
+        'name','description'
     ];
 
     public function profile()
     {
         return $this->morphTo();
     }
-
-    public function detail()
-    {
-        return $this->morphOne('App\Detail', 'profile');
-    }
-
 }

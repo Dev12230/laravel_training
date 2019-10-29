@@ -94,10 +94,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $types=NewsType::toSelectArray();
-
-        $selectedNews =$news->related()->get();
-        $selectedNews=$selectedNews->pluck('main_title', 'id')->toArray();
-
+        $selectedNews =$news->related()->get()->pluck('main_title', 'id');
         $authors = $this->returnAuthors($news->staff->job_id);
         
         return view('news.edit', compact('news', 'selectedNews', 'authors', 'types'));
@@ -146,9 +143,7 @@ class NewsController extends Controller
 
     public function returnAuthors($id)
     {
-        $authors = Staff::where('job_id', $id)->get();
-        $authors=$authors->pluck('user.first_name', 'id');
-        return $authors;
+        return Staff::where('job_id', $id)->get()->pluck('user.first_name', 'id');
     }
 
     public function getPublishedNews(Request $request)

@@ -1,8 +1,15 @@
-<script>
+<script type="text/javascript">
+//get name of model (event or folder) from id of form 
+if(document.getElementById("news")){
+var model= 'news'
+}else{
+var model= 'folder'
+}
+//------------------------------------------------
   Dropzone.autoDiscover = false;
   var uploadedFiles = {}
   let fileDropzone = new Dropzone('#file-drop', {
-    url: "{{url('upload-file')}}",
+    url: `{{url('${model}/upload-file')}}`,
     maxThumbnailFilesize: 1, // MB
     acceptedFiles: ".pdf,.xlsx",
     addRemoveLinks: true,
@@ -24,11 +31,12 @@
      },
     init:function(){
         @if(isset($news))
-        var newsId = $('#objId').val();  
+        var Id = $('#objId').val();  
         myDropzonefile = this;
         $.ajax({
-          type:"GET",
-           url:"{{ route('getFiles') }}?news_id="+newsId,
+        type:"POST",
+        headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+        url:`{{url('${model}/get-files')}}?id=`+Id,    //use ${model-name} in url 
         success: function(data){
           if(data){
             data.forEach(myFunction);

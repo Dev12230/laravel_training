@@ -18,6 +18,7 @@ trait ModelInstance
             Event::class =>'event',
             Staff::class => 'staff',
             Visitor::class =>'visitors',
+            Folder::class =>'folder',
         ];
     }
 

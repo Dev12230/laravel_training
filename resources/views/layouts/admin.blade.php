@@ -93,6 +93,10 @@
                     <li class="active">
                         <a href="/events"><i class="fa fa-th-large"></i><span class="nav-label">Events</span></a> 
                     </li> 
+
+                    <li class="active">
+                        <a href="/folders"><i class="fa fa-th-large"></i><span class="nav-label">Library</span></a> 
+                    </li> 
                
                
                

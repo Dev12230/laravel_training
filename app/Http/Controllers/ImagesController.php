@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Traits\ManageFiles;
 use App\Traits\ModelInstance;
+use App\Folder;
 use App\Image;
+
 
 class ImagesController extends Controller
 {
@@ -16,9 +18,13 @@ class ImagesController extends Controller
      *
      * @param  Url of image
      */
-    public function store($url)
+    public function store($url,$request)
     {
-        return Image::create(['image'=>$url]);
+        $image =Image::create(['image'=>$url]);
+        if($request->name ||$request->description){
+            $image->detail()->create($request->all());
+        }
+        return $image;
     }
 
     /**
@@ -49,7 +55,6 @@ class ImagesController extends Controller
 
         return response()->json($images);
     }
-
     /**
      * get model Name(News or Event) using ( uploadToServers(fn) URL)  using  ModelInstance trait
      * Upload image direct to server
@@ -60,7 +65,19 @@ class ImagesController extends Controller
     public function uploadToServer(Request $request)
     {
         $url = $this->UploadImage($request->file('image'), $this->getModelName($request));
-        $image = $this->store($url);
+        $image = $this->store($url,$request);
         return response()->json(['id' => $image->id,'name'=>$url]);
+    }
+
+    public function ImageFolder(Folder $folder,Request $request){
+        $url = $this->UploadImage($request->file('image'), 'folder'); 
+        if($folder->image){
+            $Imgfolder=$folder->image()->update(['image'=>$url]);
+            $folder->image->detail->update($request->all());
+        }else{
+            $Imgfolder=$folder->image()->create(['image'=>$url]);
+            $Imgfolder->detail()->create($request->all());
+        }
+
     }
 }

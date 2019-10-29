@@ -70,9 +70,7 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
-        $visitors =$event->visitors()->get();
-        $visitors =$visitors->pluck('user.first_name', 'id')->toArray();
-
+        $visitors =$event->visitors()->get()->pluck('user.first_name', 'id');
         return view('events.edit', compact('event', 'visitors'));
     }
 
