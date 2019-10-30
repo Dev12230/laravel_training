@@ -32,7 +32,7 @@
     <!-- dataTimepicker -->
     <!-- <link href="{{ asset('theme/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-   
+
  
 </head>
 

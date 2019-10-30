@@ -28,4 +28,9 @@ class Folder extends Model
         return $this->morphOne('App\Video', 'Videoable');
     }
 
+    public function permitted()
+    {
+        return $this->belongsToMany('App\Staff');
+    }
+
 }

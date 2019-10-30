@@ -36,10 +36,10 @@
         //------------staff route -------------------
             Route::resource('staff', 'StaffController');
             Route::PATCH('/staff/{id}/toggle', 'StatusController@update');
+            Route::get('/get-staff', 'StaffController@getStaff')->name('get-staff');
         //------------staff route -------------------
             Route::resource('visitors', 'VisitorsController')->except('show');
             Route::PATCH('/visitors/{id}/toggle', 'StatusController@update');
-            Route::get('visitors/export', 'VisitorsController@exportExcel')->name('visitors.export');
         //------------News route -------------------
             Route::resource('news', 'NewsController');
             Route::get('get-authors', 'NewsController@getAuthors');

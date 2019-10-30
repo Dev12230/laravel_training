@@ -48,7 +48,8 @@ class FoldersController extends Controller
      */
     public function store(FolderRequest $request)
     {
-        Folder::create($request->all());
+        $folder=Folder::create($request->all());
+        $folder->permitted()->sync($request->staff);
         return redirect()->route('folders.index')->with('success', 'folder Added');
     }
 
@@ -60,6 +61,7 @@ class FoldersController extends Controller
      */
     public function show(Folder $folder)
     {
+        $folder= $folder->load(['image', 'file', 'video']);
         return view('folders.show',compact('folder'));
     }
 
@@ -69,9 +71,10 @@ class FoldersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Folder $folder)
     {
-        //
+        $folder= $folder->load(['image', 'file', 'video','permitted']);
+        return view('folders.edit',compact('folder'));
     }
 
     /**
@@ -81,9 +84,10 @@ class FoldersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FolderRequest $request, Folder $folder)
     {
-        //
+        $folder->update($request->all());
+        return back();
     }
 
     /**
@@ -92,8 +96,9 @@ class FoldersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Folder $folder)
     {
-        //
+        $folder->delete();
+        return redirect()->route('folders.index')->with('success', 'folder deleted');
     }
 }

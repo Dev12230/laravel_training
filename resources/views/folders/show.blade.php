@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 
+<div class="alert alert-danger print-error-msg" style="display:none">
+<ul></ul>
+ </div>
+
 <div class="row">
                 <div class="form-group">
                     <label class="control-label" for="status">Name:</label>
@@ -18,13 +22,19 @@
 <div class="container">
     <div class="row">
        <div id="display_image" class="col-md-4">
-    
-       </div>
+           @if(isset($folder->image))
+            <img  src="{{ Storage::url($folder->image->image) }}" class="img-thumbnail" width="100" height="100" />
+           @endif
+        </div>
        <div id="display_file" class="col-md-4" >
-
-       </div>
+           @if(isset($folder->file))
+            <a href="{{ Storage::url($folder->file->file) }}">{{$folder->file->file}}</a>
+            @endif
+        </div>
        <div id="display_video" class="col-md-4" >
-
+         @if(isset($folder->video))
+         <b>{{$folder->video}}</b>
+         @endif
        </div>
     </div>
 </div>
@@ -79,8 +89,11 @@
                     <button  id='btnVideo'>Upload Video</button>
                     <form method="post" id="upload_video" enctype="multipart/form-data" style="display:none;">
                     {{ csrf_field() }}
-                    <label>Select Video:</label></td>
-                    <input type="file" name="video" id="video"/>
+                    <label>Select Video:</label></td><br>
+                      <input type="radio" name="choose" value='pc'>Upload From Pc<br>
+                      <input type="file" name="video_pc" id="pc" style="display:none;"/><br>
+                      <input type="radio" name="choose" value='youtube'>Upload From Youtube<br>
+                      <input type="text" name="video_youtube" id="youtube" style="display:none;"><br>
 
                     <div class="form-group" style="width:300px">
                     <label for="name">Video Name: </label>
@@ -99,13 +112,11 @@
  </div>
 
 </div>
-
 @push('scripts')
 <!-- upload image button click -->
 <script>
 $("#btnImage").click(function() {
     $("#upload_image").toggle();
-    
 });
 </script>
 <!-- image form   -->
@@ -123,13 +134,17 @@ $('#upload_image').on('submit', function(event){
   cache: false,
   processData: false,
   success:function(data){
-    $('#display_image').html(`<img  src="{{ Storage::url('${data.name}') }}" class="img-thumbnail" width="300" />`)
+    $('#display_image').html(`<img  src="{{ Storage::url('${data.name}') }}" class="img-thumbnail" width="100" height="100"" />`)
+  },
+  error: function(data){
+    printErrorMsg (data.responseJSON.errors)
   }
  })
  $(this).hide();
 });
 });
 </script>
+
 <!-- upload file button click -->
 <script>
 $("#btnFile").click(function() {
@@ -152,7 +167,10 @@ $('#upload_file').on('submit', function(event){
   cache: false,
   processData: false,
   success:function(data){
-    $('#display_file').html(`<a src="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
+    $('#display_file').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
+  },
+  error: function(data){
+    printErrorMsg (data.responseJSON.errors)
   }
  })
  $(this).hide();
@@ -165,6 +183,18 @@ $("#btnVideo").click(function() {
     $("#upload_video").toggle();
 
 });
+</script>
+<script>
+$('input[name="choose"]').click(function(e) {
+  if(e.target.value === 'pc') {
+    $('#pc').show();
+    $('#youtube').hide();
+  } else if(e.target.value === 'youtube'){
+    $('#youtube').show();
+    $('#pc').hide();
+  }
+})
+
 </script>
 <!-- file form -->
 <script>   
@@ -181,13 +211,28 @@ $('#upload_video').on('submit', function(event){
   cache: false,
   processData: false,
   success:function(data){
-      console.log(data);
-    $('#display_file').html(`<a src="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
+    if(data.name.startsWith("videos")){
+      $('#display_video').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
+    }else{
+      $('#display_video').html(`<iframe width="420" height="315" src="//www.youtube.com/embed/${data.name}" frameborder="0" allowfullscreen></iframe>`)
+    },
+  },
+  error: function(data){
+    printErrorMsg (data.responseJSON.errors)
   }
  })
  $(this).hide();
 });
 });
+</script>
+<script>
+   function printErrorMsg (msg) {
+            $(".print-error-msg").find("ul").html('');
+            $(".print-error-msg").css('display','block');
+            $.each( msg, function( key, value ) {
+                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+            });
+        }
 </script>
 
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>

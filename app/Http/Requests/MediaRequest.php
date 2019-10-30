@@ -26,7 +26,7 @@ class MediaRequest extends FormRequest
         return [
             'image' => 'image|mimes:png,jpg|max:2048',
             'file' => 'file|max:2048|mimes:pdf,xlsx',
-            'video'=>'file|mimes:mpeg,ogg,mp4',
+            'video_pc'=>'file|mimes:mpeg,ogg,mp4',
             'name'=>'required|min:3|max:150',
             'description' => 'nullable|min:3|max:250',
         ];

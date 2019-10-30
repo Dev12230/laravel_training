@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\News;
+use App\Http\Requests\MediaRequest;
 use App\File;
 use App\Folder;
 use App\Traits\ManageFiles;
@@ -30,7 +30,7 @@ class FilesController extends Controller
         return response()->json($files);
     }
 
-    public function uploadFileForFolder(Folder $folder,Request $request){
+    public function uploadFileForFolder(Folder $folder,MediaRequest $request){
         $url = $this->UploadFile($request->file('file'), 'folder'); 
         if($folder->file){
             $Filefolder=$folder->file()->update(['file'=>$url]);

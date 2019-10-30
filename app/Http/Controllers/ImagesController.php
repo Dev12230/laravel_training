@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\MediaRequest;
 use App\Traits\ManageFiles;
 use App\Traits\ModelInstance;
 use App\Folder;
@@ -30,7 +31,8 @@ class ImagesController extends Controller
         return response()->json($images);
     }
 
-    public function uploadImageForFolder(Folder $folder,Request $request){
+    public function uploadImageForFolder(Folder $folder,MediaRequest $request){
+        
         $url = $this->UploadImage($request->file('image'), 'folder'); 
         if($folder->image){
             $Imgfolder=$folder->image()->update(['image'=>$url]);

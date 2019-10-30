@@ -138,4 +138,14 @@ class StaffController extends Controller
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted');
     }
+
+    public function getStaff(Request $request)
+    {
+        $query = $request['search'];
+        $staff = Staff::whereHas('user', function ($q) use ($query) {
+            $q->where('first_name', 'like', "%$query%");
+        })->get();
+        
+        return response()->json($staff);
+    }
 }
