@@ -57,9 +57,11 @@ class FoldersController extends Controller
     public function store(FolderRequest $request)
     {
         $folder=Folder::create($request->all());
+        if($request->staff){
         $folder->permitted()->sync($request->staff);
         foreach($folder->permitted()->get() as $staff)
             $staff->user->givePermissionTo('folder-crud');
+        }  
         return redirect()->route('folders.index')->with('success', 'folder Added');
     }
 
