@@ -19,7 +19,7 @@ class VideosController extends Controller
         }elseif($request->video_youtube){
             $url = $this->youtubeID($request->video_youtube);
         }
-
+        
         if($folder->video){
             $videoFolder=$folder->video()->update(['video'=>$url]);
             $folder->video->detail->update($request->all());

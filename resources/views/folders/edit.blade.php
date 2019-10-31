@@ -29,7 +29,7 @@
      <select id="staff" name="staff[]"  class="chosen-select" multiple style="width:400px;" >
      @if(!empty($folder->permitted))
       @foreach($folder->permitted as $member)
-      <option selected="selected" value="{{$member->user->id}}">{{$member->user->first_name}}</option>
+      <option selected="selected" value="{{$member->id}}">{{$member->user->first_name}}</option>
       @endforeach
     @endif   
     </select>
@@ -163,16 +163,13 @@ $(".chosen-select").select2({
         },
     });
   </script>
-
+<!----------------------------------------- upload image------------------------------------------->
 <script>
-$("#btnImage").click(function() {
+$("#btnImage").click(function() {          // button toggle
     $("#upload_image").toggle();
-    
 });
-</script>
-<!-- image form   -->
-<script> 
-$(document).ready(function(){
+
+$(document).ready(function(){              // submit image form
 $('#upload_image').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -195,17 +192,14 @@ $('#upload_image').on('submit', function(event){
 });
 });
 </script>
-
-<!-- upload file button click -->
+<!----------------------------------------- upload file----------------------------------------- -->
 <script>
-$("#btnFile").click(function() {
+$("#btnFile").click(function() {         // button toggle
     $("#upload_file").toggle();
 
 });
-</script>
-<!-- file form -->
-<script>   
-$(document).ready(function(){
+ 
+$(document).ready(function(){            // submit file form
 $('#upload_file').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -228,14 +222,13 @@ $('#upload_file').on('submit', function(event){
 });
 });
 </script>
-<!-- upload video button click -->
+<!----------------------------------------- upload video------------------------------------------->
 <script>
-$("#btnVideo").click(function() {
+$("#btnVideo").click(function() {        // button toggle
     $("#upload_video").toggle();
 
 });
-</script>
-<script>
+// chose video type
 $('input[name="choose"]').click(function(e) {
   if(e.target.value === 'pc') {
     $('#pc').show();
@@ -246,10 +239,7 @@ $('input[name="choose"]').click(function(e) {
   }
 })
 
-</script>
-<!-- file form -->
-<script>   
-$(document).ready(function(){
+$(document).ready(function(){            // submit video form
 $('#upload_video').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -276,8 +266,10 @@ $('#upload_video').on('submit', function(event){
 });
 });
 </script>
+<!-- ---------------------------------------------------------------------------------------->
+<!-- error message -->
 <script>
-  function printErrorMsg (msg) {
+   function printErrorMsg (msg) {
             $(".print-error-msg").find("ul").html('');
             $(".print-error-msg").css('display','block');
             $.each( msg, function( key, value ) {

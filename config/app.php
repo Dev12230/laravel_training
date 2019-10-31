@@ -163,8 +163,10 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Yajra\DataTables\ButtonsServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         BenSampo\Enum\EnumServiceProvider::class,
+        
 
         /*
          * Package Service Providers...

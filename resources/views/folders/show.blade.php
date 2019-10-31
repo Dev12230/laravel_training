@@ -113,15 +113,13 @@
 
 </div>
 @push('scripts')
-<!-- upload image button click -->
+<!----------------------------------------- upload image------------------------------------------->
 <script>
-$("#btnImage").click(function() {
+$("#btnImage").click(function() {          // button toggle
     $("#upload_image").toggle();
 });
-</script>
-<!-- image form   -->
-<script> 
-$(document).ready(function(){
+
+$(document).ready(function(){              // submit image form
 $('#upload_image').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -144,17 +142,14 @@ $('#upload_image').on('submit', function(event){
 });
 });
 </script>
-
-<!-- upload file button click -->
+<!----------------------------------------- upload file----------------------------------------- -->
 <script>
-$("#btnFile").click(function() {
+$("#btnFile").click(function() {         // button toggle
     $("#upload_file").toggle();
 
 });
-</script>
-<!-- file form -->
-<script>   
-$(document).ready(function(){
+ 
+$(document).ready(function(){            // submit file form
 $('#upload_file').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -177,14 +172,13 @@ $('#upload_file').on('submit', function(event){
 });
 });
 </script>
-<!-- upload video button click -->
+<!----------------------------------------- upload video------------------------------------------->
 <script>
-$("#btnVideo").click(function() {
+$("#btnVideo").click(function() {        // button toggle
     $("#upload_video").toggle();
 
 });
-</script>
-<script>
+// chose video type
 $('input[name="choose"]').click(function(e) {
   if(e.target.value === 'pc') {
     $('#pc').show();
@@ -195,10 +189,7 @@ $('input[name="choose"]').click(function(e) {
   }
 })
 
-</script>
-<!-- file form -->
-<script>   
-$(document).ready(function(){
+$(document).ready(function(){            // submit video form
 $('#upload_video').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -225,6 +216,8 @@ $('#upload_video').on('submit', function(event){
 });
 });
 </script>
+<!-- ---------------------------------------------------------------------------------------->
+<!-- error message -->
 <script>
    function printErrorMsg (msg) {
             $(".print-error-msg").find("ul").html('');

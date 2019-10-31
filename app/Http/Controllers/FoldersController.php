@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FolderRequest;
-use Spatie\Permission\Models\Permission;
 use App\Folder;
 use App\Staff;
-use DataTables;
 use App\Traits\ManageFiles;
 use App\User;
+use App\DataTables\FoldersDataTable;
 
 class FoldersController extends Controller
 {
@@ -24,18 +23,9 @@ class FoldersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(FoldersDataTable $datatable)
     {
-        if ($request->ajax()) {
-            auth()->user()->hasRole('Admin') ?
-            $folders=Folder::query(): $folders=auth()->user()->staff->folders;
-            
-            return Datatables::of($folders)
-              ->addColumn('action', function ($row) {
-                return  view('folders.actions', compact('row'));
-              })->rawColumns(['action'])->make(true);
-        }
-        return view('folders.index');
+        return $datatable->render('folders.index');
     }
 
     /**
@@ -58,9 +48,9 @@ class FoldersController extends Controller
     {
         $folder=Folder::create($request->all());
         if($request->staff){
-        $folder->permitted()->sync($request->staff);
-        foreach($folder->permitted()->get() as $staff)
-            $staff->user->givePermissionTo('folder-crud');
+            $folder->permitted()->sync($request->staff);
+            foreach($folder->permitted()->get() as $staff)
+                $staff->user->syncPermissions('folder-crud');
         }  
         return redirect()->route('folders.index')->with('success', 'folder Added');
     }
@@ -99,6 +89,9 @@ class FoldersController extends Controller
     public function update(FolderRequest $request, Folder $folder)
     {
         $folder->update($request->all());
+        $folder->permitted()->sync($request->staff);
+            foreach($folder->permitted()->get() as $staff)
+                $staff->user->syncPermissions('folder-crud'); 
         return back();
     }
 
@@ -113,4 +106,5 @@ class FoldersController extends Controller
         $folder->delete();
         return redirect()->route('folders.index')->with('success', 'folder deleted');
     }
+
 }
