@@ -62,4 +62,9 @@ class Staff extends Model
         $this->user->active = !$this->user->active;
         $this->user->save();
     }
+
+    public function folders()
+    {
+        return $this->belongsToMany('App\Folder');
+    }
 }

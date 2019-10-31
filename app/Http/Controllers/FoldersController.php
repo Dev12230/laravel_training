@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FolderRequest;
+use Spatie\Permission\Models\Permission;
 use App\Folder;
+use App\Staff;
 use DataTables;
 use App\Traits\ManageFiles;
-
+use App\User;
 
 class FoldersController extends Controller
 {
     use ManageFiles;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Folder::class);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,12 +27,13 @@ class FoldersController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $folders=Folder::query();
+            auth()->user()->hasRole('Admin') ?
+            $folders=Folder::query(): $folders=auth()->user()->staff->folders;
+            
             return Datatables::of($folders)
               ->addColumn('action', function ($row) {
                 return  view('folders.actions', compact('row'));
-              })
-              ->rawColumns(['action'])->make(true);
+              })->rawColumns(['action'])->make(true);
         }
         return view('folders.index');
     }
@@ -50,6 +58,8 @@ class FoldersController extends Controller
     {
         $folder=Folder::create($request->all());
         $folder->permitted()->sync($request->staff);
+        foreach($folder->permitted()->get() as $staff)
+            $staff->user->givePermissionTo('folder-crud');
         return redirect()->route('folders.index')->with('success', 'folder Added');
     }
 

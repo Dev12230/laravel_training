@@ -43,6 +43,8 @@ class PermissionTableSeeder extends Seeder
             'news-edit',
             'news-delete',
             'news-active',
+
+            'folder-crud',
            
          ];
  
