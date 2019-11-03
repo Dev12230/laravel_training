@@ -24,10 +24,9 @@ class FoldersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('name','folders.folder-image')
+            ->addColumn('name', 'folders.folder-image')
             ->addColumn('action', 'folders.actions')
             ->rawColumns(['name', 'action']);
-      
     }
 
     /**
@@ -56,7 +55,7 @@ class FoldersDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(1)
-                    ->buttons(                   
+                    ->buttons(
                         Button::make('export')
                     );
     }

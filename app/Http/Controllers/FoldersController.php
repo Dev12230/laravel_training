@@ -47,11 +47,12 @@ class FoldersController extends Controller
     public function store(FolderRequest $request)
     {
         $folder=Folder::create($request->all());
-        if($request->staff){
+        if ($request->staff) {
             $folder->permitted()->sync($request->staff);
-            foreach($folder->permitted()->get() as $staff)
+            foreach ($folder->permitted()->get() as $staff) {
                 $staff->user->syncPermissions('folder-crud');
-        }  
+            }
+        }
         return redirect()->route('folders.index')->with('success', 'folder Added');
     }
 
@@ -64,7 +65,7 @@ class FoldersController extends Controller
     public function show(Folder $folder)
     {
         $folder= $folder->load(['image', 'file', 'video']);
-        return view('folders.show',compact('folder'));
+        return view('folders.show', compact('folder'));
     }
 
     /**
@@ -76,7 +77,7 @@ class FoldersController extends Controller
     public function edit(Folder $folder)
     {
         $folder= $folder->load(['image', 'file', 'video','permitted']);
-        return view('folders.edit',compact('folder'));
+        return view('folders.edit', compact('folder'));
     }
 
     /**
@@ -90,8 +91,9 @@ class FoldersController extends Controller
     {
         $folder->update($request->all());
         $folder->permitted()->sync($request->staff);
-            foreach($folder->permitted()->get() as $staff)
-                $staff->user->syncPermissions('folder-crud'); 
+        foreach ($folder->permitted()->get() as $staff) {
+            $staff->user->syncPermissions('folder-crud');
+        }
         return back();
     }
 
@@ -106,5 +108,4 @@ class FoldersController extends Controller
         $folder->delete();
         return redirect()->route('folders.index')->with('success', 'folder deleted');
     }
-
 }

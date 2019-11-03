@@ -48,5 +48,4 @@ class RoleRequest extends FormRequest
             'description.required' => 'description is required',
         ];
     }
-
 }

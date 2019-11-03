@@ -24,5 +24,4 @@ class Image extends Model
     {
         return $this->morphOne('App\Detail', 'profile');
     }
-
 }

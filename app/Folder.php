@@ -32,5 +32,4 @@ class Folder extends Model
     {
         return $this->belongsToMany('App\Staff');
     }
-
 }

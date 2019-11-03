@@ -105,7 +105,7 @@
                     <input type="text" class="form-control" id="description" name="description" style="height:100px;">
                     </div>
 
-                    <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload File">
+                    <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload Video">
                     </form>
                 </div>
             
@@ -146,7 +146,6 @@ $('#upload_image').on('submit', function(event){
 <script>
 $("#btnFile").click(function() {         // button toggle
     $("#upload_file").toggle();
-
 });
  
 $(document).ready(function(){            // submit file form
@@ -178,6 +177,8 @@ $("#btnVideo").click(function() {        // button toggle
     $("#upload_video").toggle();
 
 });
+</script>
+<script>
 // chose video type
 $('input[name="choose"]').click(function(e) {
   if(e.target.value === 'pc') {
@@ -188,7 +189,8 @@ $('input[name="choose"]').click(function(e) {
     $('#pc').hide();
   }
 })
-
+</script>
+<script>
 $(document).ready(function(){            // submit video form
 $('#upload_video').on('submit', function(event){
  event.preventDefault();

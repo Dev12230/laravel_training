@@ -64,7 +64,7 @@ trait ManageFiles
     {
         if (isset($request->image_id)) {
             return Image::find($request->image_id);
-        }else if(isset($request->file_id)){
+        } elseif (isset($request->file_id)) {
             return File::find($request->file_id);
         }
     }
