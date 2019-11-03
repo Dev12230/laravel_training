@@ -12,28 +12,15 @@ trait ManageFiles
      * @param  requested image & $model name
      * @return image url
      */
-    public function UploadImage($image, $model)
+    public function Upload($request, $model)
     {
-        return $image->store('uploads/'.$model.'', 'public');
-    }
-
-    /**
-     * Upload file in storage
-     * @param  requested file & $model name
-     * @return file url
-     */
-    public function UploadFile($file, $model)
-    {
-        return $file->store('files/'.$model.'', 'public');
-    }
-    /**
-     * Upload image in storage
-     * @param  requested image & $model name
-     * @return image url
-     */
-    public function UploadVideo($video, $model)
-    {
-        return $video->store('videos/'.$model.'', 'public');
+        if ($image =$request->file('image')) {
+            return $image->store('uploads/'.$model.'', 'public');
+        } elseif ($file=$request->file('file')) {
+            return $file->store('files/'.$model.'', 'public');
+        } elseif ($file=$request->video_pc) {
+            return $file->store('videos/'.$model.'', 'public');
+        }
     }
 
     /**
@@ -64,7 +51,7 @@ trait ManageFiles
     {
         if (isset($request->image_id)) {
             return Image::find($request->image_id);
-        }else if(isset($request->file_id)){
+        } elseif (isset($request->file_id)) {
             return File::find($request->file_id);
         }
     }

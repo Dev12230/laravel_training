@@ -45,24 +45,21 @@
             Route::get('get-authors', 'NewsController@getAuthors');
             Route::get('get-published', 'NewsController@getPublishedNews');
             Route::PATCH('/news/{id}/toggle', 'StatusController@update');
-
             Route::post('uploads', 'NewsController@uploads')->name('uploads');
         //------------Images route -------------------
             Route::post('{model}/image', 'ImagesController@store')->name('store-Image');
             Route::get('delete-image/{id}', 'ImagesController@destroy')->name('deleteImage');
             Route::post('{model}/get-images', 'ImagesController@getImages')->name('getImages');
-            Route::POST('upload-Folder-Image/{folder}', 'ImagesController@uploadImageForFolder')->name('ImageFolder');
         //------------Files route -------------------
             Route::post('{model}/file', 'FilesController@store')->name('store-File');
             Route::get('delete-file/{id}', 'FilesController@destroy')->name('deleteFile');
             Route::post('{model}/get-files', 'FilesController@getFiles')->name('getFiles');
-            Route::POST('upload-Folder-File/{folder}', 'FilesController@uploadFileForFolder')->name('FileFolder');
-        //------------videos route -------------------
-            Route::POST('upload-Folder-Video/{folder}', 'VideosController@uploadVideoForFolder')->name('VideoFolder');
         //------------Events route -------------------
             Route::resource('events', 'EventsController');
             Route::get('get-visitors', 'EventsController@getVisitors');
         //------------Library route -------------------
-            Route::resource('folders', 'FoldersController');   
+            Route::resource('folders', 'FoldersController');
+        //------------FolderUpload route -------------------
+            Route::POST('upload/folder/{folder}', 'FolderUploadController@store');
         });
     });

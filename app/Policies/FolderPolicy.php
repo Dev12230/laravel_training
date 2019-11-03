@@ -77,5 +77,4 @@ class FolderPolicy
         }
         return false;
     }
- 
 }

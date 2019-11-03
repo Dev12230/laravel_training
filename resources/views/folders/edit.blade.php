@@ -29,7 +29,7 @@
      <select id="staff" name="staff[]"  class="chosen-select" multiple style="width:400px;" >
      @if(!empty($folder->permitted))
       @foreach($folder->permitted as $member)
-      <option selected="selected" value="{{$member->user->id}}">{{$member->user->first_name}}</option>
+      <option selected="selected" value="{{$member->id}}">{{$member->user->first_name}}</option>
       @endforeach
     @endif   
     </select>
@@ -163,16 +163,13 @@ $(".chosen-select").select2({
         },
     });
   </script>
-
+<!----------------------------------------- upload image------------------------------------------->
 <script>
-$("#btnImage").click(function() {
+$("#btnImage").click(function() {          // button toggle
     $("#upload_image").toggle();
-    
 });
-</script>
-<!-- image form   -->
-<script> 
-$(document).ready(function(){
+
+$(document).ready(function(){              // submit image form
 $('#upload_image').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -188,24 +185,21 @@ $('#upload_image').on('submit', function(event){
     $('#display_image').html(`<img  src="{{ Storage::url('${data.name}') }}" class="img-thumbnail" width="100" height="100"" />`)
   },
   error: function(data){
-    printErrorMsg (data.responseJSON.errors)
+    printErrorMsg (data.responseJSON.errors,'image')
   }
  })
  $(this).hide();
 });
 });
 </script>
-
-<!-- upload file button click -->
+<!----------------------------------------- upload file----------------------------------------- -->
 <script>
-$("#btnFile").click(function() {
+$("#btnFile").click(function() {         // button toggle
     $("#upload_file").toggle();
 
 });
-</script>
-<!-- file form -->
-<script>   
-$(document).ready(function(){
+ 
+$(document).ready(function(){            // submit file form
 $('#upload_file').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -221,21 +215,22 @@ $('#upload_file').on('submit', function(event){
     $('#display_file').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
   },
   error: function(data){
-    printErrorMsg (data.responseJSON.errors)
+    printErrorMsg (data.responseJSON.errors ,'file')
   }
  })
  $(this).hide();
 });
 });
 </script>
-<!-- upload video button click -->
+<!----------------------------------------- upload video------------------------------------------->
 <script>
-$("#btnVideo").click(function() {
+$("#btnVideo").click(function() {        // button toggle
     $("#upload_video").toggle();
 
 });
 </script>
 <script>
+// chose video type
 $('input[name="choose"]').click(function(e) {
   if(e.target.value === 'pc') {
     $('#pc').show();
@@ -245,11 +240,9 @@ $('input[name="choose"]').click(function(e) {
     $('#pc').hide();
   }
 })
-
 </script>
-<!-- file form -->
-<script>   
-$(document).ready(function(){
+<script>
+$(document).ready(function(){            // submit video form
 $('#upload_video').on('submit', function(event){
  event.preventDefault();
  $.ajax({
@@ -269,19 +262,23 @@ $('#upload_video').on('submit', function(event){
     },
   },
   error: function(data){
-    printErrorMsg (data.responseJSON.errors)
+    printErrorMsg (data.responseJSON.errors,'video_pc')
   }
  })
  $(this).hide();
 });
 });
 </script>
+<!-- ---------------------------------------------------------------------------------------->
+<!-- error message -->
 <script>
-  function printErrorMsg (msg) {
+   function printErrorMsg (msg,k) {
             $(".print-error-msg").find("ul").html('');
             $(".print-error-msg").css('display','block');
             $.each( msg, function( key, value ) {
+              if(key == k || key== 'name' || key == 'description'){
                 $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+              }
             });
         }
 </script>
