@@ -15,7 +15,7 @@ class FilesController extends Controller
 
     public function store(Request $request)
     {
-        $url = $this->UploadFile($request->file('file'), $this->getModelName($request));
+        $url = $this->Upload($request, $this->getModelName($request));
         $file =File::create(['file'=>$url]);
         return response()->json(['id' => $file->id,'name'=>$url]);
     }

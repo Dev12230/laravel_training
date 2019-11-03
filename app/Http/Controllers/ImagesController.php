@@ -15,7 +15,7 @@ class ImagesController extends Controller
 
     public function store(Request $request)
     {
-        $url = $this->UploadImage($request->file('image'), $this->getModelName($request));
+        $url = $this->Upload($request, $this->getModelName($request));
         $image= Image::create(['image'=>$url]);
         return response()->json(['id' => $image->id,'name'=>$url]);
     }

@@ -14,43 +14,30 @@ class FolderUploadController extends Controller
 {
     use ManageFiles;
 
-    public function uploadImageForFolder(Folder $folder, MediaRequest $request)
+    public function store(Folder $folder, MediaRequest $request)
     {
-        $url = $this->UploadImage($request->file('image'), 'folder');
-        $image=$folder->image()->updateOrCreate(
-            ['profile_id'=>$folder->id],
-            ['image'=>$url]
-        );
-        $this->detail($folder, $image, $request);
-        return response()->json(['name'=>$url]);
-    }
+        $request->video_youtube ?
+            $url = $this->youtubeID($request->video_youtube):
+            $url = $this->Upload($request, 'folder');
 
-    public function uploadFileForFolder(Folder $folder, MediaRequest $request)
-    {
-        $url = $this->UploadFile($request->file('file'), 'folder');
-        $file=$folder->file()->updateOrCreate(
-            ['fileable_id'=>$folder->id],
-            ['file'=>$url]
-        );
-        $this->detail($folder, $file, $request);
-        return response()->json(['name'=>$url]);
-    }
-
-
-    public function uploadVideoForFolder(Folder $folder, MediaRequest $request)
-    {
-        if ($request->file('video_pc')) {
-            $url = $this->UploadVideo($request->file('video'), 'folder');
-        } elseif ($request->video_youtube) {
-            $url = $this->youtubeID($request->video_youtube);
+        if ($request->file('image')) {
+            $file=$folder->image()->updateOrCreate(
+                ['profile_id'=>$folder->id],
+                ['image'=>$url]
+            );
+        } elseif ($request->file('file')) {
+            $file=$folder->file()->updateOrCreate(
+                ['fileable_id'=>$folder->id],
+                ['file'=>$url]
+            );
+        } elseif ($request->video_pc || $request->video_youtube) {
+            $file=$folder->video()->updateOrCreate(
+                ['videoable_id'=>$folder->id],
+                ['video'=>$url]
+            );
         }
-        
-        $video=$folder->video()->updateOrCreate(
-            ['videoable_id'=>$folder->id],
-            ['file'=>$url]
-        );
-        $this->detail($folder, $video, $request);
-        return response()->json(['name'=>$url]);
+            $this->detail($folder, $file, $request);
+            return response()->json(['name'=>$url]);
     }
 
     public function detail($folder, $file, $request)

@@ -60,8 +60,6 @@
         //------------Library route -------------------
             Route::resource('folders', 'FoldersController');
         //------------FolderUpload route -------------------
-            Route::POST('upload-Folder-Image/{folder}', 'FolderUploadController@uploadImageForFolder')->name('ImageFolder');
-            Route::POST('upload-Folder-File/{folder}', 'FolderUploadController@uploadFileForFolder')->name('FileFolder');
-            Route::POST('upload-Folder-Video/{folder}', 'FolderUploadController@uploadVideoForFolder')->name('VideoFolder');
+            Route::POST('upload/folder/{folder}', 'FolderUploadController@store');
         });
     });

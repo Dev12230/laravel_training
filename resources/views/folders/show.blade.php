@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('content')
 
+@include('flash-message')
+
 <div class="alert alert-danger print-error-msg" style="display:none">
 <ul></ul>
  </div>
@@ -48,11 +50,11 @@
                     <form method="post" id="upload_image" enctype="multipart/form-data" style="display:none;">
                     {{ csrf_field() }}
                     <label>Select Image:</label></td>
-                    <input type="file" name="image" id="image"/>
+                    <input type="file" name="image" id="image" required/>
 
                     <div class="form-group" style="width:300px">
                     <label for="name">Image Name: </label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" >
                     </div>
 
                     <div class="form-group" style="width:300px;" >
@@ -115,62 +117,62 @@
 @push('scripts')
 <!----------------------------------------- upload image------------------------------------------->
 <script>
-$("#btnImage").click(function() {          // button toggle
-    $("#upload_image").toggle();
+$("#btnImage").click(function() { // button toggle
+$("#upload_image").toggle();
 });
 
-$(document).ready(function(){              // submit image form
+$(document).ready(function(){ // submit image form
 $('#upload_image').on('submit', function(event){
- event.preventDefault();
- $.ajax({
-  url:"{{url("upload-Folder-Image/$folder->id")}}",
-  type: "POST",
-  headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-  data:new FormData(this),
-  dataType:'JSON',
-  contentType: false,
-  cache: false,
-  processData: false,
-  success:function(data){
-    $('#display_image').html(`<img  src="{{ Storage::url('${data.name}') }}" class="img-thumbnail" width="100" height="100"" />`)
-  },
-  error: function(data){
-    printErrorMsg (data.responseJSON.errors)
-  }
- })
- $(this).hide();
+event.preventDefault();
+$.ajax({
+url:"{{url("upload/folder/$folder->id")}}",
+type: "POST",
+headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+data:new FormData(this),
+dataType:'JSON',
+contentType: false,
+cache: false,
+processData: false,
+success:function(data){
+$('#display_image').html(`<img src="{{ Storage::url('${data.name}') }}" class="img-thumbnail" width="100" height="100"" />`)
+},
+error: function(data){
+printErrorMsg (data.responseJSON.errors)
+}
+})
+$(this).hide();
 });
 });
 </script>
 <!----------------------------------------- upload file----------------------------------------- -->
 <script>
-$("#btnFile").click(function() {         // button toggle
-    $("#upload_file").toggle();
+$("#btnFile").click(function() { // button toggle
+$("#upload_file").toggle();
 });
- 
-$(document).ready(function(){            // submit file form
+$(document).ready(function(){ // submit file form
 $('#upload_file').on('submit', function(event){
- event.preventDefault();
- $.ajax({
-  url:"{{url("upload-Folder-File/$folder->id")}}",
-  type: "POST",
-  headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-  data:new FormData(this),
-  dataType:'JSON',
-  contentType: false,
-  cache: false,
-  processData: false,
-  success:function(data){
-    $('#display_file').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
-  },
-  error: function(data){
-    printErrorMsg (data.responseJSON.errors)
-  }
- })
- $(this).hide();
+event.preventDefault();
+$.ajax({
+url:"{{url("upload/folder/$folder->id")}}",
+type: "POST",
+headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+data:new FormData(this),
+dataType:'JSON',
+contentType: false,
+cache: false,
+processData: false,
+success:function(data){
+$('#display_file').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
+},
+error: function(data){
+printErrorMsg (data.responseJSON.errors)
+}
+})
+$(this).hide();
 });
 });
 </script>
+
 <!----------------------------------------- upload video------------------------------------------->
 <script>
 $("#btnVideo").click(function() {        // button toggle
@@ -195,7 +197,7 @@ $(document).ready(function(){            // submit video form
 $('#upload_video').on('submit', function(event){
  event.preventDefault();
  $.ajax({
-  url:"{{url("upload-Folder-Video/$folder->id")}}",
+  url:"{{url("upload/folder/$folder->id")}}",
   type: "POST",
   headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
   data:new FormData(this),
@@ -208,7 +210,7 @@ $('#upload_video').on('submit', function(event){
       $('#display_video').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
     }else{
       $('#display_video').html(`<iframe width="420" height="315" src="//www.youtube.com/embed/${data.name}" frameborder="0" allowfullscreen></iframe>`)
-    },
+    }
   },
   error: function(data){
     printErrorMsg (data.responseJSON.errors)

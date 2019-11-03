@@ -24,11 +24,19 @@ class MediaRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'image|mimes:png,jpg|max:2048',
-            'file' => 'file|max:2048|mimes:pdf,xlsx',
-            'video_pc'=>'file|mimes:mpeg,ogg,mp4',
+            'image' => 'required_without_all:file,video|image|mimes:png,jpg|max:2048',
+            'file' => 'required_without_all:image,video|file|max:2048|mimes:pdf,xlsx',
+            'video_pc'=>'required_without_all:image,file|file|mimes:mpeg,ogg,mp4',
             'name'=>'required|min:3|max:150',
             'description' => 'nullable|min:3|max:250',
         ];
     }
+
+    public function messages()
+    {
+        return[
+            'required_without_all' => 'The field :attribute is required.',
+        ];
+    }
+
 }
