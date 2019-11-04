@@ -37,7 +37,5 @@ class MediaRequest extends FormRequest
         return[
             'required_without_all' => 'The field :attribute is required.',
         ];
-    
     }
-
 }

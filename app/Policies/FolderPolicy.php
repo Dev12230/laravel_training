@@ -17,7 +17,7 @@ class FolderPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->can('folder-crud')){
+        if ($user->can('folder-crud')) {
             return true;
         }
         return false;
@@ -31,7 +31,7 @@ class FolderPolicy
      */
     public function view(User $user, Folder $folder)
     {
-        if($folder->permitted->contains($user->staff)&& $user->can('folder-crud')){
+        if ($folder->permitted->contains($user->staff)&& $user->can('folder-crud')) {
             return true;
         }
         return false;
@@ -44,7 +44,7 @@ class FolderPolicy
      */
     public function create(User $user)
     {
-        if($user->can('folder-crud')){
+        if ($user->can('folder-crud')) {
             return true;
         }
         return false;
@@ -58,7 +58,7 @@ class FolderPolicy
      */
     public function update(User $user, Folder $folder)
     {
-        if($folder->permitted->contains($user->staff)&& $user->can('folder-crud')){
+        if ($folder->permitted->contains($user->staff)&& $user->can('folder-crud')) {
             return true;
         }
         return false;
@@ -72,7 +72,7 @@ class FolderPolicy
      */
     public function delete(User $user, Folder $folder)
     {
-        if($folder->permitted->contains($user->staff)&& $user->can('folder-crud')){
+        if ($folder->permitted->contains($user->staff)&& $user->can('folder-crud')) {
             return true;
         }
         return false;
