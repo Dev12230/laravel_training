@@ -50,13 +50,16 @@ class PublishEvent extends Command
     public function handle()
     {
         $events=Event::all();
+        $eventsIds=$this->getStoredEvents();
         foreach ($events as $event) {
             if (strtotime($event->start_date) <= strtotime(now('Africa/cairo')) &&  strtotime(now('Africa/cairo')) <= strtotime($event->end_date)) {
                 $event->update(['is_publish'=>true]);
-                $this->insertInFirebase($event,$this->getStoredEvents());
+                $this->insertInFirebase($event,$eventsIds);
             } else {
                 $event->update(['is_publish'=>false]);
-                $this->updateFirebase($event,$this->getStoredEvents());
+                if(in_array($event['id'],$eventsIds)){
+                  $this->removeFromFirebase($event,$eventsIds);
+                }
             }
         }
     }
@@ -64,20 +67,25 @@ class PublishEvent extends Command
     public function insertInFirebase($event,$eventsIds){
         if(!in_array($event['id'],$eventsIds)){
             $this->database->getReference('events')->push($event->toArray());
+        }else{
+            $key=array_search($event['id'],$eventsIds);
+            $this->database->getReference('events/'.$key)->update($event->toArray());;
         }
     }
 
-    public function updateFirebase($event,$eventsIds){
-        if(in_array($event['id'],$eventsIds)){
-            $idIndex=array_search($event['id'],$eventsIds);
-            $Key=$this->database->getReference('events')->getChildKeys();
-            $this->database->getReference('events/'.$Key[$idIndex])->remove();
-        }
+    public function removeFromFirebase($event,$eventsIds){
+            $key=array_search($event['id'],$eventsIds);
+            $this->database->getReference('events/'.$key)->remove();
     }
 
     public function getStoredEvents(){
         $events=$this->database->getReference('events')->getValue();
-        $events ? $ids=Arr::pluck($events,'id') :$ids=[];
-        return $ids;
+        if($events){
+            foreach($events as $key=>$value)
+                $events_Ids[$key] = $value['id'];
+        }else{
+            $events_Ids=[];
+        }
+         return $events_Ids;
     }
 }
