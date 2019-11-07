@@ -46,69 +46,15 @@
             <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <button  id='btnImage'>Upload Image</button>
-                    <form method="post" id="upload_image" enctype="multipart/form-data" style="display:none;">
-                    {{ csrf_field() }}
-                    <label>Select Image:</label></td>
-                    <input type="file" name="image" id="image" required/>
-
-                    <div class="form-group" style="width:300px">
-                    <label for="name">Image Name: </label>
-                    <input type="text" class="form-control" id="name" name="name" >
-                    </div>
-
-                    <div class="form-group" style="width:300px;" >
-                    <label for="description"> Image Description:</label>
-                    <input type="text" class="form-control" id="description" name="description" style="height:100px;">
-                    </div>
-
-                    <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload Image">
-                    </form>
+                   @include('folders/forms/image')
                 </div>
 
                 <div class="col-md-4">
-                    <button  id='btnFile'>Upload File</button>
-                    <form method="post" id="upload_file" enctype="multipart/form-data" style="display:none;">
-                    {{ csrf_field() }}
-                    <label>Select File:</label></td>
-                    <input type="file" name="file" id="file"/>
-
-                    <div class="form-group" style="width:300px">
-                    <label for="name">File Name: </label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="name">
-                    </div>
-
-                    <div class="form-group" style="width:300px;" >
-                    <label for="description"> Image Description:</label>
-                    <input type="text" class="form-control" id="description" name="description" style="height:100px;" >
-                    </div>
-
-                    <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload File">
-                    </form>
+                   @include('folders/forms/file')
                 </div>
 
                 <div class="col-md-4">
-                    <button  id='btnVideo'>Upload Video</button>
-                    <form method="post" id="upload_video" enctype="multipart/form-data" style="display:none;">
-                    {{ csrf_field() }}
-                    <label>Select Video:</label></td><br>
-                      <input type="radio" name="choose" value='pc'>Upload From Pc<br>
-                      <input type="file" name="video_pc" id="pc" style="display:none;"/><br>
-                      <input type="radio" name="choose" value='youtube'>Upload From Youtube<br>
-                      <input type="text" name="video_youtube" id="youtube" style="display:none;"><br>
-
-                    <div class="form-group" style="width:300px">
-                    <label for="name">Video Name: </label>
-                    <input type="text" class="form-control" id="name" name="name">
-                    </div>
-
-                    <div class="form-group" style="width:300px;" >
-                    <label for="description">Video Description:</label>
-                    <input type="text" class="form-control" id="description" name="description" style="height:100px;">
-                    </div>
-
-                    <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload Video">
-                    </form>
+                   @include('folders/forms/video')
                 </div>
             
  </div>
@@ -116,111 +62,11 @@
 </div>
 @push('scripts')
 <!----------------------------------------- upload image------------------------------------------->
-<script>
-$("#btnImage").click(function() { // button toggle
-$("#upload_image").toggle();
-});
-
-$(document).ready(function(){ // submit image form
-$('#upload_image').on('submit', function(event){
-event.preventDefault();
-$.ajax({
-url:"{{url("upload/folder/$folder->id")}}",
-type: "POST",
-headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-data:new FormData(this),
-dataType:'JSON',
-contentType: false,
-cache: false,
-processData: false,
-success:function(data){
-$('#display_image').html(`<img src="{{ Storage::url('${data.name}') }}" class="img-thumbnail" width="100" height="100"" />`)
-},
-error: function(data){
-  console.log(data)
-printErrorMsg (data.responseJSON.errors,'image')
-}
-})
-$(this).hide();
-});
-});
-</script>
+@stack('form-image-scripts')
 <!----------------------------------------- upload file----------------------------------------- -->
-<script>
-$("#btnFile").click(function() { // button toggle
-$("#upload_file").toggle();
-});
-$(document).ready(function(){ // submit file form
-$('#upload_file').on('submit', function(event){
-event.preventDefault();
-$.ajax({
-url:"{{url("upload/folder/$folder->id")}}",
-type: "POST",
-headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-data:new FormData(this),
-dataType:'JSON',
-contentType: false,
-cache: false,
-processData: false,
-success:function(data){
-$('#display_file').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
-},
-error: function(data){
-printErrorMsg (data.responseJSON.errors,'file')
-}
-})
-$(this).hide();
-});
-});
-</script>
-
+@stack('form-file-scripts')
 <!----------------------------------------- upload video------------------------------------------->
-<script>
-$("#btnVideo").click(function() {        // button toggle
-    $("#upload_video").toggle();
-
-});
-</script>
-<script>
-// chose video type
-$('input[name="choose"]').click(function(e) {
-  if(e.target.value === 'pc') {
-    $('#pc').show();
-    $('#youtube').hide();
-  } else if(e.target.value === 'youtube'){
-    $('#youtube').show();
-    $('#pc').hide();
-  }
-})
-</script>
-<script>
-$(document).ready(function(){            // submit video form
-$('#upload_video').on('submit', function(event){
- event.preventDefault();
- $.ajax({
-  url:"{{url("upload/folder/$folder->id")}}",
-  type: "POST",
-  headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
-  data:new FormData(this),
-  dataType:'JSON',
-  contentType: false,
-  cache: false,
-  processData: false,
-  success:function(data){
-    if(data.name.startsWith("videos")){
-      $('#display_video').html(`<a href="{{ Storage::url('${data.name}') }}">${data.name}</a>`)
-    }else{
-      $('#display_video').html(`<iframe width="420" height="315" src="//www.youtube.com/embed/${data.name}" frameborder="0" allowfullscreen></iframe>`)
-    }
-  },
-  error: function(data){
-    printErrorMsg (data.responseJSON.errors , 'video_pc')
-  }
- })
- $(this).hide();
-});
-});
-</script>
+@stack('form-video-scripts')
 <!-- ---------------------------------------------------------------------------------------->
 <!-- error message -->
 <script>

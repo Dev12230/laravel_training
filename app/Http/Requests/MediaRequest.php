@@ -24,9 +24,10 @@ class MediaRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'required_without_all:file,video_pc|image|mimes:png,jpg|max:2048',
-            'file' => 'required_without_all:image,vidro_pc|file|max:2048|mimes:pdf,xlsx',
-            'video_pc'=>'required_without_all:image,file|file|mimes:mpeg,ogg,mp4',
+            'image' => 'required_without_all:file,video_pc,video_youtube|image|mimes:png,jpg|max:2048',
+            'file' => 'required_without_all:image,video_pc,video_youtube|file|max:2048|mimes:pdf,xlsx',
+            'video_pc'=>'required_without_all:image,file,video_youtube|file|mimes:mpeg,ogg,mp4',
+            'video_youtube'=>'required_without_all:image,file,video_pc',
             'name'=>'required_with:image,file,video_pc|nullable|min:3|max:150',
             'description' => 'nullable|min:3|max:250',
         ];
