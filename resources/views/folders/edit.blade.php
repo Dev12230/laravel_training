@@ -102,6 +102,30 @@
             });
         }
 </script>
+<!-- select staff -->
+<script>
+$(".chosen-select").select2({
+        ajax: {
+            type: "GET",
+            url: "{{ route('get-staff') }}",
+            data: function (params) {
+                if (params){
+                    return {
+                        search: params.term,
+                    };
+                }
+            },
+            processResults: function (data) {
+                let result = data.map(function (item) {
+                    return {id: item.id, text: item.user.first_name};
+                });
+                return {
+                    results: result
+                };
+            }
+        },
+    });
+  </script>
 
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 {!! JsValidator::formRequest('App\Http\Requests\MediaRequest') !!}
