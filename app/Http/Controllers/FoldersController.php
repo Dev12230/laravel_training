@@ -9,14 +9,17 @@ use App\Staff;
 use App\Traits\ManageFiles;
 use App\User;
 use App\DataTables\FoldersDataTable;
+use App\Services\LibraryService;
 
 class FoldersController extends Controller
 {
     use ManageFiles;
 
-    public function __construct()
+    protected  $libraryService;
+    public function __construct(LibraryService $libraryService)
     {
         $this->authorizeResource(Folder::class);
+        $this->libraryService = $libraryService;
     }
     /**
      * Display a listing of the resource.
@@ -48,10 +51,7 @@ class FoldersController extends Controller
     {
         $folder=Folder::create($request->all());
         if ($request->staff) {
-            $folder->permitted()->sync($request->staff);
-            foreach ($folder->permitted()->get() as $staff) {
-                $staff->user->syncPermissions('folder-crud');
-            }
+            $this->libraryService->givePermissionTo($folder,$request);
         }
         return redirect()->route('folders.index')->with('success', 'folder Added');
     }
@@ -90,10 +90,7 @@ class FoldersController extends Controller
     public function update(FolderRequest $request, Folder $folder)
     {
         $folder->update($request->all());
-        $folder->permitted()->sync($request->staff);
-        foreach ($folder->permitted()->get() as $staff) {
-            $staff->user->syncPermissions('folder-crud');
-        }
+        $this->libraryService->givePermissionTo($folder,$request);
         return back();
     }
 
